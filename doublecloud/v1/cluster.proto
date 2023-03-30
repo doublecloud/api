@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package doublecloud.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/v1;doublecloud";
+
+import "google/protobuf/wrappers.proto";
+
+enum ClusterStatus {
+    // Invalid cluster status value.
+    CLUSTER_STATUS_INVALID = 0;
+    // Cluster is running and all cluster hosts are healthy.
+    CLUSTER_STATUS_ALIVE = 1;
+    // Cluster is working below capacity (at least one host in the cluster is not
+    // healthy).
+    CLUSTER_STATUS_DEGRADED = 2;
+    // Cluster is inoperable (all hosts in the cluster are inoperable).
+    CLUSTER_STATUS_DEAD = 3;
+    // State of the cluster is unknown (all hosts in the cluster are in unknown state).
+    CLUSTER_STATUS_UNKNOWN = 4;
+    // Cluster is being created.
+    CLUSTER_STATUS_CREATING = 5;
+    // Cluster is being updated.
+    CLUSTER_STATUS_UPDATING = 6;
+    // Cluster is stopping.
+    CLUSTER_STATUS_STOPPING = 7;
+    // Cluster stopped.
+    CLUSTER_STATUS_STOPPED = 8;
+    // Cluster is starting.
+    CLUSTER_STATUS_STARTING = 9;
+    // Cluster encountered a problem and cannot operate.
+    CLUSTER_STATUS_ERROR = 10;
+}
+enum HostStatus {
+    // Host is in unknown state (we have no data)
+    HOST_STATUS_INVALID = 0;
+    // Host is alive and well (all services are alive)
+    HOST_STATUS_ALIVE = 1;
+    // Host is inoperable (it cannot perform any of its essential functions)
+    HOST_STATUS_DEAD = 2;
+    // Host is partially alive (it can perform some of its essential functions)
+    HOST_STATUS_DEGRADED = 3;
+}
+// Access settings
+message Access {
+    enum DataService {
+        DATA_SERVICE_INVALID = 0;
+        // Allow access for DataLens
+        DATA_SERVICE_VISUALIZATION = 1;
+        // Allow access for DataTransfer
+        DATA_SERVICE_TRANSFER = 2;
+    }
+    // CIDR subnet with description.
+    message CidrBlock {
+        string value = 1;
+        string description = 2;
+    }
+    // Wrapper for list of CidrBlock
+    message CidrBlockList {
+        repeated CidrBlock values = 1;
+    }
+    // Wrapper for list of DataServices
+    message DataServiceList {
+        repeated DataService values = 1;
+    }
+    // The list of ipv4 IPs (in 'CIDR' notation) of external networks that are allowed
+    // to connect to the instance
+    CidrBlockList ipv4_cidr_blocks = 1;
+    // The list of ipv6 IPs (in 'CIDR' notation) of external networks that are allowed
+    // to connect to the instance
+    CidrBlockList ipv6_cidr_blocks = 2;
+    DataServiceList data_services = 3;
+}
+message DataEncryption {
+    // Enable data disk encryption
+    google.protobuf.BoolValue enabled = 1;
+}

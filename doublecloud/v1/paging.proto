@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package doublecloud.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/v1;doublecloud";
+
+message Paging {
+    // The maximum number of results per page to return. If the number of available
+    // results is larger than [page_size], the service returns a [NextPage.token]
+    // that can be used to get the next page of results in subsequent list requests.
+    int64 page_size = 1;
+    // Page token. To get the next page of results, set [page_token] to the
+    // [NextPage.token]
+    // returned by a previous list request.
+    string page_token = 2;
+}
+message NextPage {
+    // This token allows you to get the next page of results for list requests. If the
+    // number of results
+    // is larger than [Paging.page_size], use the [token] as the value
+    // for the [Paging.page_token] parameter in the next list request. Each subsequent
+    // list request will have its own [token] to continue paging through the results.
+    string token = 1;
+}

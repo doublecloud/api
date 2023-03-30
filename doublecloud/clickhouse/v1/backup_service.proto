@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package doublecloud.clickhouse.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/clickhouse/v1;clickhouse";
+
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+import "doublecloud/clickhouse/v1/backup.proto";
+
+service BackupService {
+    // Returns the specified backup of ClickHouse cluster.
+    rpc Get(GetBackupRequest) returns (Backup);
+    // Returns the list of available backups for the specified ClickHouse cluster.
+    rpc List(ListBackupsRequest) returns (ListBackupsResponse);
+    // Creates new ClickHouse cluster backup.
+    rpc Create(CreateBackupRequest) returns (doublecloud.v1.Operation);
+    // Delete specified ClickHouse cluster backup.
+    rpc Delete(DeleteBackupRequest) returns (doublecloud.v1.Operation);
+}
+message GetBackupRequest {
+    // Required. ID of the backup to return.
+    string backup_id = 1;
+}
+message ListBackupsRequest {
+    // Required. ID of the project to list backups in.
+    string project_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+}
+message ListBackupsResponse {
+    // Requested list of backups.
+    repeated Backup backups = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateBackupRequest {
+    // Required. ID of the ClickHouse cluster to back up.
+    string cluster_id = 1;
+    // Optional. Name of the ClickHouse cluster backup.
+    string name = 2;
+}
+message DeleteBackupRequest {
+    // Required. ID of the backup to delete.
+    string backup_id = 1;
+}

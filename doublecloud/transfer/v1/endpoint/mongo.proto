@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint;endpoint";
+
+import "doublecloud/transfer/v1/endpoint/common.proto";
+
+message OnPremiseMongo {
+    repeated string hosts = 1;
+    int64 port = 2;
+    TLSMode tls_mode = 6;
+    string replica_set = 5;
+}
+message MongoConnectionOptions {
+    oneof address {
+        OnPremiseMongo on_premise = 2;
+    }
+    // User name
+    string user = 3;
+    // Password for user
+    Secret password = 4;
+    // Database name associated with the credentials
+    string auth_source = 5;
+}
+message MongoConnection {
+    oneof connection {
+        MongoConnectionOptions connection_options = 3;
+    }
+}
+message MongoCollection {
+    string database_name = 1;
+    string collection_name = 2;
+}
+message MongoSource {
+    MongoConnection connection = 1;
+    // List of collections for replication. Empty list implies replication of all
+    // tables on the deployment. Allowed to use * as collection name.
+    repeated MongoCollection collections = 6;
+    // List of forbidden collections for replication. Allowed to use * as collection
+    // name for forbid all collections of concrete schema.
+    repeated MongoCollection excluded_collections = 7;
+    // Read mode for mongo client
+    bool secondary_preferred_mode = 8;
+}
+message MongoTarget {
+    MongoConnection connection = 1;
+    // Database name
+    string database = 2;
+    CleanupPolicy cleanup_policy = 6;
+}

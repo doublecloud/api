@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message LinkedinAdsSource {
+    message Credentials {
+        message OAuth {
+            string client_id = 1;
+            string client_secret = 2;
+            string refresh_token = 3;
+        }
+        oneof credentials {
+            OAuth oauth = 1;
+            string access_token = 2;
+        }
+    }
+    string start_date = 1;
+    repeated int64 account_ids = 2;
+    Credentials credentials = 3;
+}

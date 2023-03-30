@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message AWSCloudTrailSource {
+    string aws_key_id = 1;
+    string aws_secret_key = 2;
+    string aws_region_name = 3;
+    string start_date = 4;
+}

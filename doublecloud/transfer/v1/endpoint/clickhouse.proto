@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint;endpoint";
+
+import "google/protobuf/empty.proto";
+import "doublecloud/transfer/v1/endpoint/common.proto";
+
+enum ClickhouseCleanupPolicy {
+    CLICKHOUSE_CLEANUP_POLICY_UNSPECIFIED = 0;
+    CLICKHOUSE_CLEANUP_POLICY_DISABLED = 1;
+    CLICKHOUSE_CLEANUP_POLICY_DROP = 2;
+    CLICKHOUSE_CLEANUP_POLICY_TRUNCATE = 3;
+}
+message ClickhouseShard {
+    string name = 1;
+    repeated string hosts = 2;
+}
+message OnPremiseClickhouse {
+    repeated ClickhouseShard shards = 1;
+    int64 http_port = 3;
+    int64 native_port = 4;
+    TLSMode tls_mode = 8;
+}
+message ClickhouseConnectionOptions {
+    oneof address {
+        string mdb_cluster_id = 5;
+        OnPremiseClickhouse on_premise = 2;
+    }
+    // Database
+    string database = 8;
+    string user = 6;
+    Secret password = 7;
+}
+message ClickhouseConnection {
+    oneof connection {
+        ClickhouseConnectionOptions connection_options = 1;
+    }
+}
+message ClickhouseSharding {
+    message ColumnValueHash {
+        string column_name = 1;
+    }
+    message ColumnValueMapping {
+        message ValueToShard {
+            ColumnValue column_value = 1;
+            string shard_name = 2;
+        }
+        string column_name = 1;
+        repeated ValueToShard mapping = 2;
+    }
+    oneof sharding {
+        ColumnValueHash column_value_hash = 1;
+        ColumnValueMapping custom_mapping = 2;
+        google.protobuf.Empty transfer_id = 3;
+    }
+}
+message ClickhouseSource {
+    ClickhouseConnection connection = 1;
+    // While list of tables for replication. If none or empty list is presented - will
+    // replicate all tables. Can contain * patterns.
+    repeated string include_tables = 7;
+    // Exclude list of tables for replication. If none or empty list is presented -
+    // will replicate all tables. Can contain * patterns.
+    repeated string exclude_tables = 8;
+}
+message ClickhouseTarget {
+    ClickhouseConnection connection = 2;
+    string clickhouse_cluster_name = 50;
+    // Alternative table names in target
+    repeated AltName alt_names = 17;
+    ClickhouseSharding sharding = 22;
+    ClickhouseCleanupPolicy cleanup_policy = 21;
+}

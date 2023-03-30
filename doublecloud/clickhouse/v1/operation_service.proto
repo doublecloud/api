@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package doublecloud.clickhouse.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/clickhouse/v1;clickhouse";
+
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+
+// A set of methods for managing operations that are asynchronous API requests.
+service OperationService {
+    // Returns the specified operation.
+    rpc Get(GetOperationRequest) returns (doublecloud.v1.Operation);
+    // Retrieves a list of operations that belong to the specified project.
+    rpc List(ListOperationsRequest) returns (ListOperationsResponse);
+}
+message GetOperationRequest {
+    // Required. ID of the operation to return.
+    string operation_id = 1;
+}
+message ListOperationsRequest {
+    // ID of the project to list clusters operations in.
+    string project_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+}
+message ListOperationsResponse {
+    // List of operations.
+    repeated doublecloud.v1.Operation operations = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}

@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+import "doublecloud/kafka/v1/user.proto";
+import "google/protobuf/wrappers.proto";
+
+// A set of methods for managing Apache Kafka User resources.
+service UserService {
+    // Returns the specified Apache Kafka User resource.
+    // 
+    // To get the list of available Apache Kafka User resources, make a [List] request.
+    rpc Get(GetUserRequest) returns (User);
+    // Retrieves the list of Apache Kafka User resources for the specified cluster.
+    rpc List(ListUsersRequest) returns (ListUsersResponse);
+    // Creates an Apache Kafka User on the specified cluster.
+    rpc Create(CreateUserRequest) returns (doublecloud.v1.Operation);
+    // Updates the specified Apache Kafka User.
+    rpc Update(UpdateUserRequest) returns (doublecloud.v1.Operation);
+    // Deletes the specified Apache Kafka User.
+    rpc Delete(DeleteUserRequest) returns (doublecloud.v1.Operation);
+    // Grants permission to the specified Apache Kafka User.
+    rpc GrantPermission(GrantUserPermissionRequest) returns (doublecloud.v1.Operation);
+    // Revokes permission from the specified Apache Kafka User.
+    rpc RevokePermission(RevokeUserPermissionRequest) returns (doublecloud.v1.Operation);
+}
+message GetUserRequest {
+    // Required. ID of the Apache Kafka cluster the user belongs to.
+    // To get the cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Required. Name of the Apache Kafka User resource to return.
+    // To get the name of the user, use a [UserService.List] request.
+    string user_name = 2;
+}
+message ListUsersRequest {
+    // Required. ID of the cluster to list Apache Kafka users in.
+    // To get the cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Paging information of the request.
+    // See [doublecloud.priv.v1.Paging] for details
+    // 
+    // Following constraints applied:
+    // * page_size will be set to 1000 items when exceeded
+    // * page_size expected to be >= 0
+    // * default page_size is 100
+    doublecloud.v1.Paging paging = 2;
+}
+message ListUsersResponse {
+    // List of Apache Kafka User resources.
+    repeated User users = 1;
+    // Pagination information of the response
+    // See [doublecloud.priv.v1.NextPage] for details
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateUserRequest {
+    // Required. ID of the Apache Kafka cluster to create a user in.
+    // To get the cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // User creation payload.
+    // See [UserSpec] for details
+    UserSpec user_spec = 2;
+}
+message UpdateUserRequest {
+    // UpdateSpec message aggregates updatable Apache Kafka User's attributes.
+    message UpdateSpec {
+        // UpdatePermissions allows to use "optional" modifier for the attribute to
+        // highlight whether the update is desired
+        // This allows us to distinguish intentional permissions reset to empty array
+        // attempt from occasional empty array
+        message UpdatePermissions {
+            // New set of permissions for the user.
+            // Empty slice will remove all existing the permissions.
+            repeated Permission permissions = 1;
+        }
+        // When provided, Apache Kafka User's password will be updated.
+        // Empty string is ignored and considered as non-set password value.
+        // Regular password constraints applied, see [UserSpec.password] for details.
+        google.protobuf.StringValue password = 1;
+        // When provided, current Apache Kafka User's permissions will be replaced.
+        // See [UpdatePermissions.permissions] for details.
+        UpdatePermissions permissions = 2;
+    }
+    // Required. ID of the Apache Kafka cluster the user belongs to.
+    // To get the cluster ID use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Required. Name of the user to be updated.
+    // To get the name of the user use a [UserService.List] request.
+    string user_name = 2;
+    // Defines which exact attributes to be updated.
+    UpdateSpec update_spec = 3;
+}
+message DeleteUserRequest {
+    // Required. ID of the Apache Kafka cluster the user belongs to.
+    // To get the cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Required. Name of the user to delete.
+    // To get the name of the user, use a [UserService.List] request.
+    string user_name = 2;
+}
+message GrantUserPermissionRequest {
+    // Required. ID of the Apache Kafka cluster the user belongs to.
+    // To get the cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Required. Name of the user to grant the permission to.
+    // To get the name of the user, use a [UserService.List] request.
+    string user_name = 2;
+    // Required. Permission that should be granted to the specified user.
+    Permission permission = 3;
+}
+message RevokeUserPermissionRequest {
+    // Required. ID of the Apache Kafka cluster the user belongs to.
+    // To get the cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Required. Name of the user to revoke a permission from.
+    // To get the name of the user, use a [UserService.List] request.
+    string user_name = 2;
+    // Required. Permission that should be revoked from the specified user.
+    Permission permission = 3;
+}

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package doublecloud.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/v1;doublecloud";
+
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+// An operation resource.
+message Operation {
+    enum Status {
+        // Invalid status value.
+        STATUS_INVALID = 0;
+        // Operation is pending execution.
+        STATUS_PENDING = 1;
+        // Operation is in progress.
+        STATUS_RUNNING = 2;
+        // Operation is completed.
+        STATUS_DONE = 3;
+    }
+    // ID of the operation.
+    string id = 1;
+    // ID of the project where operation performed.
+    string project_id = 2;
+    // Description of the operation.
+    string description = 3;
+    // ID of the user or service account who initiated the operation.
+    string created_by = 4;
+    // Operation metadata (e.g. cluster_id for create cluster operation).
+    map<string,string> metadata = 5;
+    // The time when the operation was created.
+    google.protobuf.Timestamp create_time = 6;
+    // The time when the operation was started.
+    google.protobuf.Timestamp start_time = 7;
+    // The time when the operation was finished.
+    google.protobuf.Timestamp finish_time = 8;
+    // The status of the operation.
+    Status status = 9;
+    // The error result of the operation in case of failure or cancellation.
+    google.rpc.Status error = 10;
+    // ID of the resource operation performed on.
+    string resource_id = 11;
+}

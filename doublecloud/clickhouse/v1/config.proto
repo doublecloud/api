@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package doublecloud.clickhouse.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/clickhouse/v1;clickhouse";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
+// ClickHouse server configuration.
+message ClickhouseConfig {
+    enum LogLevel {
+        LOG_LEVEL_INVALID = 0;
+        LOG_LEVEL_TRACE = 1;
+        LOG_LEVEL_DEBUG = 2;
+        LOG_LEVEL_INFORMATION = 3;
+        LOG_LEVEL_WARNING = 4;
+        LOG_LEVEL_ERROR = 5;
+    }
+    message MergeTree {
+        google.protobuf.Int64Value replicated_deduplication_window = 1;
+        google.protobuf.Duration replicated_deduplication_window_seconds = 2;
+        google.protobuf.Int64Value parts_to_delay_insert = 3;
+        google.protobuf.Int64Value parts_to_throw_insert = 4;
+        google.protobuf.Int64Value inactive_parts_to_delay_insert = 12;
+        google.protobuf.Int64Value inactive_parts_to_throw_insert = 13;
+        google.protobuf.Int64Value max_replicated_merges_in_queue = 5;
+        google.protobuf.Int64Value number_of_free_entries_in_pool_to_lower_max_size_of_merge = 6;
+        google.protobuf.Int64Value max_bytes_to_merge_at_min_space_in_pool = 7;
+        google.protobuf.Int64Value max_bytes_to_merge_at_max_space_in_pool = 8;
+        google.protobuf.Int64Value min_bytes_for_wide_part = 9;
+        google.protobuf.Int64Value min_rows_for_wide_part = 10;
+        google.protobuf.BoolValue ttl_only_drop_parts = 11;
+        google.protobuf.Duration merge_with_ttl_timeout = 15;
+        google.protobuf.Duration merge_with_recompression_ttl_timeout = 16;
+        google.protobuf.BoolValue allow_remote_fs_zero_copy_replication = 14;
+    }
+    message Kafka {
+        enum SecurityProtocol {
+            SECURITY_PROTOCOL_INVALID = 0;
+            SECURITY_PROTOCOL_PLAINTEXT = 1;
+            SECURITY_PROTOCOL_SSL = 2;
+            SECURITY_PROTOCOL_SASL_PLAINTEXT = 3;
+            SECURITY_PROTOCOL_SASL_SSL = 4;
+        }
+        enum SaslMechanism {
+            SASL_MECHANISM_INVALID = 0;
+            SASL_MECHANISM_GSSAPI = 1;
+            SASL_MECHANISM_PLAIN = 2;
+            SASL_MECHANISM_SCRAM_SHA_256 = 3;
+            SASL_MECHANISM_SCRAM_SHA_512 = 4;
+        }
+        SecurityProtocol security_protocol = 1;
+        SaslMechanism sasl_mechanism = 2;
+        google.protobuf.StringValue sasl_username = 3;
+        google.protobuf.StringValue sasl_password = 4;
+    }
+    message Rabbitmq {
+        google.protobuf.StringValue username = 1;
+        google.protobuf.StringValue password = 2;
+        google.protobuf.StringValue vhost = 3;
+    }
+    message Compression {
+        enum Method {
+            METHOD_INVALID = 0;
+            METHOD_LZ4 = 1;
+            METHOD_ZSTD = 2;
+            METHOD_LZ4HC = 3;
+        }
+        Method method = 1;
+        int64 min_part_size = 2;
+        double min_part_size_ratio = 3;
+        google.protobuf.Int64Value level = 4;
+    }
+    // Rollup settings for the GraphiteMergeTree table engine.
+    message GraphiteRollup {
+        message Pattern {
+            message Retention {
+                int64 age = 1;
+                int64 precision = 2;
+            }
+            google.protobuf.StringValue regexp = 1;
+            google.protobuf.StringValue function = 2;
+            repeated Retention retention = 3;
+        }
+        repeated Pattern patterns = 1;
+    }
+    LogLevel log_level = 1;
+    google.protobuf.Int64Value max_connections = 2;
+    google.protobuf.Int64Value max_concurrent_queries = 3;
+    google.protobuf.Duration keep_alive_timeout = 4;
+    google.protobuf.Int64Value uncompressed_cache_size = 5;
+    google.protobuf.Int64Value mark_cache_size = 6;
+    google.protobuf.Int64Value max_table_size_to_drop = 7;
+    google.protobuf.Int64Value max_partition_size_to_drop = 8;
+    google.protobuf.StringValue timezone = 9;
+    google.protobuf.Int64Value background_pool_size = 10;
+    google.protobuf.Int64Value background_schedule_pool_size = 11;
+    google.protobuf.Int64Value background_fetches_pool_size = 12;
+    google.protobuf.Int64Value background_move_pool_size = 13;
+    google.protobuf.Int64Value background_common_pool_size = 14;
+    google.protobuf.Int64Value background_merges_mutations_concurrency_ratio = 15;
+    google.protobuf.Int64Value total_memory_profiler_step = 16;
+    google.protobuf.DoubleValue total_memory_tracker_sample_probability = 23;
+    MergeTree merge_tree = 17;
+    repeated Compression compression = 18;
+    map<string,GraphiteRollup> graphite_rollup = 19;
+    Kafka kafka = 20;
+    map<string,Kafka> kafka_topics = 21;
+    Rabbitmq rabbitmq = 22;
+}

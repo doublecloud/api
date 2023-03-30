@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message RedshiftSource {
+    string host = 1;
+    int64 port = 2;
+    string database = 3;
+    repeated string schemas = 4;
+    string username = 5;
+    string password = 6;
+}

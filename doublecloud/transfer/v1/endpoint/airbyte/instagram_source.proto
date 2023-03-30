@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message InstagramSource {
+    string start_date = 1;
+    string access_token = 2;
+}

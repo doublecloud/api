@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package doublecloud.clickhouse.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/clickhouse/v1;clickhouse";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "doublecloud/clickhouse/v1/config.proto";
+import "doublecloud/v1/cluster.proto";
+import "doublecloud/v1/maintenance.proto";
+
+// A ClickHouse cluster resource.
+message Cluster {
+    // ID of the ClickHouse cluster.
+    string id = 1;
+    // ID of the project that the ClickHouse cluster belongs to.
+    string project_id = 2;
+    // Type of the cloud where instances should be hosted.
+    string cloud_type = 3;
+    // ID of the region to place instances.
+    string region_id = 4;
+    // Creation timestamp.
+    google.protobuf.Timestamp create_time = 5;
+    // Name of the ClickHouse cluster.
+    // The name is unique within the project.
+    string name = 6;
+    // Description of the ClickHouse cluster.
+    string description = 7;
+    // Current state of the cluster.
+    doublecloud.v1.ClusterStatus status = 8;
+    // Version of ClickHouse DBMS.
+    string version = 9;
+    // Resources allocated to the ClickHouse cluster.
+    ClusterResources resources = 10;
+    // Connection information.
+    ConnectionInfo connection_info = 11;
+    // Access settings
+    doublecloud.v1.Access access = 12;
+    // Private connection information.
+    PrivateConnectionInfo private_connection_info = 13;
+    // DataEncryption settings
+    doublecloud.v1.DataEncryption encryption = 14;
+    // ID of the network that the ClickHouse cluster belongs to.
+    string network_id = 15;
+    // ClickHouse server configuration.
+    ClickhouseConfig clickhouse_config = 16;
+    // Window of maintenance operations.
+    doublecloud.v1.MaintenanceWindow maintenance_window = 17;
+    // Maintenance operation planned at nearest maintenance_window.
+    doublecloud.v1.MaintenanceOperation maintenance_operation = 18;
+}
+// Resources allocated to ClickHouse cluster.
+message ClusterResources {
+    message Clickhouse {
+        // ID of the preset for computational resources available to a host (CPU, memory
+        // etc.).
+        string resource_preset_id = 1;
+        // Volume of the storage available to a host, in bytes.
+        google.protobuf.Int64Value disk_size = 2;
+        // Number of hosts per shard.
+        google.protobuf.Int64Value replica_count = 3;
+        // Number of shards in the cluster.
+        google.protobuf.Int64Value shard_count = 4;
+    }
+    // Resources allocated to ClickHouse hosts.
+    Clickhouse clickhouse = 1;
+}
+message ConnectionInfo {
+    // Host to connect.
+    string host = 1;
+    // ClickHouse user.
+    string user = 2;
+    // Password for ClickHouse user.
+    string password = 3;
+    // Port to connect using HTTPS protocol.
+    google.protobuf.Int64Value https_port = 4;
+    // Port to connect using TCP/native protocol.
+    google.protobuf.Int64Value tcp_port_secure = 5;
+    // Connection string for ClickHouse native protocol.
+    string native_protocol = 6;
+    // URI to connect using HTTPS protocol.
+    string https_uri = 7;
+    // URI to connect using JDBC protocol.
+    string jdbc_uri = 8;
+    // URI to connect using ODBC protocol.
+    string odbc_uri = 9;
+}
+message PrivateConnectionInfo {
+    // Host to connect.
+    string host = 1;
+    // ClickHouse user.
+    string user = 2;
+    // Password for ClickHouse user.
+    string password = 3;
+    // Port to connect using HTTPS protocol.
+    google.protobuf.Int64Value https_port = 4;
+    // Port to connect using TCP/native protocol.
+    google.protobuf.Int64Value tcp_port_secure = 5;
+    // Connection string for ClickHouse native protocol.
+    string native_protocol = 6;
+    // URI to connect using HTTPS protocol.
+    string https_uri = 7;
+    // URI to connect using JDBC protocol.
+    string jdbc_uri = 8;
+    // URI to connect using ODBC protocol.
+    string odbc_uri = 9;
+}
+message Host {
+    // Name of the host.
+    string name = 1;
+    // ID of the ClickHouse cluster.
+    string cluster_id = 2;
+    // Name of the shard that the host belongs to.
+    string shard_name = 3;
+    // Private dns name
+    string private_name = 4;
+}

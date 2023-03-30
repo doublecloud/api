@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package doublecloud.network.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/network/v1;network";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+// A VPC network resource.
+message Network {
+    enum NetworkStatus {
+        NETWORK_STATUS_INVALID = 0;
+        NETWORK_STATUS_CREATING = 1;
+        NETWORK_STATUS_ACTIVE = 2;
+        NETWORK_STATUS_DELETING = 3;
+        NETWORK_STATUS_ERROR = 4;
+    }
+    // ID of the network.
+    string id = 1;
+    // ID of the project that the network belongs to.
+    string project_id = 2;
+    // Type of the cloud provider.
+    string cloud_type = 3;
+    // ID of the region.
+    string region_id = 4;
+    // Creation timestamp.
+    google.protobuf.Timestamp create_time = 5;
+    // Name of the network.
+    // The name is unique within the project.
+    string name = 6;
+    // Description of the network.
+    string description = 7;
+    // The IPv4 network range for the subnet, in CIDR notation.
+    // For example, 10.0.0.0/16.
+    string ipv4_cidr_block = 8;
+    // The IPv6 network range for the subnet, in CIDR notation.
+    // For example, 2a05:d014:463:1800::/56.
+    string ipv6_cidr_block = 9;
+    // Current state of the network.
+    NetworkStatus status = 10;
+    // The reason for the status change.
+    string status_reason = 11;
+    // Provider based resources
+    oneof external_resources {
+        AwsExternalResources aws = 12;
+    }
+    // True if network was imported using BYOA.
+    bool is_external = 13;
+}
+message AwsExternalResources {
+    message Subnet {
+        string id = 1;
+        string zone_id = 2;
+    }
+    string vpc_id = 1;
+    // List of subnets
+    repeated Subnet subnets = 2;
+    string security_group_id = 3;
+    // ID of the VPC owner account.
+    google.protobuf.StringValue account_id = 4;
+    // IAM role ARN to use for resource creations.
+    google.protobuf.StringValue iam_role_arn = 5;
+    // ID of the CloudFormation stack, VPC was created by.
+    google.protobuf.StringValue stack_id = 6;
+    // CloudFormation template version.
+    google.protobuf.StringValue cf_template_version = 7;
+}

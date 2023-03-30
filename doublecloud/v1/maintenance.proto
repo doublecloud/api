@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package doublecloud.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/v1;doublecloud";
+
+import "google/protobuf/timestamp.proto";
+import "google/type/dayofweek.proto";
+
+enum RescheduleType {
+    RESCHEDULE_TYPE_INVALID = 0;
+    RESCHEDULE_TYPE_IMMEDIATE = 1;
+    RESCHEDULE_TYPE_NEXT_AVAILABLE_WINDOW = 2;
+    RESCHEDULE_TYPE_SPECIFIC_TIME = 3;
+}
+message MaintenanceWindow {
+    oneof policy {
+        AnytimeMaintenanceWindow anytime = 1;
+        WeeklyMaintenanceWindow weekly_maintenance_window = 2;
+    }
+}
+message AnytimeMaintenanceWindow {
+}
+message WeeklyMaintenanceWindow {
+    google.type.DayOfWeek day = 1;
+    // Hour of the day in UTC (1 - 24).
+    int64 hour = 2;
+}
+message MaintenanceOperation {
+    // Length of info string should be limited by 256 characters
+    string info = 1;
+    google.protobuf.Timestamp scheduled_maintenance_time = 2;
+    google.protobuf.Timestamp deadline_maintenance_time = 3;
+    google.protobuf.Timestamp next_maintenance_window_time = 4;
+}

@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+import "google/protobuf/wrappers.proto";
+
+// Apache Kafka Topic resource.
+message Topic {
+    // Name of the topic.
+    string name = 1;
+    // ID of the Apache Kafka cluster that the topic belongs to.
+    string cluster_id = 2;
+    // Number of topic partitions.
+    google.protobuf.Int64Value partitions = 3;
+    // Amount of copies of a topic data kept in a cluster.
+    google.protobuf.Int64Value replication_factor = 4;
+    // User-defined settings for a topic.
+    oneof topic_config {
+        TopicConfig28 topic_config_2_8 = 5;
+        TopicConfig3 topic_config_3 = 7;
+    }
+}
+message TopicSpec {
+    // Name of the topic.
+    string name = 1;
+    // Number of topic partitions
+    google.protobuf.Int64Value partitions = 2;
+    // Amount of copies of a topic data kept in a cluster.
+    google.protobuf.Int64Value replication_factor = 3;
+    // User-defined settings for a topic.
+    oneof topic_config {
+        TopicConfig28 topic_config_2_8 = 4;
+        TopicConfig3 topic_config_3 = 6;
+    }
+}
+message TopicConfig28 {
+    enum CleanupPolicy {
+        CLEANUP_POLICY_INVALID = 0;
+        CLEANUP_POLICY_DELETE = 1;
+        CLEANUP_POLICY_COMPACT = 2;
+        CLEANUP_POLICY_COMPACT_AND_DELETE = 3;
+    }
+    enum CompressionType {
+        COMPRESSION_TYPE_INVALID = 0;
+        COMPRESSION_TYPE_UNCOMPRESSED = 1;
+        COMPRESSION_TYPE_ZSTD = 2;
+        COMPRESSION_TYPE_LZ4 = 3;
+        COMPRESSION_TYPE_SNAPPY = 4;
+        COMPRESSION_TYPE_GZIP = 5;
+        COMPRESSION_TYPE_PRODUCER = 6;
+    }
+    // Retention policy to use on old log segments.
+    CleanupPolicy cleanup_policy = 1;
+    // Specify the final compression type for a given topic.
+    CompressionType compression_type = 2;
+    // This configuration controls the maximum size a partition (which consists of log
+    // segments) can grow to before
+    // we will discard old log segments to free up space if we are using the "delete"
+    // retention policy
+    google.protobuf.Int64Value retention_bytes = 3;
+    // This configuration controls the maximum time we will retain a log before we will
+    // discard old log segments
+    // to free up space if we are using the "delete" retention policy.
+    google.protobuf.Int64Value retention_ms = 4;
+    // The largest record batch size allowed in topic.
+    google.protobuf.Int64Value max_message_bytes = 5;
+}
+message TopicConfig3 {
+    enum CleanupPolicy {
+        CLEANUP_POLICY_INVALID = 0;
+        CLEANUP_POLICY_DELETE = 1;
+        CLEANUP_POLICY_COMPACT = 2;
+        CLEANUP_POLICY_COMPACT_AND_DELETE = 3;
+    }
+    enum CompressionType {
+        COMPRESSION_TYPE_INVALID = 0;
+        COMPRESSION_TYPE_UNCOMPRESSED = 1;
+        COMPRESSION_TYPE_ZSTD = 2;
+        COMPRESSION_TYPE_LZ4 = 3;
+        COMPRESSION_TYPE_SNAPPY = 4;
+        COMPRESSION_TYPE_GZIP = 5;
+        COMPRESSION_TYPE_PRODUCER = 6;
+    }
+    // Retention policy to use on old log segments.
+    CleanupPolicy cleanup_policy = 1;
+    // Specify the final compression type for a given topic.
+    CompressionType compression_type = 2;
+    // This configuration controls the maximum size a partition (which consists of log
+    // segments) can grow to before
+    // we will discard old log segments to free up space if we are using the "delete"
+    // retention policy
+    google.protobuf.Int64Value retention_bytes = 3;
+    // This configuration controls the maximum time we will retain a log before we will
+    // discard old log segments
+    // to free up space if we are using the "delete" retention policy.
+    google.protobuf.Int64Value retention_ms = 4;
+    // The largest record batch size allowed in topic.
+    google.protobuf.Int64Value max_message_bytes = 5;
+}

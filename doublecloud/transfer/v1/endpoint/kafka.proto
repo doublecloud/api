@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint;endpoint";
+
+import "doublecloud/transfer/v1/endpoint/common.proto";
+import "doublecloud/transfer/v1/endpoint/parsers.proto";
+
+enum KafkaMechanism {
+    KAFKA_MECHANISM_UNSPECIFIED = 0;
+    KAFKA_MECHANISM_SHA256 = 1;
+    KAFKA_MECHANISM_SHA512 = 2;
+}
+message KafkaConnectionOptions {
+    oneof connection {
+        // Managed Service for Kafka cluster ID
+        string cluster_id = 1;
+        // Connection options for on-premise Kafka
+        OnPremiseKafka on_premise = 2;
+    }
+}
+message OnPremiseKafka {
+    // Kafka broker URLs
+    repeated string broker_urls = 1;
+    // TLS settings for broker connection. Disabled by default.
+    TLSMode tls_mode = 5;
+}
+message KafkaAuth {
+    oneof security {
+        // Authentication with SASL
+        KafkaSaslSecurity sasl = 1;
+        // No authentication
+        NoAuth no_auth = 2;
+    }
+}
+message KafkaSaslSecurity {
+    // User name
+    string user = 1;
+    // Password for user
+    Secret password = 4;
+    // SASL mechanism for authentication
+    KafkaMechanism mechanism = 3;
+}
+message KafkaSource {
+    // Connection settings
+    KafkaConnectionOptions connection = 1;
+    // Authentication settings
+    KafkaAuth auth = 2;
+    // Full source topic name
+    string topic_name = 4;
+    // Data parsing rules
+    Parser parser = 7;
+}
+message KafkaTarget {
+    // Connection settings
+    KafkaConnectionOptions connection = 1;
+    // Authentication settings
+    KafkaAuth auth = 2;
+    // Target topic settings
+    KafkaTargetTopicSettings topic_settings = 7;
+}
+message KafkaTargetTopicSettings {
+    oneof topic_settings {
+        // Full topic name
+        KafkaTargetTopic topic = 1;
+        // Topic prefix
+        // 
+        // Analogue of the Debezium setting database.server.name.
+        // Messages will be sent to topic with name <topic_prefix>.<schema>.<table_name>.
+        string topic_prefix = 2;
+    }
+}
+message KafkaTargetTopic {
+    // Topic name
+    string topic_name = 1;
+    // Save transactions order
+    // Not to split events queue into separate per-table queues.
+    bool save_tx_order = 2;
+}

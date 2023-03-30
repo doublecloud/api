@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+import "google/protobuf/timestamp.proto";
+import "doublecloud/v1/cluster.proto";
+import "doublecloud/v1/maintenance.proto";
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+import "doublecloud/kafka/v1/cluster.proto";
+import "doublecloud/kafka/v1/config.proto";
+
+// A set of methods for managing Apache Kafka® clusters.
+service ClusterService {
+    // Returns the specified Apache Kafka® cluster.
+    rpc Get(GetClusterRequest) returns (Cluster);
+    // Retrieves a list of Apache Kafka® clusters that belong to the specified
+    // project.
+    rpc List(ListClustersRequest) returns (ListClustersResponse);
+    // Creates an Apache Kafka® cluster in the specified project.
+    rpc Create(CreateClusterRequest) returns (doublecloud.v1.Operation);
+    // Updates the specified Apache Kafka® cluster.
+    rpc Update(UpdateClusterRequest) returns (doublecloud.v1.Operation);
+    // Deletes the specified Apache Kafka® cluster.
+    rpc Delete(DeleteClusterRequest) returns (doublecloud.v1.Operation);
+    // Reset credentials for the specified cluster.
+    rpc ResetCredentials(ResetClusterCredentialsRequest) returns (doublecloud.v1.Operation);
+    // Retrieves a list of hosts for the specified cluster.
+    rpc ListHosts(ListClusterHostsRequest) returns (ListClusterHostsResponse);
+    // Starts stopped Kafka cluster.
+    rpc Start(StartClusterRequest) returns (doublecloud.v1.Operation);
+    // Stops running Kafka cluster.
+    rpc Stop(StopClusterRequest) returns (doublecloud.v1.Operation);
+    // Reschedule planned maintenance operation.
+    rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (doublecloud.v1.Operation);
+    // List cluster operations.
+    rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse);
+}
+enum ClusterView {
+    // Invalid cluster view value.
+    CLUSTER_VIEW_INVALID = 0;
+    // Output basic information about the cluster.
+    CLUSTER_VIEW_BASIC = 1;
+    // Output full information about the cluster including allocated resources and
+    // Apache Kafka® settings.
+    CLUSTER_VIEW_FULL = 2;
+}
+message GetClusterRequest {
+    // ID of the Apache Kafka® cluster resource to return.
+    string cluster_id = 1;
+    // Whether to include sensitive data in the response. If unspecified, defaults to
+    // false.
+    bool sensitive = 2;
+}
+message ListClustersRequest {
+    // ID of the project to list Apache Kafka® clusters in.
+    string project_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+    // The level of detail to be returned. If unspecified, defaults to
+    // CLUSTER_VIEW_BASIC.
+    ClusterView view = 3;
+}
+message ListClustersResponse {
+    // List of Apache Kafka® cluster resources.
+    repeated Cluster clusters = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateClusterRequest {
+    // ID of the project to create the Apache Kafka® cluster in.
+    string project_id = 1;
+    // Type of the cloud where instances should be hosted.
+    string cloud_type = 2;
+    // ID of the region to place instances.
+    string region_id = 3;
+    // Name of the Apache Kafka® cluster. The name must be unique within the project.
+    string name = 4;
+    // Description of the Apache Kafka® cluster.
+    string description = 5;
+    // Version of Apache Kafka®.
+    string version = 6;
+    // Resources allocated to the Apache Kafka® cluster.
+    ClusterResources resources = 7;
+    // Access settings
+    doublecloud.v1.Access access = 8;
+    // DataEncryption settings
+    doublecloud.v1.DataEncryption encryption = 9;
+    // ID of the network to create the Apache Kafka® cluster in.
+    string network_id = 10;
+    // Window of maintenance operations.
+    doublecloud.v1.MaintenanceWindow maintenance_window = 11;
+    // Configuration and resources for hosts that should be created for the Apache
+    // Kafka® cluster.
+    KafkaConfig kafka_config = 12;
+}
+message UpdateClusterRequest {
+    // ID of the Apache Kafka Cluster resource to update.
+    // To get the Apache Kafka cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // New name of the Apache Kafka® cluster. The name must be unique within the
+    // project.
+    string name = 2;
+    // New description of the Apache Kafka cluster.
+    string description = 3;
+    // Version of Apache Kafka®.
+    string version = 4;
+    // New resources allocated to the Apache Kafka® cluster.
+    ClusterResources resources = 5;
+    // Access settings
+    doublecloud.v1.Access access = 6;
+    // Window of maintenance operations.
+    doublecloud.v1.MaintenanceWindow maintenance_window = 7;
+    // Configuration and resources for hosts that should be created for the Apache
+    // Kafka® cluster.
+    KafkaConfig kafka_config = 8;
+}
+message DeleteClusterRequest {
+    // ID of the Apache Kafka® cluster to delete.
+    // To get the Apache Kafka® cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+}
+message ResetClusterCredentialsRequest {
+    // ID of the Apache Kafka® cluster to reset credentials.
+    // To get the Apache Kafka® cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+}
+message ListClusterHostsRequest {
+    // ID of the Apache Kafka cluster.
+    // To get the Apache Kafka cluster ID use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+}
+message ListClusterHostsResponse {
+    // List of Host resources.
+    repeated Host hosts = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}
+message StartClusterRequest {
+    // ID of the Kafka cluster to start.
+    string cluster_id = 1;
+}
+message StopClusterRequest {
+    // ID of the Kafka cluster to stop.
+    string cluster_id = 1;
+}
+message RescheduleMaintenanceRequest {
+    // Required. ID of the Kafka cluster to maintenance reschedule.
+    string cluster_id = 1;
+    // Required. The type of reschedule request.
+    doublecloud.v1.RescheduleType reschedule_type = 2;
+    // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time
+    // scheduled.
+    google.protobuf.Timestamp delayed_until_time = 3;
+}
+message ListClusterOperationsRequest {
+    // Required. ID of the Kafka cluster.
+    string cluster_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+}
+message ListClusterOperationsResponse {
+    repeated doublecloud.v1.Operation operations = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}

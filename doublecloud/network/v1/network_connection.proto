@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package doublecloud.network.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/network/v1;network";
+
+import "google/protobuf/timestamp.proto";
+
+// A network connection resource.
+message NetworkConnection {
+    enum NetworkConnectionStatus {
+        NETWORK_CONNECTION_STATUS_INVALID = 0;
+        NETWORK_CONNECTION_STATUS_CREATING = 1;
+        NETWORK_CONNECTION_STATUS_PENDING = 2;
+        NETWORK_CONNECTION_STATUS_ACTIVE = 3;
+        NETWORK_CONNECTION_STATUS_DELETING = 4;
+        NETWORK_CONNECTION_STATUS_ERROR = 5;
+    }
+    // ID of the network connection.
+    string id = 1;
+    // ID of the network.
+    string network_id = 2;
+    // Provider specific info.
+    oneof connection_info {
+        // DataCloud connection info.
+        // DataCloudNetworkConnectionInfo data_cloud = 3 [(dataplatform.options.field_info)
+        // = { api_scopes: {DoubleCloud: API_SCOPE_PUBLIC}}];
+        // AWS connection info.
+        AWSNetworkConnectionInfo aws = 4;
+    }
+    // Creation timestamp.
+    google.protobuf.Timestamp create_time = 7;
+    // Description of the network connection.
+    string description = 8;
+    // Current state of the network connection.
+    NetworkConnectionStatus status = 9;
+    // The reason for the status change.
+    string status_reason = 10;
+}
+message AWSNetworkConnectionInfo {
+    oneof type {
+        // VPC Peering connection info.
+        AWSNetworkConnectionPeeringInfo peering = 1;
+    }
+}
+message AWSNetworkConnectionPeeringInfo {
+    // VPC ID.
+    string vpc_id = 1;
+    // ID of the VPC owner account.
+    string account_id = 2;
+    // ID of the AWS region.
+    string region_id = 3;
+    // Customer IPv4 CIDR block.
+    string ipv4_cidr_block = 4;
+    // Customer IPv6 CIDR block.
+    string ipv6_cidr_block = 5;
+    // Peering Connection ID.
+    string peering_connection_id = 6;
+    // Managed AWS IPv4 CIDR block. Customer will create route to this CIDR using
+    // Peering Connection.
+    string managed_ipv4_cidr_block = 7;
+    // managed AWS IPv6 CIDR block. Customer will create route to this CIDR using
+    // Peering Connection.
+    string managed_ipv6_cidr_block = 8;
+}

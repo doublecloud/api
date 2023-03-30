@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+import "doublecloud/v1/paging.proto";
+import "doublecloud/kafka/v1/version.proto";
+
+service VersionService {
+    // Returns list of available Kafka versions.
+    rpc List(ListVersionsRequest) returns (ListVersionsResponse);
+}
+message ListVersionsRequest {
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 1;
+}
+message ListVersionsResponse {
+    // Requested list of available versions.
+    repeated Version versions = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}

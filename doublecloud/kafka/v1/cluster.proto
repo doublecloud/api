@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "doublecloud/v1/cluster.proto";
+import "doublecloud/v1/maintenance.proto";
+import "doublecloud/kafka/v1/config.proto";
+
+// An Apache Kafka® cluster resource.
+message Cluster {
+    // ID of the Apache Kafka® cluster.
+    string id = 1;
+    // ID of the project that the Apache Kafka® cluster belongs to.
+    string project_id = 2;
+    // Type of the cloud where instances should be hosted.
+    string cloud_type = 3;
+    // ID of the region to place instances.
+    string region_id = 4;
+    // Creation timestamp.
+    google.protobuf.Timestamp create_time = 5;
+    // Name of the Apache Kafka® cluster.
+    // The name is unique within the project.
+    string name = 6;
+    // Description of the Apache Kafka® cluster.
+    string description = 7;
+    // Current state of the cluster.
+    doublecloud.v1.ClusterStatus status = 8;
+    // Version of Apache Kafka®.
+    string version = 9;
+    // Resources allocated to the Apache Kafka® cluster.
+    ClusterResources resources = 10;
+    // Connection information.
+    ConnectionInfo connection_info = 11;
+    // Access settings
+    doublecloud.v1.Access access = 12;
+    // DataEncryption settings
+    doublecloud.v1.DataEncryption encryption = 13;
+    // ID of the network that the Apache Kafka® cluster belongs to.
+    string network_id = 14;
+    // Private connection information.
+    PrivateConnectionInfo private_connection_info = 15;
+    // Window of maintenance operations.
+    doublecloud.v1.MaintenanceWindow maintenance_window = 16;
+    // Maintenance operation planned at nearest maintenance_window.
+    doublecloud.v1.MaintenanceOperation planned_operation = 17;
+    // Configuration of the Apache Kafka cluster.
+    KafkaConfig kafka_config = 18;
+}
+// Resources allocated to Apache Kafka® cluster.
+message ClusterResources {
+    message Kafka {
+        // ID of the preset for computational resources available to a host (CPU, memory
+        // etc.).
+        string resource_preset_id = 1;
+        // Volume of the storage available to a host, in bytes.
+        google.protobuf.Int64Value disk_size = 2;
+        // The number of Kafka brokers deployed in each availability zone.
+        google.protobuf.Int64Value broker_count = 3;
+        // The number of availability zones where Kafka brokers reside.
+        google.protobuf.Int64Value zone_count = 4;
+    }
+    // Resources allocated to Apache Kafka® hosts.
+    Kafka kafka = 1;
+}
+message ConnectionInfo {
+    // String to use in clients.
+    string connection_string = 1;
+    // Apache Kafka® user.
+    string user = 2;
+    // Password for Apache Kafka® user.
+    string password = 3;
+}
+message PrivateConnectionInfo {
+    // String to use in clients.
+    string connection_string = 1;
+    // Apache Kafka® user.
+    string user = 2;
+    // Password for Apache Kafka® user.
+    string password = 3;
+}
+message Host {
+    // Required. Name of the host.
+    string name = 1;
+    // Required. ID of the Apache Kafka® cluster.
+    string cluster_id = 2;
+    // Aggregated host status
+    doublecloud.v1.HostStatus status = 3;
+}

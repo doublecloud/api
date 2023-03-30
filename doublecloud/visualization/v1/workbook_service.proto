@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package doublecloud.visualization.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/visualization/v1;visualization";
+
+import "google/protobuf/wrappers.proto";
+import "doublecloud/v1/operation.proto";
+import "doublecloud/visualization/v1/workbook.proto";
+
+
+service WorkbookService {
+    // Workbook operations
+    rpc Get (GetWorkbookRequest) returns (GetWorkbookResponse);
+    rpc Create (CreateWorkbookRequest) returns (doublecloud.v1.Operation);
+    rpc Update (UpdateWorkbookRequest) returns (doublecloud.v1.Operation);
+    rpc Delete (DeleteWorkbookRequest) returns (doublecloud.v1.Operation);
+    // Connections operations
+    rpc GetConnection (GetWorkbookConnectionRequest) returns (GetWorkbookConnectionResponse);
+    rpc CreateConnection (CreateWorkbookConnectionRequest) returns (doublecloud.v1.Operation);
+    rpc UpdateConnection (UpdateWorkbookConnectionRequest) returns (doublecloud.v1.Operation);
+    rpc DeleteConnection (DeleteWorkbookConnectionRequest) returns (doublecloud.v1.Operation);
+    // List all direct fields of dataset with configured data source
+    rpc AdviseDatasetFields (AdviseDatasetFieldsRequest) returns (AdviseDatasetFieldsResponse);
+}
+
+
+message GetWorkbookRequest {
+    string workbook_id = 1;
+}
+message GetWorkbookResponse {
+    // Workbook config (only dashboards/charts/datasets)
+    doublecloud.visualization.v1.Workbook workbook = 1;
+}
+
+
+message CreateWorkbookRequest {
+    string project_id = 1;
+    string workbook_title = 2;
+}
+
+
+message UpdateWorkbookRequest {
+    string workbook_id = 1;
+    // Workbook config (only dashboards/charts/datasets)
+    doublecloud.visualization.v1.Workbook workbook = 2;
+    google.protobuf.BoolValue force_rewrite = 3;
+}
+
+
+message DeleteWorkbookRequest {
+    string workbook_id = 1;
+}
+
+
+message GetWorkbookConnectionRequest {
+    string workbook_id = 1;
+    string connection_name = 2;
+}
+message GetWorkbookConnectionResponse {
+    doublecloud.visualization.v1.Connection connection = 1;
+}
+
+
+message CreateWorkbookConnectionRequest {
+    string workbook_id = 1;
+    string connection_name = 2;
+    // Connection config
+    doublecloud.visualization.v1.Connection connection = 3;
+    doublecloud.visualization.v1.Secret secret = 4;
+}
+
+
+message UpdateWorkbookConnectionRequest {
+    string workbook_id = 1;
+    string connection_name = 2;
+    doublecloud.visualization.v1.Connection connection = 3;
+    doublecloud.visualization.v1.Secret secret = 4;
+}
+
+
+message DeleteWorkbookConnectionRequest {
+    string workbook_id = 1;
+    string connection_name = 2;
+}
+
+
+message AdviseDatasetFieldsRequest {
+    string workbook_id = 1;
+    string connection_name = 2;
+    // Dataset without fields
+    doublecloud.visualization.v1.Dataset partial_dataset = 3;
+}
+message AdviseDatasetFieldsResponse {
+    // Dataset (with all direct fields & filled defaults)
+    doublecloud.visualization.v1.Dataset dataset = 1;
+}

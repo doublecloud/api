@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+// An Apache Kafka User resource. For more information, check out
+// the [Developer's Guide](/cloud/docs/en/managed-kafka/concepts).
+message User {
+    // Apache Kafka User's name.
+    // 
+    // For a string spec see [UserSpec.name]
+    string name = 1;
+    // Apache Kafka cluster ID the user belongs to.
+    string cluster_id = 2;
+    // Set of permissions the user is granted with.
+    repeated Permission permissions = 3;
+}
+// Carries payload required to create new Apache Kafka User.
+message UserSpec {
+    // Apache Kafka User's name.
+    // 
+    // Value must be a non-empty string:
+    // * up to 256 characters
+    // * compliant with pattern: ^[a-zA-Z0-9_][a-zA-Z0-9_-]*$
+    // * with values blocklisted: default
+    // * with prefixes blocklisted: mdb_
+    string name = 1;
+    // Apache Kafka User's password
+    // 
+    // Value must be a non-empty string:
+    // * with characters forbidden: '[]
+    string password = 2;
+    // Set of permissions granted to the user.
+    repeated Permission permissions = 3;
+}
+// Permission defines user allowed operations over particular topic(s)
+// Certain operations are abstraction away under predefined access roles
+// 
+// Note: `consumer_group` and `host` constraints are hidden from the API,
+// those attributes implicitly set to `*` in salt recipe when no value provided
+message Permission {
+    // Each role abstracts away multiple operations
+    enum AccessRole {
+        ACCESS_ROLE_INVALID = 0;
+        // Grants describe, read and write topic operations
+        ACCESS_ROLE_PRODUCER = 1;
+        // Grants describe and read topic operations
+        ACCESS_ROLE_CONSUMER = 2;
+        // Grants full access, including describe, read, write, manage and delete topic
+        ACCESS_ROLE_ADMIN = 3;
+    }
+    // Name or prefix-pattern with wildcard for the topic that the permission grants
+    // access to.
+    // 
+    // Examples:
+    // - cluster.events.v1
+    // - cluster.events.*
+    string topic_name = 1;
+    // Access role to be granted to the user.
+    AccessRole role = 2;
+}

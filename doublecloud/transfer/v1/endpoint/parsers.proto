@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint;endpoint";
+
+import "doublecloud/transfer/v1/endpoint/common.proto";
+
+message Parser {
+    oneof parser {
+        GenericParserCommon json_parser = 1;
+        GenericParserCommon tskv_parser = 6;
+    }
+}
+message GenericParserCommon {
+    DataSchema data_schema = 1;
+    // Allow null keys, if no - null keys will be putted to unparsed data
+    bool null_keys_allowed = 2;
+    // Will add _rest column for all unknown fields
+    bool add_rest_column = 3;
+}

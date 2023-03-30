@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package doublecloud.network.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/network/v1;network";
+
+import "doublecloud/network/v1/network_connection.proto";
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+
+// A set of methods for managing Networks Connection.
+service NetworkConnectionService {
+    // Returns the specified Network Connection.
+    rpc Get(GetNetworkConnectionRequest) returns (NetworkConnection);
+    // Retrieves a list of Network Connections of the specified Project.
+    rpc List(ListNetworkConnectionsRequest) returns (ListNetworkConnectionsResponse);
+    // Creates a Network Connection.
+    rpc Create(CreateNetworkConnectionRequest) returns (doublecloud.v1.Operation);
+    // Deletes the specified Network Connection.
+    rpc Delete(DeleteNetworkConnectionRequest) returns (doublecloud.v1.Operation);
+}
+message GetNetworkConnectionRequest {
+    // ID of the Network Connection resource to return.
+    string network_connection_id = 1;
+}
+message ListNetworkConnectionsRequest {
+    // ID of the project to list Networks Connections in.
+    string project_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+}
+message ListNetworkConnectionsResponse {
+    // List of Network Connection resources.
+    repeated NetworkConnection network_connections = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateNetworkConnectionRequest {
+    // ID of the Network.
+    string network_id = 1;
+    // Provider specific parameters.
+    oneof params {
+        // Connect DataCloud Network with AWS VPC.
+        CreateAWSNetworkConnectionRequest aws = 3;
+    }
+    // Description of the Network Connection.
+    string description = 6;
+}
+message CreateAWSNetworkConnectionRequest {
+    oneof type {
+        // Connect AWS VPC using VPC Peering.
+        CreateAWSNetworkConnectionPeeringRequest peering = 1;
+    }
+}
+message CreateAWSNetworkConnectionPeeringRequest {
+    // ID of the VPC.
+    string vpc_id = 1;
+    // ID of the VPC owner account.
+    string account_id = 2;
+    // ID of the AWS region.
+    string region_id = 3;
+    // IPv4 CIDR block. Data Cloud will create route to this CIDR using Peering
+    // Connection.
+    string ipv4_cidr_block = 4;
+    // IPv6 CIDR block. Data Cloud will create route to this CIDR using Peering
+    // Connection.
+    string ipv6_cidr_block = 5;
+}
+message DeleteNetworkConnectionRequest {
+    // ID of the Network Connection to delete.
+    // To get the Network Connection ID, use a [NetworkConnectionService.List] request.
+    string network_connection_id = 1;
+}
+message UpdateNetworkConnectionRequest {
+    // ID of the Network Connection to update.
+    string network_connection_id = 1;
+    // Description of the Network Connection.
+    string description = 2;
+}

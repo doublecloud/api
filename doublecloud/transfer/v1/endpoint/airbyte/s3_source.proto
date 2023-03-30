@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message S3Source {
+    message Format {
+        oneof format {
+            Csv csv = 4;
+            Parquet parquet = 5;
+            Avro avro = 6;
+            Jsonl jsonl = 7;
+        }
+    }
+    message Provider {
+        string bucket = 1;
+        string aws_access_key_id = 2;
+        string aws_secret_access_key = 3;
+        string path_prefix = 4;
+        string endpoint = 5;
+        bool use_ssl = 6;
+        bool verify_ssl_cert = 7;
+    }
+    message Csv {
+        string delimiter = 2;
+        string quote_char = 3;
+        string escape_char = 4;
+        string encoding = 5;
+        bool double_quote = 6;
+        bool newlines_in_values = 7;
+        int64 block_size = 8;
+        string additional_reader_options = 9;
+        string advanced_options = 10;
+    }
+    message Avro {
+    }
+    message Jsonl {
+        enum UnexpectedFieldBehavior {
+            UNEXPECTED_FIELD_BEHAVIOR_UNSPECIFIED = 0;
+            UNEXPECTED_FIELD_BEHAVIOR_IGNORE = 1;
+            UNEXPECTED_FIELD_BEHAVIOR_INFER = 2;
+            UNEXPECTED_FIELD_BEHAVIOR_ERROR = 3;
+        }
+        bool newlines_in_values = 2;
+        UnexpectedFieldBehavior unexpected_field_behavior = 3;
+        int64 block_size = 4;
+    }
+    message Parquet {
+        int64 buffer_size = 2;
+        repeated string columns = 3;
+        int64 batch_size = 4;
+    }
+    string dataset = 1;
+    string path_pattern = 2;
+    string schema = 3;
+    Format format = 5;
+    Provider provider = 6;
+}

@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package doublecloud.network.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/network/v1;network";
+
+import "doublecloud/network/v1/network.proto";
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+
+// A set of methods for managing Networks.
+service NetworkService {
+    // Returns the specified Network.
+    rpc Get(GetNetworkRequest) returns (Network);
+    // Retrieves a list of Networks that belong to the specified project.
+    rpc List(ListNetworksRequest) returns (ListNetworksResponse);
+    // Creates a Network.
+    rpc Create(CreateNetworkRequest) returns (doublecloud.v1.Operation);
+    // Deletes the specified Network.
+    rpc Delete(DeleteNetworkRequest) returns (doublecloud.v1.Operation);
+    // Imports a Network.
+    rpc Import(ImportNetworkRequest) returns (doublecloud.v1.Operation);
+}
+message GetNetworkRequest {
+    // ID of the Network resource to return.
+    string network_id = 1;
+}
+message ListNetworksRequest {
+    // ID of the project to list Networks in.
+    string project_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+}
+message ListNetworksResponse {
+    // List of Network resources.
+    repeated Network networks = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateNetworkRequest {
+    // ID of the project to create the Network in.
+    string project_id = 1;
+    // Type of the cloud where instances should be hosted.
+    string cloud_type = 2;
+    // ID of the region to place instances.
+    string region_id = 3;
+    // Name of the Network. The name must be unique within the project.
+    string name = 4;
+    // Description of the Network.
+    string description = 5;
+    // The IPv4 network range for the subnet, in CIDR notation.
+    // For example, 10.0.0.0/16.
+    string ipv4_cidr_block = 6;
+}
+message DeleteNetworkRequest {
+    // ID of the Network to delete.
+    // To get the Network ID, use a [NetworkService.List] request.
+    string network_id = 1;
+}
+message ImportNetworkRequest {
+    // ID of the project to create the Network in.
+    string project_id = 1;
+    // Name of the Network. The name must be unique within the project.
+    string name = 2;
+    // Description of the Network.
+    string description = 3;
+    // Provider specific parameters.
+    oneof params {
+        // Import AWS VPC.
+        ImportAWSVPCRequest aws = 4;
+    }
+}
+message ImportAWSVPCRequest {
+    // ID of the VPC.
+    string vpc_id = 1;
+    // ID of the region to place instances.
+    string region_id = 2;
+    // ID of the VPC owner account.
+    string account_id = 3;
+    // IAM role ARN to use for resource creations.
+    string iam_role_arn = 4;
+    // ID of the CloudFormation stack.
+    string stack_id = 5;
+    // CloudFormation template version.
+    string version = 6;
+}

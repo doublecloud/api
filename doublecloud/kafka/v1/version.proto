@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+message Version {
+    // ID of the version.
+    string id = 1;
+    // Name of the version.
+    string name = 2;
+    // Whether version is deprecated.
+    bool deprecated = 3;
+    // List of versions that can be updated from current.
+    repeated string updatable_to = 4;
+}

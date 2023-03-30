@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1;transfer";
+
+import "doublecloud/transfer/v1/endpoint/clickhouse.proto";
+import "doublecloud/transfer/v1/endpoint/common.proto";
+import "doublecloud/transfer/v1/endpoint/kafka.proto";
+import "doublecloud/transfer/v1/endpoint/mongo.proto";
+import "doublecloud/transfer/v1/endpoint/mysql.proto";
+import "doublecloud/transfer/v1/endpoint/postgres.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/s3_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/redshift_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/aws_cloud_trail_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/bigquery_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/mssql_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/amazon_ads_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/facebook_marketing_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/linkedin_ads_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/instagram_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/google_ads_source.proto";
+
+message Endpoint {
+    string id = 1;
+    string project_id = 2;
+    string name = 4;
+    string description = 5;
+    map<string,string> labels = 6;
+    EndpointSettings settings = 52;
+}
+message EndpointSettings {
+    oneof settings {
+        endpoint.MysqlSource mysql_source = 1;
+        endpoint.PostgresSource postgres_source = 2;
+        endpoint.KafkaSource kafka_source = 8;
+        endpoint.MongoSource mongo_source = 9;
+        endpoint.ClickhouseSource clickhouse_source = 16;
+        endpoint.airbyte.S3Source s3_source = 124;
+        endpoint.airbyte.AWSCloudTrailSource aws_cloudtrail_source = 127;
+        endpoint.airbyte.BigQuerySource big_query_source = 128;
+        endpoint.airbyte.FacebookMarketingSource facebook_marketing_source = 130;
+        endpoint.airbyte.GoogleAdsSource google_ads_source = 132;
+        endpoint.airbyte.AmazonAdsSource amazon_ads_source = 134;
+        endpoint.airbyte.InstagramSource instagram_source = 136;
+        endpoint.airbyte.LinkedinAdsSource linkedin_ads_source = 137;
+        endpoint.airbyte.MSSQLSource mssql_source = 138;
+        endpoint.airbyte.RedshiftSource redshift_source = 139;
+        endpoint.MysqlTarget mysql_target = 101;
+        endpoint.PostgresTarget postgres_target = 102;
+        endpoint.ClickhouseTarget clickhouse_target = 104;
+        endpoint.KafkaTarget kafka_target = 110;
+        endpoint.MongoTarget mongo_target = 111;
+    }
+}

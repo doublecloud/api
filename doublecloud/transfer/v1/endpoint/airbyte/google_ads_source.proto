@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message GoogleAdsSource {
+    message CustomQuery {
+        string query = 1;
+        string table_name = 2;
+    }
+    message Credentials {
+        string developer_token = 1;
+        string client_id = 2;
+        string client_secret = 3;
+        string access_token = 4;
+        string refresh_token = 5;
+    }
+    string customer_id = 1;
+    string start_date = 2;
+    string end_date = 3;
+    repeated CustomQuery custom_queries = 4;
+    string login_customer_id = 5;
+    double conversion_window_days = 6;
+}

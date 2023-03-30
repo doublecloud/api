@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+import "doublecloud/kafka/v1/topic.proto";
+
+// A set of methods for managing Apache Kafka Topic resources.
+service TopicService {
+    // Returns the specified Apache Kafka Topic resource.
+    // 
+    // To get the list of available Apache Kafka Topic resources, make a [List]
+    // request.
+    rpc Get(GetTopicRequest) returns (Topic);
+    // Retrieves the list of Apache Kafka Topic resources in the specified cluster.
+    rpc List(ListTopicsRequest) returns (ListTopicsResponse);
+    // Creates a new Apache Kafka topic in the specified cluster.
+    rpc Create(CreateTopicRequest) returns (doublecloud.v1.Operation);
+    // Updates the specified Apache Kafka topic.
+    rpc Update(UpdateTopicRequest) returns (doublecloud.v1.Operation);
+    // Deletes the specified Apache Kafka topic.
+    rpc Delete(DeleteTopicRequest) returns (doublecloud.v1.Operation);
+}
+message GetTopicRequest {
+    // ID of the Apache Kafka cluster that the topic belongs to.
+    // To get the cluster ID use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Name of the Apache Kafka Topic resource to return.
+    // To get the name of the topic use a [TopicService.List] request.
+    string topic_name = 2;
+}
+message ListTopicsRequest {
+    // ID of the Apache Kafka cluster to list topics in.
+    // To get the cluster ID use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+}
+message ListTopicsResponse {
+    // List of Apache Kafka Topic resources.
+    repeated Topic topics = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateTopicRequest {
+    // Required. ID of the Apache Kafka cluster to create a topic in.
+    // To get the cluster ID use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Required. Configuration of the topic to create.
+    TopicSpec topic_spec = 2;
+}
+message UpdateTopicRequest {
+    // Required. ID of the Apache Kafka cluster to update a topic in.
+    // To get the cluster ID use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Required. Name of the topic to update.
+    // To get the name of the topic use a [TopicService.List] request.
+    string topic_name = 2;
+    // Required. Configuration of the topic to create.
+    TopicSpec topic_spec = 3;
+}
+message DeleteTopicRequest {
+    // Required. ID of the Apache Kafka cluster to delete a topic in.
+    // To get the cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Required. Name of the topic to delete.
+    // To get the name of the topic, use a [TopicService.List] request.
+    string topic_name = 2;
+}

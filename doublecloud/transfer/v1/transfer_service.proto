@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1;transfer";
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "doublecloud/transfer/v1/transfer.proto";
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+
+service TransferService {
+    rpc Create(CreateTransferRequest) returns (doublecloud.v1.Operation) {
+        option (google.api.http) = { post: "/v1/transfer" body: "*" };
+    }
+    rpc Update(UpdateTransferRequest) returns (doublecloud.v1.Operation) {
+        option (google.api.http) = { patch: "/v1/transfer/{transfer_id}" body: "*" };
+    }
+    rpc Delete(DeleteTransferRequest) returns (doublecloud.v1.Operation) {
+        option (google.api.http) = { delete: "/v1/transfer/{transfer_id}" };
+    }
+    rpc List(ListTransfersRequest) returns (ListTransfersResponse) {
+        option (google.api.http) = { get: "/v1/transfers/list/{project_id}" };
+    }
+    rpc Get(GetTransferRequest) returns (Transfer) {
+        option (google.api.http) = { get: "/v1/transfer/{transfer_id}" };
+    }
+    rpc Deactivate(DeactivateTransferRequest) returns (doublecloud.v1.Operation) {
+        option (google.api.http) = { post: "/v1/transfer/{transfer_id}:deactivate" body: "*" };
+    }
+    rpc Activate(ActivateTransferRequest) returns (doublecloud.v1.Operation) {
+        option (google.api.http) = { post: "/v1/transfer/{transfer_id}:activate" body: "*" };
+    }
+}
+message CreateTransferRequest {
+    string source_id = 1;
+    string target_id = 2;
+    string name = 7;
+    string description = 3;
+    map<string,string> labels = 8;
+    string project_id = 4;
+    TransferType type = 6;
+}
+message UpdateTransferRequest {
+    // Identifier of the transfer to be updated.
+    string transfer_id = 1;
+    // The new description for the transfer.
+    string description = 2;
+    map<string,string> labels = 6;
+    // The new transfer name. Must be unique within the folder.
+    string name = 4;
+}
+message DeleteTransferRequest {
+    string transfer_id = 1;
+}
+message ListTransfersRequest {
+    // Identifier of the folder containing the transfers to be listed.
+    string project_id = 2;
+    // The maximum number of transfers to be sent in the response message. If the
+    // folder contains more transfers than `page_size`, `next_page_token` will be
+    // included
+    // in the response message. Include it into the subsequent `ListTransfersRequest`
+    // to
+    // fetch the next page. Defaults to `100` if not specified. The maximum allowed
+    // value
+    // for this field is `500`.
+    doublecloud.v1.Paging page = 3;
+}
+message ListTransfersResponse {
+    // The list of transfers. If there are more transfers in the folder, then
+    // `next_page_token` is a non-empty string to be included into the subsequent
+    // `ListTransfersRequest` to fetch the next transfers page.
+    repeated Transfer transfers = 1;
+    // Opaque value identifying the next transfers page. This field is empty if there
+    // are no more transfers in the folder. Otherwise it is non-empty and should be
+    // included in the subsequent `ListTransfersRequest` to fetch the next transfers
+    // page.
+    string next_page_token = 2;
+}
+message GetTransferRequest {
+    string transfer_id = 1;
+}
+message DeactivateTransferRequest {
+    string transfer_id = 1;
+}
+message ActivateTransferRequest {
+    string transfer_id = 1;
+}

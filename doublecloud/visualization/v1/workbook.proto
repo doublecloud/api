@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package doublecloud.visualization.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/visualization/v1;visualization";
+
+import "google/protobuf/struct.proto";
+
+message PlainSecret {
+    string secret = 1;
+}
+
+message Secret {
+    oneof secret {
+        PlainSecret plain_secret = 1;
+        // Other options may be encrypted secret
+        //  or reference to some external vault
+    }
+}
+
+message Workbook {
+    // Dataset config according [spec](dcdoc://visualization-configs/Workbook)
+    google.protobuf.Value config = 1;
+}
+
+message Dataset {
+    // Dataset config according [spec](dcdoc://visualization-configs/Dataset)
+    google.protobuf.Value config = 1;
+}
+
+message Connection {
+    // Connection config according [spec](dcdoc://visualization-configs/Connection)
+    google.protobuf.Value config = 1;
+}

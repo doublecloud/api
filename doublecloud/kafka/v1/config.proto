@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/kafka/v1;kafka";
+
+import "google/protobuf/wrappers.proto";
+
+// Configuration for Apache Kafka® brokers in the cluster.
+message KafkaConfig {
+    // The largest record batch size allowed by Kafka. Default value: 1048588.
+    google.protobuf.Int64Value message_max_bytes = 1;
+    // The number of bytes of messages to attempt to fetch for each partition. Default
+    // value: 1048576.
+    google.protobuf.Int64Value replica_fetch_max_bytes = 2;
+}
