@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package doublecloud.transfer.v1.endpoint.airbyte;
 
-option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+option go_package = "github.com/doublecloud/api/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
 
 message GoogleAdsSource {
     message CustomQuery {

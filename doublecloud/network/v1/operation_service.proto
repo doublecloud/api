@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package doublecloud.network.v1;
 
-option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/network/v1;network";
+option go_package = "github.com/doublecloud/api/doublecloud/network/v1;network";
 
 import "doublecloud/v1/operation.proto";
 import "doublecloud/v1/paging.proto";

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package doublecloud.visualization.v1;
 
-option go_package = "a.yandex-team.ru/cloud/doublecloud/public-api/doublecloud/visualization/v1;visualization";
+option go_package = "github.com/doublecloud/api/doublecloud/visualization/v1;visualization";
 
 import "google/protobuf/struct.proto";
 
