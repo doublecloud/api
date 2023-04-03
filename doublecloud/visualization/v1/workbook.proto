@@ -19,7 +19,7 @@ message Secret {
 }
 
 message Workbook {
-    // Dataset config according [spec](dcdoc://visualization-configs/Workbook)
+    // Workbook config according [spec](dcdoc://visualization-configs/Workbook)
     google.protobuf.Value config = 1;
 }
 
