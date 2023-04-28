@@ -14,3 +14,8 @@ message KafkaConfig {
     // value: 1048576.
     google.protobuf.Int64Value replica_fetch_max_bytes = 2;
 }
+// Configuration for Schema Registry.
+message SchemaRegistryConfig {
+    // Is Schema Registry enabled for this cluster.
+    bool enabled = 1;
+}

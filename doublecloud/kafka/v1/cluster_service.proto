@@ -95,6 +95,8 @@ message CreateClusterRequest {
     // Configuration and resources for hosts that should be created for the Apache
     // Kafka® cluster.
     KafkaConfig kafka_config = 12;
+    // Configuration of Schema Registry.
+    SchemaRegistryConfig schema_registry_config = 13;
 }
 message UpdateClusterRequest {
     // ID of the Apache Kafka Cluster resource to update.
@@ -116,6 +118,8 @@ message UpdateClusterRequest {
     // Configuration and resources for hosts that should be created for the Apache
     // Kafka® cluster.
     KafkaConfig kafka_config = 8;
+    // Configuration of Schema Registry.
+    SchemaRegistryConfig schema_registry_config = 9;
 }
 message DeleteClusterRequest {
     // ID of the Apache Kafka® cluster to delete.

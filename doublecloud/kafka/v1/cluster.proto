@@ -49,6 +49,10 @@ message Cluster {
     doublecloud.v1.MaintenanceOperation planned_operation = 17;
     // Configuration of the Apache Kafka cluster.
     KafkaConfig kafka_config = 18;
+    // Prometheus metrics exporter endpoint HTTP basic auth information.
+    MetricsExporterConnectionInfo metrics_exporter_connection_info = 19;
+    // Configuration of Schema Registry.
+    SchemaRegistryConfig schema_registry_config = 20;
 }
 // Resources allocated to Apache Kafka® cluster.
 message ClusterResources {
@@ -80,6 +84,12 @@ message PrivateConnectionInfo {
     // Apache Kafka® user.
     string user = 2;
     // Password for Apache Kafka® user.
+    string password = 3;
+}
+message MetricsExporterConnectionInfo {
+    // User for HTTP basic auth.
+    string user = 2;
+    // Password for HTTP basic auth.
     string password = 3;
 }
 message Host {

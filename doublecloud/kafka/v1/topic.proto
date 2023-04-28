@@ -21,6 +21,8 @@ message Topic {
         TopicConfig28 topic_config_2_8 = 5;
         TopicConfig3 topic_config_3 = 7;
     }
+    // True if topic has SLA guaranties
+    bool is_ha = 8;
 }
 message TopicSpec {
     // Name of the topic.
