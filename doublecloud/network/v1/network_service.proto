@@ -7,6 +7,7 @@ option go_package = "github.com/doublecloud/api/doublecloud/network/v1;network";
 import "doublecloud/network/v1/network.proto";
 import "doublecloud/v1/operation.proto";
 import "doublecloud/v1/paging.proto";
+import "google/protobuf/wrappers.proto";
 
 // A set of methods for managing Networks.
 service NetworkService {
@@ -26,10 +27,22 @@ message GetNetworkRequest {
     string network_id = 1;
 }
 message ListNetworksRequest {
+    message Filter {
+        // Type of the cloud where instances should be hosted.
+        google.protobuf.StringValue cloud_type = 1;
+        // ID of the region to place instances.
+        google.protobuf.StringValue region_id = 2;
+        // Status of the network.
+        Network.NetworkStatus status = 3;
+        // Flag to show if a network is external (BYOA feature)
+        google.protobuf.BoolValue is_external = 4;
+    }
     // ID of the project to list Networks in.
     string project_id = 1;
     // Paging information of the request
     doublecloud.v1.Paging paging = 2;
+    // Fields to filter a network list
+    Filter filter = 3;
 }
 message ListNetworksResponse {
     // List of Network resources.

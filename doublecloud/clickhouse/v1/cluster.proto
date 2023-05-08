@@ -113,6 +113,8 @@ message Host {
     string cluster_id = 2;
     // Name of the shard that the host belongs to.
     string shard_name = 3;
-    // Private dns name
+    // Private dns name.
     string private_name = 4;
+    // Aggregated host status.
+    doublecloud.v1.HostStatus status = 5;
 }

@@ -54,6 +54,7 @@ message ClickhouseConfig {
         SaslMechanism sasl_mechanism = 2;
         google.protobuf.StringValue sasl_username = 3;
         google.protobuf.StringValue sasl_password = 4;
+        google.protobuf.BoolValue enable_ssl_certificate_verification = 5;
     }
     message Rabbitmq {
         google.protobuf.StringValue username = 1;
