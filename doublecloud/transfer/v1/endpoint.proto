@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package doublecloud.transfer.v1;
 
-option go_package = "github.com/doublecloud/api/doublecloud/transfer/v1;transfer";
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1;transfer";
 
 import "doublecloud/transfer/v1/endpoint/clickhouse.proto";
 import "doublecloud/transfer/v1/endpoint/common.proto";

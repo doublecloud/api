@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package doublecloud.v1;
 
-option go_package = "github.com/doublecloud/api/doublecloud/v1;doublecloud";
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/v1;doublecloud";
 
 import "google/protobuf/wrappers.proto";
 

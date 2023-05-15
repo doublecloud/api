@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package doublecloud.kafka.v1;
 
-option go_package = "github.com/doublecloud/api/doublecloud/kafka/v1;kafka";
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/kafka/v1;kafka";
 
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";

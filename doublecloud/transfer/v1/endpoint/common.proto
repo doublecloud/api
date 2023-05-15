@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package doublecloud.transfer.v1.endpoint;
 
-option go_package = "github.com/doublecloud/api/doublecloud/transfer/v1/endpoint;endpoint";
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint;endpoint";
 
 import "google/protobuf/empty.proto";
 
