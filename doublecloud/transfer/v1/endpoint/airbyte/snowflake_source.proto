@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message SnowflakeSource {
+    message Credentials {
+        message OAuth {
+            string auth_type = 1;
+            string client_id = 2;
+            string client_secret = 3;
+            string access_token = 4;
+            string refresh_token = 5;
+        }
+        message BasicAuth {
+            string auth_type = 1;
+            string username = 2;
+            string password = 3;
+        }
+        oneof credentials {
+            OAuth oauth = 1;
+            BasicAuth basic_auth = 2;
+        }
+    }
+    string host = 1;
+    string role = 2;
+    string warehouse = 3;
+    string database = 4;
+    string schema = 5;
+    string jdbc_url_params = 6;
+    Credentials credentials = 7;
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint;endpoint";
+
+import "doublecloud/transfer/v1/endpoint/airbyte/s3_source.proto";
+
+message DeltaLakeSource {
+    airbyte.S3Source.Provider provider = 1;
+    DeltaResultTable table = 2;
+    DeltaSettings settings = 3;
+}
+message DeltaResultTable {
+}
+message DeltaSettings {
+    string region = 2;
+}

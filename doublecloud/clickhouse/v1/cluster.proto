@@ -49,6 +49,8 @@ message Cluster {
     doublecloud.v1.MaintenanceWindow maintenance_window = 17;
     // Maintenance operation planned at nearest maintenance_window.
     doublecloud.v1.MaintenanceOperation maintenance_operation = 18;
+    // Prometheus JMX exporter endpoint HTTP basic auth information.
+    MetricsExporterConnectionInfo metrics_exporter_connection_info = 19;
 }
 // Resources allocated to ClickHouse cluster.
 message ClusterResources {
@@ -105,6 +107,12 @@ message PrivateConnectionInfo {
     string jdbc_uri = 8;
     // URI to connect using ODBC protocol.
     string odbc_uri = 9;
+}
+message MetricsExporterConnectionInfo {
+    // User for HTTP basic auth.
+    string user = 1;
+    // Password for HTTP basic auth.
+    string password = 2;
 }
 message Host {
     // Name of the host.

@@ -32,6 +32,16 @@ service TransferService {
     rpc Activate(ActivateTransferRequest) returns (doublecloud.v1.Operation) {
         option (google.api.http) = { post: "/v1/transfer/{transfer_id}:activate" body: "*" };
     }
+    // Allows scraping of metrics by a prometheus scraper
+    rpc GetMetrics(GetMetricsRequest) returns (TransferMetrics) {
+        option (google.api.http) = { get: "/v1/transfer/{transfer_id}/metrics" };
+    }
+    rpc GetMetricExporterConnectionInfo(MetricExporterConnectionInfoRequest) returns (MetricExporterConnectionInfoMetadata) {
+        option (google.api.http) = { get: "/v1/transfer/{transfer_id}/exporter" };
+    }
+    rpc DeleteMetricExporterConnectionInfo(DeleteExporterConnectionInfoRequest) returns (doublecloud.v1.Operation) {
+        option (google.api.http) = { delete: "/v1/transfer/{transfer_id}/exporter" };
+    }
 }
 message CreateTransferRequest {
     string source_id = 1;
@@ -85,5 +95,38 @@ message DeactivateTransferRequest {
     string transfer_id = 1;
 }
 message ActivateTransferRequest {
+    string transfer_id = 1;
+}
+message GetMetricsRequest {
+    // The ID of Transfer
+    string transfer_id = 1;
+}
+message TransferMetrics {
+    message Metric {
+        string help = 1;
+        string type = 2;
+        string value = 3;
+    }
+    // The list of the transfer metrics
+    repeated Metric metrics = 1;
+}
+message MetricExporterConnectionInfoRequest {
+    // The ID of the Transfer
+    string transfer_id = 1;
+}
+message MetricExporterConnectionInfoMetadata {
+    // String to use in clients. i.e. url for config
+    string connection_string = 1;
+    // User for HTTP basic auth.
+    string user = 2;
+    // Password for HTTP basic auth.
+    string password = 3;
+}
+message DeleteExporterConnectionInfoRequest {
+    // The ID of the Transfer
+    string transfer_id = 1;
+}
+message DeleteExporterConnectionInfoMetadata {
+    // The ID of the Transfer
     string transfer_id = 1;
 }

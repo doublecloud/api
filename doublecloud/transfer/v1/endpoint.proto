@@ -20,6 +20,7 @@ import "doublecloud/transfer/v1/endpoint/airbyte/facebook_marketing_source.proto
 import "doublecloud/transfer/v1/endpoint/airbyte/linkedin_ads_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/instagram_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/google_ads_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/snowflake_source.proto";
 
 message Endpoint {
     string id = 1;
@@ -46,6 +47,7 @@ message EndpointSettings {
         endpoint.airbyte.LinkedinAdsSource linkedin_ads_source = 137;
         endpoint.airbyte.MSSQLSource mssql_source = 138;
         endpoint.airbyte.RedshiftSource redshift_source = 139;
+        endpoint.airbyte.SnowflakeSource snowflake_source = 148;
         endpoint.MysqlTarget mysql_target = 101;
         endpoint.PostgresTarget postgres_target = 102;
         endpoint.ClickhouseTarget clickhouse_target = 104;
