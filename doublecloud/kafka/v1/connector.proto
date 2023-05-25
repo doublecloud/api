@@ -1,0 +1,235 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/kafka/v1;kafka";
+
+import "google/protobuf/wrappers.proto";
+
+// An object that represents an Apache Kafka® connector.
+message ConnectorSpec {
+    // Name of the connector.
+    string name = 1;
+    // Maximum number of connector tasks. Default value is the number of brokers.
+    google.protobuf.Int64Value tasks_max = 2;
+    // A set of properties passed to Managed Service for Apache Kafka® with the
+    // connector configuration.
+    // Example: `sync.topics.config.enabled: true`.
+    map<string,string> properties = 3;
+    // Additional settings for the connector.
+    oneof connector_config {
+        // Configuration of the MirrorMaker connector.
+        ConnectorConfigMirrorMakerSpec connector_config_mirrormaker = 10;
+        // Configuration of S3-Sink connector.
+        ConnectorConfigS3SinkSpec connector_config_s3_sink = 11;
+    }
+}
+message UpdateConnectorSpec {
+    // UpdateProperties allows to use "optional" modifier for the attribute to
+    // highlight whether the update is desired
+    // This allows us to distinguish intentional properties reset to empty map attempt
+    // from occasional empty map
+    message UpdateProperties {
+        // New set of properties for the connector.
+        // Empty slice will remove all existing the properties.
+        map<string,string> properties = 1;
+    }
+    // Maximum number of connector tasks to update.
+    // Nil value is ignored and considered as non-set value.
+    google.protobuf.Int64Value tasks_max = 1;
+    // When provided, current properties will be replaced.
+    // See [UpdateProperties.properties] for details.
+    UpdateProperties properties = 2;
+    // Updated configuration for the connector.
+    oneof connector_config {
+        // Configuration of the MirrorMaker connector.
+        UpdateConnectorConfigMirrorMakerSpec connector_config_mirrormaker = 10;
+        // Update specification for S3-Sink Connector.
+        UpdateConnectorConfigS3SinkSpec connector_config_s3_sink = 11;
+    }
+}
+message ConnectorConfigMirrorMakerSpec {
+    // Source cluster configuration for the MirrorMaker connector.
+    ClusterConnectionSpec source_cluster = 1;
+    // Target cluster configuration for the MirrorMaker connector.
+    ClusterConnectionSpec target_cluster = 2;
+    // List of Kafka topics, separated by `,`.
+    string topics = 3;
+    // Replication factor for automatically created topics.
+    google.protobuf.Int64Value replication_factor = 4;
+}
+message ClusterConnectionSpec {
+    // Alias of cluster connection configuration.
+    // Examples: `source`, `target`.
+    google.protobuf.StringValue alias = 1;
+    // Type of connection to Apache Kafka® cluster.
+    oneof cluster_connection {
+        // Connection configuration of the cluster the connector belongs to. As all
+        // credentials are already known, leave this parameter empty.
+        ThisCluster this_cluster = 2;
+        // Configuration of connection to an external cluster with all the necessary
+        // credentials.
+        ExternalClusterConnectionSpec external_cluster = 3;
+    }
+}
+message ExternalClusterConnectionSpec {
+    // List of bootstrap servers of the cluster, separated by `,`.
+    google.protobuf.StringValue bootstrap_servers = 1;
+    // SASL username to use for connection to the cluster.
+    google.protobuf.StringValue sasl_username = 2;
+    // SASL password to use for connection to the cluster.
+    google.protobuf.StringValue sasl_password = 3;
+    // SASL mechanism to use for connection to the cluster.
+    google.protobuf.StringValue sasl_mechanism = 4;
+    // Security protocol to use for connection to the cluster.
+    google.protobuf.StringValue security_protocol = 5;
+    // CA in PEM format to connect to external cluster.
+    // Lines of certificate separated by '\n' symbol.
+    google.protobuf.StringValue ssl_truststore_certificates = 6;
+}
+// Specification for Kafka S3-Sink Connector.
+message ConnectorConfigS3SinkSpec {
+    // List of Kafka topics, separated by ','.
+    string topics = 1;
+    // The compression type used for files put on S3.
+    // The supported values are: `gzip`, `snappy`, `zstd`, `none`.
+    // Optional, the default is `none`.
+    // Empty value will be represent as `none`.
+    string file_compression_type = 2;
+    // Max records per file.
+    google.protobuf.Int64Value file_max_records = 3;
+    // Credentials for connecting to S3 storage.
+    S3ConnectionSpec s3_connection = 4;
+}
+// Specification for update Kafka Mirror Maker Connector.
+message UpdateConnectorConfigMirrorMakerSpec {
+    // Source cluster configuration for the MirrorMaker connector.
+    ClusterConnectionSpec source_cluster = 1;
+    // Target cluster configuration for the MirrorMaker connector.
+    ClusterConnectionSpec target_cluster = 2;
+    // List of Kafka topics, separated by ','.
+    google.protobuf.StringValue topics = 3;
+    // Replication factor for automatically created topics.
+    google.protobuf.Int64Value replication_factor = 4;
+}
+// Specification for update Kafka S3-Sink Connector.
+message UpdateConnectorConfigS3SinkSpec {
+    // List of Kafka topics, separated by ','.
+    google.protobuf.StringValue topics = 1;
+    // Max records per file.
+    google.protobuf.Int64Value file_max_records = 2;
+    // Credentials for connecting to S3 storage.
+    S3ConnectionSpec s3_connection = 3;
+}
+// Specification for S3Connection -
+// settings of connection to AWS-compatible S3 storage, that
+// are source or target of Kafka S3-connectors.
+message S3ConnectionSpec {
+    google.protobuf.StringValue bucket_name = 1;
+    google.protobuf.StringValue access_key_id = 2;
+    google.protobuf.StringValue secret_access_key = 3;
+    google.protobuf.StringValue endpoint = 4;
+    // Default is 'us-east-1'.
+    google.protobuf.StringValue region = 5;
+}
+message Connector {
+    enum Health {
+        // Health of the connector is unknown.
+        HEALTH_INVALID = 0;
+        // Connector is running.
+        HEALTH_ALIVE = 1;
+        // Connector has failed to start.
+        HEALTH_DEAD = 2;
+    }
+    enum Status {
+        // Connector state is unknown.
+        STATUS_INVALID = 0;
+        // Connector is running normally.
+        STATUS_RUNNING = 1;
+        // Connector has encountered a problem and cannot operate.
+        STATUS_ERROR = 2;
+        // Connector is paused.
+        STATUS_PAUSED = 3;
+    }
+    // Name of the connector.
+    string name = 1;
+    // Maximum number of connector tasks. Default value is the number of brokers.
+    google.protobuf.Int64Value tasks_max = 2;
+    // A set of properties passed to Managed Service for Apache Kafka® with the
+    // connector configuration.
+    // Example: `sync.topics.config.enabled: true`.
+    map<string,string> properties = 3;
+    // Connector health.
+    Health health = 4;
+    // Current status of the connector.
+    Status status = 5;
+    // ID of the Apache Kafka® cluster that the connector belongs to.
+    string cluster_id = 6;
+    // Additional settings for the connector.
+    oneof connector_config {
+        // Configuration of the MirrorMaker connector.
+        ConnectorConfigMirrorMaker connector_config_mirrormaker = 10;
+        // Configuration of S3-Sink connector.
+        ConnectorConfigS3Sink connector_config_s3_sink = 11;
+    }
+}
+message ConnectorConfigMirrorMaker {
+    // Source cluster connection configuration.
+    ClusterConnection source_cluster = 1;
+    // Target cluster connection configuration.
+    ClusterConnection target_cluster = 2;
+    // List of Kafka topics, separated by `,`.
+    string topics = 3;
+    // Replication factor for automatically created topics.
+    google.protobuf.Int64Value replication_factor = 4;
+}
+message ClusterConnection {
+    // Alias of cluster connection configuration.
+    // Examples: `source`, `target`.
+    string alias = 1;
+    // Type of connection to Apache Kafka® cluster.
+    oneof cluster_connection {
+        // Connection configuration of the cluster the connector belongs to. As all
+        // credentials are already known, leave this parameter empty.
+        ThisCluster this_cluster = 2;
+        // Configuration of connection to an external cluster with all the necessary
+        // credentials.
+        ExternalClusterConnection external_cluster = 3;
+    }
+}
+message ThisCluster {
+}
+message ExternalClusterConnection {
+    // List of bootstrap servers of the cluster, separated by `,`.
+    string bootstrap_servers = 1;
+    // SASL username to use for connection to the cluster.
+    string sasl_username = 2;
+    // SASL mechanism to use for connection to the cluster.
+    string sasl_mechanism = 3;
+    // Security protocol to use for connection to the cluster.
+    string security_protocol = 4;
+}
+// An Apache Kafka® S3-Sink connector resource.
+message ConnectorConfigS3Sink {
+    // List of Kafka topics, separated by ','.
+    string topics = 1;
+    // The compression type used for files put on S3.
+    // The supported values are: `gzip`, `snappy`, `zstd`, `none`.
+    // Optional, the default is `none`.
+    // Empty value will be represent as `none`.
+    string file_compression_type = 2;
+    // Max records per file.
+    google.protobuf.Int64Value file_max_records = 3;
+    // Credentials for connecting to S3 storage.
+    S3Connection s3_connection = 4;
+}
+// Resource for S3Connection -
+// settings of connection to AWS-compatible S3 storage, that
+// are source or target of Kafka S3-connectors.
+message S3Connection {
+    string bucket_name = 1;
+    string access_key_id = 2;
+    string endpoint = 3;
+    // Default is 'us-east-1'
+    string region = 4;
+}

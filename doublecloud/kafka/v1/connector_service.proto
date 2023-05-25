@@ -1,0 +1,138 @@
+syntax = "proto3";
+
+package doublecloud.kafka.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/kafka/v1;kafka";
+
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+import "doublecloud/kafka/v1/connector.proto";
+
+// A set of methods for managing Apache Kafka® connectors.
+service ConnectorService {
+    // Returns information about an Apache Kafka® connector.
+    rpc Get(GetConnectorRequest) returns (Connector);
+    // Retrieves the list of Apache Kafka® connectors in a cluster.
+    rpc List(ListConnectorsRequest) returns (ListConnectorsResponse);
+    // Creates a new Apache Kafka® connector in a cluster.
+    rpc Create(CreateConnectorRequest) returns (doublecloud.v1.Operation);
+    // Updates an Apache Kafka® connector.
+    rpc Update(UpdateConnectorRequest) returns (doublecloud.v1.Operation);
+    // Deletes an Apache Kafka® connector.
+    rpc Delete(DeleteConnectorRequest) returns (doublecloud.v1.Operation);
+    // Resumes an Apache Kafka® connector.
+    rpc Resume(ResumeConnectorRequest) returns (doublecloud.v1.Operation);
+    // Pauses an Apache Kafka® connector.
+    rpc Pause(PauseConnectorRequest) returns (doublecloud.v1.Operation);
+}
+message GetConnectorRequest {
+    // ID of the Apache Kafka® cluster the connector belongs to.
+    // 
+    // To get this ID, make a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Name of the Apache Kafka® connector to return information about.
+    // 
+    // To get this name, make a [ConnectorService.List] request.
+    string connector_name = 2;
+}
+message ListConnectorsRequest {
+    // ID of the Apache Kafka® cluster to list connectors in.
+    // 
+    // To get this ID, make a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Paging information of the request.
+    // See [doublecloud.priv.v1.Paging] for details
+    // 
+    // Following constraints applied:
+    // * page_size will be set to 1000 items when exceeded
+    // * page_size expected to be >= 0
+    // * default page_size is 100
+    doublecloud.v1.Paging paging = 2;
+}
+message ListConnectorsResponse {
+    // List of Apache Kafka® Connectors.
+    repeated Connector connectors = 1;
+    // Pagination information of the response
+    // See [doublecloud.priv.v1.NextPage] for details
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateConnectorRequest {
+    // ID of the Apache Kafka® cluster to create the connector in.
+    // 
+    // To get this ID, make a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Configuration of the connector to create.
+    ConnectorSpec connector_spec = 2;
+}
+message CreateConnectorMetadata {
+    // ID of the Apache Kafka® cluster the connector is being created in.
+    string cluster_id = 1;
+    // Name of the Apache Kafka® connector that is being created.
+    string connector_name = 2;
+}
+message UpdateConnectorRequest {
+    // ID of the Apache Kafka® cluster to update the connector in.
+    // 
+    // To get this ID, make a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Name of the connector to update.
+    // 
+    // To get this name, make a [ConnectorService.List] request.
+    string connector_name = 2;
+    // Configuration of the connector to update.
+    UpdateConnectorSpec connector_spec = 4;
+}
+message UpdateConnectorMetadata {
+    // ID of the Apache Kafka® cluster the connector is being updated in.
+    string cluster_id = 1;
+    // Name of the Apache Kafka® connector that is being updated.
+    string connector_name = 2;
+}
+message DeleteConnectorRequest {
+    // ID of the Apache Kafka® cluster to delete the connector from.
+    // 
+    // To get this ID, make a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Name of the connector to delete.
+    // 
+    // To get this name, make a [ConnectorService.List] request.
+    string connector_name = 2;
+}
+message DeleteConnectorMetadata {
+    // ID of the Apache Kafka® cluster the connector is being deleted from.
+    string cluster_id = 1;
+    // Name of the Apache Kafka® connector that is being deleted.
+    string connector_name = 2;
+}
+message ResumeConnectorRequest {
+    // ID of the Apache Kafka® cluster to resume the connector in.
+    // 
+    // To get this ID, make a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Name of the Apache Kafka® connector to resume.
+    // 
+    // To get this name, make a [ConnectorService.List] request.
+    string connector_name = 2;
+}
+message ResumeConnectorMetadata {
+    // ID of the Apache Kafka® cluster the connector is being resumed in.
+    string cluster_id = 1;
+    // Name of the Apache Kafka® connector that is beign resumed.
+    string connector_name = 2;
+}
+message PauseConnectorRequest {
+    // ID of the Apache Kafka® cluster to pause the connector in.
+    // 
+    // To get this ID, make a [ClusterService.List] request.
+    string cluster_id = 1;
+    // Name of the Apache Kafka® connector to pause.
+    // 
+    // To get this name, make a [ConnectorService.List] request.
+    string connector_name = 2;
+}
+message PauseConnectorMetadata {
+    // ID of the Apache Kafka® cluster the connector is being paused in.
+    string cluster_id = 1;
+    // Name of the Apache Kafka® connector that is being paused.
+    string connector_name = 2;
+}
