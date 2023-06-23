@@ -44,6 +44,7 @@ message Network {
     // Provider based resources
     oneof external_resources {
         AwsExternalResources aws = 12;
+        GcpExternalResources gcp = 14;
     }
     // True if network was imported using BYOA.
     bool is_external = 13;
@@ -65,4 +66,7 @@ message AwsExternalResources {
     google.protobuf.StringValue stack_id = 6;
     // CloudFormation template version.
     google.protobuf.StringValue cf_template_version = 7;
+}
+message GcpExternalResources {
+    string subnetwork_link = 1;
 }

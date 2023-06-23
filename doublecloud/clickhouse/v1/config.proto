@@ -31,9 +31,13 @@ message ClickhouseConfig {
         google.protobuf.Int64Value min_bytes_for_wide_part = 9;
         google.protobuf.Int64Value min_rows_for_wide_part = 10;
         google.protobuf.BoolValue ttl_only_drop_parts = 11;
+        google.protobuf.BoolValue allow_remote_fs_zero_copy_replication = 14;
         google.protobuf.Duration merge_with_ttl_timeout = 15;
         google.protobuf.Duration merge_with_recompression_ttl_timeout = 16;
-        google.protobuf.BoolValue allow_remote_fs_zero_copy_replication = 14;
+        google.protobuf.Int64Value max_parts_in_total = 17;
+        google.protobuf.Int64Value max_number_of_merges_with_ttl_in_pool = 18;
+        google.protobuf.Duration cleanup_delay_period = 19;
+        google.protobuf.Int64Value number_of_free_entries_in_pool_to_execute_mutation = 20;
     }
     message Kafka {
         enum SecurityProtocol {
@@ -103,10 +107,46 @@ message ClickhouseConfig {
     google.protobuf.Int64Value background_merges_mutations_concurrency_ratio = 15;
     google.protobuf.Int64Value total_memory_profiler_step = 16;
     google.protobuf.DoubleValue total_memory_tracker_sample_probability = 23;
+    google.protobuf.Int64Value background_message_broker_schedule_pool_size = 24;
     MergeTree merge_tree = 17;
     repeated Compression compression = 18;
     map<string,GraphiteRollup> graphite_rollup = 19;
     Kafka kafka = 20;
     map<string,Kafka> kafka_topics = 21;
     Rabbitmq rabbitmq = 22;
+    google.protobuf.Int64Value query_log_retention_size = 25;
+    google.protobuf.Duration query_log_retention_time = 26;
+    google.protobuf.BoolValue query_thread_log_enabled = 27;
+    google.protobuf.Int64Value query_thread_log_retention_size = 28;
+    google.protobuf.Duration query_thread_log_retention_time = 29;
+    google.protobuf.BoolValue query_views_log_enabled = 30;
+    google.protobuf.Int64Value query_views_log_retention_size = 31;
+    google.protobuf.Duration query_views_log_retention_time = 32;
+    google.protobuf.Int64Value part_log_retention_size = 33;
+    google.protobuf.Duration part_log_retention_time = 34;
+    google.protobuf.BoolValue metric_log_enabled = 35;
+    google.protobuf.Int64Value metric_log_retention_size = 36;
+    google.protobuf.Duration metric_log_retention_time = 37;
+    google.protobuf.BoolValue asynchronous_metric_log_enabled = 38;
+    google.protobuf.Int64Value asynchronous_metric_log_retention_size = 39;
+    google.protobuf.Duration asynchronous_metric_log_retention_time = 40;
+    google.protobuf.BoolValue trace_log_enabled = 41;
+    google.protobuf.Int64Value trace_log_retention_size = 42;
+    google.protobuf.Duration trace_log_retention_time = 43;
+    google.protobuf.BoolValue text_log_enabled = 44;
+    google.protobuf.Int64Value text_log_retention_size = 45;
+    google.protobuf.Duration text_log_retention_time = 46;
+    LogLevel text_log_level = 47;
+    google.protobuf.BoolValue opentelemetry_span_log_enabled = 48;
+    google.protobuf.Int64Value opentelemetry_span_log_retention_size = 49;
+    google.protobuf.Duration opentelemetry_span_log_retention_time = 50;
+    google.protobuf.BoolValue session_log_enabled = 51;
+    google.protobuf.Int64Value session_log_retention_size = 52;
+    google.protobuf.Duration session_log_retention_time = 53;
+    google.protobuf.BoolValue zookeeper_log_enabled = 54;
+    google.protobuf.Int64Value zookeeper_log_retention_size = 55;
+    google.protobuf.Duration zookeeper_log_retention_time = 56;
+    google.protobuf.BoolValue asynchronous_insert_log_enabled = 57;
+    google.protobuf.Int64Value asynchronous_insert_log_retention_size = 58;
+    google.protobuf.Duration asynchronous_insert_log_retention_time = 59;
 }

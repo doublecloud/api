@@ -65,7 +65,7 @@ message KafkaTargetTopicSettings {
         // Full topic name
         KafkaTargetTopic topic = 1;
         // Topic prefix
-        // 
+        //
         // Analogue of the Debezium setting database.server.name.
         // Messages will be sent to topic with name <topic_prefix>.<schema>.<table_name>.
         string topic_prefix = 2;

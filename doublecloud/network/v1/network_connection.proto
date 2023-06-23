@@ -27,6 +27,8 @@ message NetworkConnection {
         // = { api_scopes: {DoubleCloud: API_SCOPE_PUBLIC}}];
         // AWS connection info.
         AWSNetworkConnectionInfo aws = 4;
+        // Google Cloud connection info.
+        GoogleNetworkConnectionInfo google = 5;
     }
     // Creation timestamp.
     google.protobuf.Timestamp create_time = 7;
@@ -62,4 +64,12 @@ message AWSNetworkConnectionPeeringInfo {
     // managed AWS IPv6 CIDR block. Customer will create route to this CIDR using
     // Peering Connection.
     string managed_ipv6_cidr_block = 8;
+}
+message GoogleNetworkConnectionInfo {
+    // Name of this peering.
+    string name = 1;
+    // The URL of the peer network.
+    string peer_network_url = 2;
+    // The URL of the managed GCP network.
+    string managed_network_url = 3;
 }

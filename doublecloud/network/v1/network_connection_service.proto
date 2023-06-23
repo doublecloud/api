@@ -42,6 +42,8 @@ message CreateNetworkConnectionRequest {
     oneof params {
         // Connect DataCloud Network with AWS VPC.
         CreateAWSNetworkConnectionRequest aws = 3;
+        // Connect DataCloud Network with Google Cloud VPC.
+        CreateGoogleNetworkConnectionRequest google = 4;
     }
     // Description of the Network Connection.
     string description = 6;
@@ -65,6 +67,17 @@ message CreateAWSNetworkConnectionPeeringRequest {
     // IPv6 CIDR block. Data Cloud will create route to this CIDR using Peering
     // Connection.
     string ipv6_cidr_block = 5;
+}
+message CreateGoogleNetworkConnectionRequest {
+    // Name of this peering. The name must comply with RFC1035. Specifically, the name
+    // must be 1-63 characters long and match regular expression
+    // `[a-z]([-a-z0-9]*[a-z0-9])?`. The first character must be a lowercase letter,
+    // and all the following characters must be a dash, lowercase letter, or digit,
+    // except the last character, which cannot be a dash.
+    string name = 1;
+    // The URL of the peer network. It can be either full URL or partial URL. Partial
+    // URL must contain project.
+    string peer_network_url = 2;
 }
 message DeleteNetworkConnectionRequest {
     // ID of the Network Connection to delete.
