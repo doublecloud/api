@@ -31,6 +31,9 @@ message GetWorkbookRequest {
 message GetWorkbookResponse {
     // Workbook config (only dashboards/charts/datasets)
     doublecloud.visualization.v1.Workbook workbook = 1;
+    string id = 2;
+    string title = 3;
+    string project_id = 4;
 }
 
 
