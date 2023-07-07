@@ -97,6 +97,8 @@ message CreateClusterRequest {
     KafkaConfig kafka_config = 12;
     // Configuration of Schema Registry.
     SchemaRegistryConfig schema_registry_config = 13;
+    // Configuration of REST API.
+    RestAPIConfig rest_api_config = 14;
 }
 message UpdateClusterRequest {
     // ID of the Apache Kafka Cluster resource to update.
@@ -120,6 +122,8 @@ message UpdateClusterRequest {
     KafkaConfig kafka_config = 8;
     // Configuration of Schema Registry.
     SchemaRegistryConfig schema_registry_config = 9;
+    // Configuration of REST API.
+    RestAPIConfig rest_api_config = 10;
 }
 message DeleteClusterRequest {
     // ID of the Apache Kafka® cluster to delete.

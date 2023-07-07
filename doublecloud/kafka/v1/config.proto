@@ -19,3 +19,8 @@ message SchemaRegistryConfig {
     // Is Schema Registry enabled for this cluster.
     bool enabled = 1;
 }
+// Configuration for REST API.
+message RestAPIConfig {
+    // Is REST API enabled for this cluster.
+    bool enabled = 1;
+}

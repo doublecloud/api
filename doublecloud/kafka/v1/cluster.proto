@@ -53,6 +53,8 @@ message Cluster {
     MetricsExporterConnectionInfo metrics_exporter_connection_info = 19;
     // Configuration of Schema Registry.
     SchemaRegistryConfig schema_registry_config = 20;
+    // Configuration of REST API.
+    RestAPIConfig rest_api_config = 21;
 }
 // Resources allocated to Apache Kafka® cluster.
 message ClusterResources {
