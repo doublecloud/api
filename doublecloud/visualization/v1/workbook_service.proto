@@ -22,6 +22,8 @@ service WorkbookService {
     rpc DeleteConnection (DeleteWorkbookConnectionRequest) returns (doublecloud.v1.Operation);
     // List all direct fields of dataset with configured data source
     rpc AdviseDatasetFields (AdviseDatasetFieldsRequest) returns (AdviseDatasetFieldsResponse);
+    // List all workbooks for given project_id
+    rpc ListWorkbooks (ListWorkbooksRequest) returns (ListWorkbooksResponse);
 }
 
 
@@ -97,4 +99,12 @@ message AdviseDatasetFieldsRequest {
 message AdviseDatasetFieldsResponse {
     // Dataset (with all direct fields & filled defaults)
     doublecloud.visualization.v1.Dataset dataset = 1;
+}
+
+message ListWorkbooksRequest {
+    string project_id = 1;
+}
+
+message ListWorkbooksResponse {
+    repeated WorkbooksIndexItem workbooks = 1;
 }

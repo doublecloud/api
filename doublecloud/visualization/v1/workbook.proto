@@ -32,3 +32,8 @@ message Connection {
     // Connection config according [spec](dcdoc://visualization-configs/Connection)
     google.protobuf.Value config = 1;
 }
+
+message WorkbooksIndexItem {
+    string id = 1;
+    string title = 2;
+}
