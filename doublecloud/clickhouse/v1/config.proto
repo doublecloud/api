@@ -38,6 +38,10 @@ message ClickhouseConfig {
         google.protobuf.Int64Value max_number_of_merges_with_ttl_in_pool = 18;
         google.protobuf.Duration cleanup_delay_period = 19;
         google.protobuf.Int64Value number_of_free_entries_in_pool_to_execute_mutation = 20;
+        google.protobuf.Int64Value max_avg_part_size_for_too_many_parts = 21;
+        google.protobuf.Duration min_age_to_force_merge_seconds = 22;
+        google.protobuf.BoolValue min_age_to_force_merge_on_partition_only = 23;
+        google.protobuf.Duration merge_selecting_sleep_ms = 24;
     }
     message Kafka {
         enum SecurityProtocol {
@@ -59,6 +63,8 @@ message ClickhouseConfig {
         google.protobuf.StringValue sasl_username = 3;
         google.protobuf.StringValue sasl_password = 4;
         google.protobuf.BoolValue enable_ssl_certificate_verification = 5;
+        google.protobuf.Duration max_poll_interval_ms = 6;
+        google.protobuf.Duration session_timeout_ms = 7;
     }
     message Rabbitmq {
         google.protobuf.StringValue username = 1;
