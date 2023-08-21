@@ -9,6 +9,7 @@ import "doublecloud/transfer/v1/endpoint/common.proto";
 import "doublecloud/transfer/v1/endpoint/kafka.proto";
 import "doublecloud/transfer/v1/endpoint/mongo.proto";
 import "doublecloud/transfer/v1/endpoint/mysql.proto";
+import "doublecloud/transfer/v1/endpoint/object_storage.proto";
 import "doublecloud/transfer/v1/endpoint/postgres.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/s3_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/redshift_source.proto";
@@ -37,6 +38,7 @@ message EndpointSettings {
         endpoint.KafkaSource kafka_source = 8;
         endpoint.MongoSource mongo_source = 9;
         endpoint.ClickhouseSource clickhouse_source = 16;
+        endpoint.ObjectStorageSource object_storage_source = 153;
         endpoint.airbyte.S3Source s3_source = 124;
         endpoint.airbyte.AWSCloudTrailSource aws_cloudtrail_source = 127;
         endpoint.airbyte.BigQuerySource big_query_source = 128;
@@ -51,6 +53,7 @@ message EndpointSettings {
         endpoint.MysqlTarget mysql_target = 101;
         endpoint.PostgresTarget postgres_target = 102;
         endpoint.ClickhouseTarget clickhouse_target = 104;
+        endpoint.ObjectStorageTarget object_storage_target = 109;
         endpoint.KafkaTarget kafka_target = 110;
         endpoint.MongoTarget mongo_target = 111;
     }
