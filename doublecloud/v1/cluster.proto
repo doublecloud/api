@@ -72,6 +72,6 @@ message Access {
     DataServiceList data_services = 3;
 }
 message DataEncryption {
-    // Enable data disk encryption
-    google.protobuf.BoolValue enabled = 1;
+    // deprecated. Encryption is always enabled.
+    google.protobuf.BoolValue enabled = 1 [deprecated = true];
 }
