@@ -40,9 +40,9 @@ message CreateNetworkConnectionRequest {
     string network_id = 1;
     // Provider specific parameters.
     oneof params {
-        // Connect DataCloud Network with AWS VPC.
+        // Connect DoubleCloud Network with AWS VPC.
         CreateAWSNetworkConnectionRequest aws = 3;
-        // Connect DataCloud Network with Google Cloud VPC.
+        // Connect DoubleCloud Network with Google Cloud VPC.
         CreateGoogleNetworkConnectionRequest google = 4;
     }
     // Description of the Network Connection.

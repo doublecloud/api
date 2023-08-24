@@ -96,4 +96,6 @@ message ImportAWSVPCRequest {
     string stack_id = 5;
     // CloudFormation template version.
     string version = 6;
+    // Create private subnets instead of default public.
+    bool private_subnets = 7;
 }

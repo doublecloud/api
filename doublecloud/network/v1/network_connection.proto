@@ -22,9 +22,6 @@ message NetworkConnection {
     string network_id = 2;
     // Provider specific info.
     oneof connection_info {
-        // DataCloud connection info.
-        // DataCloudNetworkConnectionInfo data_cloud = 3 [(dataplatform.options.field_info)
-        // = { api_scopes: {DoubleCloud: API_SCOPE_PUBLIC}}];
         // AWS connection info.
         AWSNetworkConnectionInfo aws = 4;
         // Google Cloud connection info.
