@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package doublecloud.logs.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/logs/v1;logs";
+
+import "google/protobuf/timestamp.proto";
+import "doublecloud/logs/v1/log_source.proto";
+import "doublecloud/v1/paging.proto";
+
+enum SortOrder {
+    // Not specified, so default order = SORT_ORDER_ASCENDING applied.
+    SORT_ORDER_INVALID = 0;
+    // Stream logs from oldest to newest.
+    SORT_ORDER_ASCENDING = 1;
+    // Stream logs staring from newest.
+    SORT_ORDER_DESCENDING = 2;
+}
+enum LogLevel {
+    LOG_LEVEL_INVALID = 0;
+    LOG_LEVEL_DEBUG = 2;
+    LOG_LEVEL_INFO = 3;
+    LOG_LEVEL_WARN = 4;
+    LOG_LEVEL_ERROR = 5;
+    LOG_LEVEL_FATAL = 6;
+}
+message Criteria {
+    // Log sources to read from.
+    repeated LogSource sources = 1;
+    // Start timestamp for the logs request.
+    google.protobuf.Timestamp from_time = 2;
+    // End timestamp for the logs request.
+    // If streaming and this field is not set, all existing logs will be sent and then
+    // the new ones as
+    // they appear. In essence it has 'tail -f' semantics.
+    google.protobuf.Timestamp to_time = 3;
+    // Filter on log level, empty list means no filter.
+    repeated LogLevel levels = 4;
+    // A filter expression that filters resources listed in the response.
+    // The filtering language allows you to:
+    // 
+    // - pinpoint searches by leveraging parameter values and comparison operators.
+    // - sophisticated filters using logical operators (AND, OR, NOT).
+    // Examples:
+    // timestamp > "2023-06-08T00:00:00Z"
+    // message = "warning" AND message <> "error dialing endpoint"
+    string filter = 5;
+    // Order of the log messages in the stream. Ignored if to_time is not specified.
+    SortOrder sort_order = 6;
+    doublecloud.v1.NextPage paging = 7;
+}
+message LogRecord {
+    // Origin of the log message.
+    LogSource source = 1;
+    // Optional field. Set if applicable for source type. For example host for
+    // databases.
+    string instance = 2;
+    // Timestamp of log string.
+    google.protobuf.Timestamp record_time = 3;
+    // Severity of the message.
+    LogLevel level = 4;
+    // Log message
+    string message = 5;
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package doublecloud.logs.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/logs/v1;logs";
+
+enum LogSourceType {
+    LOG_SOURCE_TYPE_INVALID = 0;
+    LOG_SOURCE_TYPE_CLICKHOUSE = 1;
+    LOG_SOURCE_TYPE_KAFKA = 2;
+    LOG_SOURCE_TYPE_TRANSFER = 3;
+}
+message LogSource {
+    // Source service that produces logs
+    LogSourceType type = 1;
+    // Log source resource id.
+    string id = 2;
+}
