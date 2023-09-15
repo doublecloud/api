@@ -46,4 +46,54 @@ message Transfer {
     TransferStatus status = 10;
     TransferType type = 12;
     string warning = 15;
+    Transformation transformation = 17;
+}
+message TablesFilter {
+    repeated string include_tables = 1;
+    repeated string exclude_tables = 2;
+}
+message ColumnsFilter {
+    repeated string include_columns = 1;
+    repeated string exclude_columns = 2;
+}
+message ReplacePrimaryKeyTransformer {
+    TablesFilter tables = 1;
+    repeated string keys = 2;
+}
+message ToStringTransformer {
+    TablesFilter tables = 1;
+    ColumnsFilter columns = 2;
+}
+message DBTTransformer {
+    enum Operation {
+        OPERATION_UNSPECIFIED = 0;
+        OPERATION_BUILD = 1;
+        OPERATION_COMPILE = 2;
+        OPERATION_DEBUG = 3;
+        OPERATION_PARSE = 4;
+        OPERATION_RUN = 5;
+        OPERATION_SEED = 6;
+        OPERATION_SNAPSHOT = 7;
+        OPERATION_TEST = 8;
+    }
+    string git_repository_link = 1;
+    string git_branch = 2;
+    string profile_name = 3;
+    Operation operation = 4;
+}
+message TableSplitterTransformer {
+    TablesFilter tables = 1;
+    repeated string columns = 2;
+    string splitter = 3;
+}
+message Transformer {
+    oneof transformer {
+        ReplacePrimaryKeyTransformer replace_primary_key = 6;
+        ToStringTransformer convert_to_string = 7;
+        DBTTransformer dbt = 12;
+        TableSplitterTransformer table_splitter_transformer = 13;
+    }
+}
+message Transformation {
+    repeated Transformer transformers = 1;
 }
