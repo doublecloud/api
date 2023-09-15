@@ -51,6 +51,7 @@ message CreateTransferRequest {
     map<string,string> labels = 8;
     string project_id = 4;
     TransferType type = 6;
+    Transformation transformation = 10;
 }
 message UpdateTransferRequest {
     // Identifier of the transfer to be updated.
@@ -60,6 +61,7 @@ message UpdateTransferRequest {
     map<string,string> labels = 6;
     // The new transfer name. Must be unique within the folder.
     string name = 4;
+    Transformation transformation = 8;
 }
 message DeleteTransferRequest {
     string transfer_id = 1;
