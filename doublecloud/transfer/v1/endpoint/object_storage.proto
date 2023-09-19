@@ -113,6 +113,7 @@ message ObjectStorageDataSchema {
 message ObjectStorageResultTable {
     string table_namespace = 1;
     string table_name = 2;
+    bool add_system_cols = 3;
 }
 message ObjectStorageEventSource {
     message SQS {
