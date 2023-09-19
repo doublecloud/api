@@ -65,8 +65,19 @@ message ClusterResources {
         // Number of shards in the cluster.
         google.protobuf.Int64Value shard_count = 4;
     }
+    message Keeper {
+        // ID of the preset for computational resources available to a host (CPU, memory
+        // etc.).
+        string resource_preset_id = 1;
+        // Volume of the storage available to a host, in bytes.
+        google.protobuf.Int64Value disk_size = 2;
+        // Number of keeper hosts.
+        google.protobuf.Int64Value replica_count = 3;
+    }
     // Resources allocated to ClickHouse hosts.
     Clickhouse clickhouse = 1;
+    // Resources allocated to dedicated ClickHouse Keeper hosts.
+    Keeper dedicated_keeper = 2;
 }
 message ConnectionInfo {
     // Host to connect.
