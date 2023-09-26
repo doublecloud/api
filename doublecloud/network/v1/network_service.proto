@@ -34,7 +34,7 @@ message ListNetworksRequest {
         google.protobuf.StringValue region_id = 2;
         // Status of the network.
         Network.NetworkStatus status = 3;
-        // Flag to show if a network is external (BYOA feature)
+        // Flag to show if a network is external (BYOC feature)
         google.protobuf.BoolValue is_external = 4;
     }
     // ID of the project to list Networks in.
@@ -81,6 +81,8 @@ message ImportNetworkRequest {
     oneof params {
         // Import AWS VPC.
         ImportAWSVPCRequest aws = 4;
+        // Import Google Cloud VPC.
+        ImportGoogleVPCRequest google = 5;
     }
 }
 message ImportAWSVPCRequest {
@@ -98,4 +100,16 @@ message ImportAWSVPCRequest {
     string version = 6;
     // Create private subnets instead of default public.
     bool private_subnets = 7;
+}
+message ImportGoogleVPCRequest {
+    // Service account email.
+    string service_account_email = 1;
+    // Name of a project where is an imported network is located.
+    string project_name = 2;
+    // Name of a network to import.
+    string network_name = 3;
+    // ID of a region to place instances.
+    string region_id = 4;
+    // Name of a subnetwork to import.
+    string subnetwork_name = 5;
 }

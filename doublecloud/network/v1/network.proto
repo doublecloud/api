@@ -46,18 +46,11 @@ message Network {
         AwsExternalResources aws = 12;
         GcpExternalResources gcp = 14;
     }
-    // True if network was imported using BYOA.
+    // True if network was imported using BYOC.
     bool is_external = 13;
 }
 message AwsExternalResources {
-    message Subnet {
-        string id = 1;
-        string zone_id = 2;
-    }
     string vpc_id = 1;
-    // List of subnets
-    repeated Subnet subnets = 2;
-    string security_group_id = 3;
     // ID of the VPC owner account.
     google.protobuf.StringValue account_id = 4;
     // IAM role ARN to use for resource creations.
@@ -66,7 +59,16 @@ message AwsExternalResources {
     google.protobuf.StringValue stack_id = 6;
     // CloudFormation template version.
     google.protobuf.StringValue cf_template_version = 7;
+    // Use private subnets instead of default public.
+    google.protobuf.BoolValue private_subnets = 8;
 }
 message GcpExternalResources {
-    string subnetwork_link = 1;
+    // Name of the BYOC project.
+    google.protobuf.StringValue project_name = 2;
+    // ServiceAccount email to use for resource creations.
+    google.protobuf.StringValue service_account_email = 3;
+    // Name of a network to place instances.
+    google.protobuf.StringValue network_name = 4;
+    // Name of a subnetwork to place instances.
+    google.protobuf.StringValue subnetwork_name = 5;
 }
