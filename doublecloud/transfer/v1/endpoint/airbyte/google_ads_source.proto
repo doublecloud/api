@@ -5,10 +5,6 @@ package doublecloud.transfer.v1.endpoint.airbyte;
 option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
 
 message GoogleAdsSource {
-    message CustomQuery {
-        string query = 1;
-        string table_name = 2;
-    }
     message Credentials {
         string developer_token = 1;
         string client_id = 2;
@@ -16,6 +12,11 @@ message GoogleAdsSource {
         string access_token = 4;
         string refresh_token = 5;
     }
+    message CustomQuery {
+        string query = 1;
+        string table_name = 2;
+    }
+    Credentials credentials = 7;
     string customer_id = 1;
     string start_date = 2;
     string end_date = 3;
