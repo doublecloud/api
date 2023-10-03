@@ -49,7 +49,10 @@ message KafkaSource {
     // Authentication settings
     KafkaAuth auth = 2;
     // Full source topic name
+    // Deprecated in favor of topic names
     string topic_name = 4;
+    // List of topic names to read
+    repeated string topic_names = 8;
     // Data parsing rules
     Parser parser = 7;
 }
