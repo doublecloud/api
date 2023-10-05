@@ -17,7 +17,7 @@ enum SortOrder {
     SORT_ORDER_DESCENDING = 2;
 }
 enum LogLevel {
-    LOG_LEVEL_INVALID = 0;
+    LOG_LEVEL_DEFAULT = 0;
     LOG_LEVEL_DEBUG = 2;
     LOG_LEVEL_INFO = 3;
     LOG_LEVEL_WARN = 4;

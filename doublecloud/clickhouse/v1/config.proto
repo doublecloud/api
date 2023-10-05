@@ -10,7 +10,7 @@ import "google/protobuf/wrappers.proto";
 // ClickHouse server configuration.
 message ClickhouseConfig {
     enum LogLevel {
-        LOG_LEVEL_INVALID = 0;
+        LOG_LEVEL_DEFAULT = 0;
         LOG_LEVEL_TRACE = 1;
         LOG_LEVEL_DEBUG = 2;
         LOG_LEVEL_INFORMATION = 3;
