@@ -57,6 +57,9 @@ message ClickhouseSharding {
         google.protobuf.Empty round_robin = 4;
     }
 }
+message ClickhouseMigrationOptions {
+    bool add_new_columns = 18;
+}
 message ClickhouseSource {
     ClickhouseConnection connection = 1;
     // While list of tables for replication. If none or empty list is presented - will
@@ -72,5 +75,6 @@ message ClickhouseTarget {
     // Alternative table names in target
     repeated AltName alt_names = 17;
     ClickhouseSharding sharding = 22;
+    ClickhouseMigrationOptions migration_options = 18;
     ClickhouseCleanupPolicy cleanup_policy = 21;
 }
