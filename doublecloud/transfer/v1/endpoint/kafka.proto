@@ -76,6 +76,8 @@ message KafkaTargetTopicSettings {
         // Messages will be sent to topic with name <topic_prefix>.<schema>.<table_name>.
         string topic_prefix = 2;
     }
+    // ConfigEntries for newly created topics by transfer
+    repeated TopicConfigEntry topic_config_entries = 3;
 }
 message KafkaTargetTopic {
     // Topic name
@@ -83,4 +85,8 @@ message KafkaTargetTopic {
     // Save transactions order
     // Not to split events queue into separate per-table queues.
     bool save_tx_order = 2;
+}
+message TopicConfigEntry {
+    string config_name = 1;
+    string config_value = 2;
 }
