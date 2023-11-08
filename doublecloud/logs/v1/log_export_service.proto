@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package doublecloud.logs.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/logs/v1;logs";
+
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+import "doublecloud/logs/v1/log_export.proto";
+import "doublecloud/logs/v1/log_source.proto";
+
+service LogExportService {
+    rpc Get(GetExportRequest) returns (LogsExport);
+    rpc List(ListExportRequest) returns (ListExportResponse);
+    rpc Create(CreateExportRequest) returns (doublecloud.v1.Operation);
+    rpc Update(UpdateExportRequest) returns (doublecloud.v1.Operation);
+    rpc Delete(DeleteExportRequest) returns (doublecloud.v1.Operation);
+}
+message ListExportRequest {
+    string project_id = 1;
+    doublecloud.v1.Paging paging = 2;
+}
+message ListExportResponse {
+    repeated LogsExport exports = 1;
+    doublecloud.v1.NextPage next_page = 2;
+}
+message GetExportRequest {
+    string id = 1;
+}
+message CreateExportRequest {
+    string project_id = 1;
+    string name = 2;
+    string description = 3;
+    repeated LogSource sources = 4;
+    LogsTarget target = 5;
+}
+message UpdateExportRequest {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    repeated LogSource sources = 4;
+    LogsTarget target = 5;
+}
+message DeleteExportRequest {
+    string id = 1;
+}

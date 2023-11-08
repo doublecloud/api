@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package doublecloud.logs.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/logs/v1;logs";
+
+import "google/protobuf/timestamp.proto";
+import "doublecloud/logs/v1/log_source.proto";
+import "doublecloud/v1/paging.proto";
+
+enum LogExportStatus {
+    LOG_EXPORT_STATUS_UNSPECIFIED = 0;
+    LOG_EXPORT_STATUS_PENDING = 1;
+    LOG_EXPORT_STATUS_RUNNING = 2;
+    LOG_EXPORT_STATUS_STOPPED = 3;
+    LOG_EXPORT_STATUS_FAILED = 4;
+}
+message LogsExport {
+    string id = 1;
+    string project_id = 2;
+    string name = 3;
+    string description = 4;
+    repeated LogSource sources = 5;
+    LogsTarget target = 6;
+    LogExportStatus status = 7;
+}
+message LogsTargetS3 {
+    string bucket = 1;
+    string bucket_layout = 2;
+    string aws_access_key_id = 3;
+    string aws_secret_access_key = 4;
+    string region = 5;
+    string endpoint = 6;
+    bool disable_ssl = 7;
+    bool skip_verify_ssl_cert = 8;
+}
+message LogsTargetDatadog {
+    // see:
+    // https://a.yandex-team.ru/arcadia/vendor/github.com/DataDog/datadog-api-client-go/v2/api/datadog/configuration.go#L128
+    enum DatadogHost {
+        DATADOG_HOST_UNSPECIFIED = 0;
+        DATADOG_HOST_DATADOGHQ = 1;
+        DATADOG_HOST_US3_DATADOGHQ = 2;
+        DATADOG_HOST_US5_DATADOGHQ_COM = 3;
+        DATADOG_HOST_AP1_DATADOGHQ_COM = 4;
+        DATADOG_HOST_DATADOGHQ_EU = 5;
+        DATADOG_HOST_DDOGGOV_COM = 6;
+    }
+    string api_key = 1;
+    DatadogHost datadog_host = 2;
+}
+message LogsTarget {
+    oneof target {
+        LogsTargetS3 s3 = 1;
+        LogsTargetDatadog datadog = 2;
+    }
+}
