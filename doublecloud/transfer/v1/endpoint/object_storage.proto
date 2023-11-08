@@ -19,6 +19,12 @@ enum ObjectStorageSerializationFormat {
     OBJECT_STORAGE_SERIALIZATION_FORMAT_RAW = 3;
     OBJECT_STORAGE_SERIALIZATION_FORMAT_PARQUET = 4;
 }
+enum ObjectStorageUnparsed {
+    OBJECT_STORAGE_UNPARSED_UNSPECIFIED = 0;
+    OBJECT_STORAGE_UNPARSED_RETRY = 1;
+    OBJECT_STORAGE_UNPARSED_FAIL = 2;
+    OBJECT_STORAGE_UNPARSED_CONTINUE = 3;
+}
 message ObjectStorageConnection {
     string aws_access_key_id = 3;
     string aws_secret_access_key = 4;
@@ -115,6 +121,9 @@ message ObjectStorageResultTable {
     string table_name = 2;
     bool add_system_cols = 3;
 }
+message ObjectStorageSourceAdvancedSettings {
+    ObjectStorageUnparsed unparsed_mode = 1;
+}
 message ObjectStorageEventSource {
     message SQS {
         string queue_name = 1;
@@ -143,4 +152,5 @@ message ObjectStorageSource {
     ObjectStorageResultTable result_table = 4;
     ObjectStorageDataSchema result_schema = 5;
     ObjectStorageEventSource event_source = 6;
+    ObjectStorageSourceAdvancedSettings advanced_settings = 7;
 }
