@@ -23,6 +23,7 @@ message LogsExport {
     repeated LogSource sources = 5;
     LogsTarget target = 6;
     LogExportStatus status = 7;
+    string status_reason = 8;
 }
 message LogsTargetS3 {
     string bucket = 1;
