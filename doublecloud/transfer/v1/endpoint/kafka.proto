@@ -50,7 +50,7 @@ message KafkaSource {
     KafkaAuth auth = 2;
     // Full source topic name
     // Deprecated in favor of topic names
-    string topic_name = 4;
+    string topic_name = 4 [deprecated = true];
     // Data parsing rules
     Parser parser = 7;
     // List of topic names to read
