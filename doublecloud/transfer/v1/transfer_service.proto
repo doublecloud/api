@@ -50,8 +50,11 @@ message CreateTransferRequest {
     string description = 3;
     map<string,string> labels = 8;
     string project_id = 4;
+    Runtime runtime = 5;
     TransferType type = 6;
+    RegularSnapshot regular_snapshot = 9;
     Transformation transformation = 10;
+    DataObjects data_objects = 12;
 }
 message UpdateTransferRequest {
     // Identifier of the transfer to be updated.
@@ -59,9 +62,12 @@ message UpdateTransferRequest {
     // The new description for the transfer.
     string description = 2;
     map<string,string> labels = 6;
+    Runtime runtime = 3;
     // The new transfer name. Must be unique within the folder.
     string name = 4;
+    RegularSnapshot regular_snapshot = 7;
     Transformation transformation = 8;
+    DataObjects data_objects = 10;
 }
 message DeleteTransferRequest {
     string transfer_id = 1;

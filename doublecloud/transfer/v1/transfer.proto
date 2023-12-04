@@ -34,6 +34,18 @@ enum TransferStatus {
     // Transfer reach terminal phase
     DONE = 8;
 }
+enum RegularSnapshotScheduleInterval {
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_UNSPECIFIED = 0;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_15MIN = 2;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_30MIN = 3;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_HOUR = 4;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_2HOUR = 5;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_3HOUR = 6;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_6HOUR = 7;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_8HOUR = 8;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_12HOUR = 9;
+    REGULAR_SNAPSHOT_SCHEDULE_INTERVAL_DAY = 10;
+}
 enum Flavor {
     FLAVOR_UNSPECIFIED = 0;
     TINY = 4;
@@ -54,7 +66,9 @@ message Transfer {
     TransferStatus status = 10;
     TransferType type = 12;
     string warning = 15;
+    RegularSnapshot regular_snapshot = 16;
     Transformation transformation = 17;
+    DataObjects data_objects = 19;
 }
 message Runtime {
     oneof runtime {
@@ -64,6 +78,25 @@ message Runtime {
 }
 message ServerlessRuntime {
     int64 job_count = 2;
+}
+message RegularSnapshot {
+    oneof mode {
+        RegularSnapshotDisabled disabled = 4;
+        RegularSnapshotSettings settings = 3;
+    }
+}
+message RegularSnapshotDisabled {
+}
+message RegularSnapshotSettings {
+    RegularSnapshotScheduleInterval schedule = 1;
+    repeated IncrementalTable tables = 2;
+    string cron_expression = 3;
+}
+message IncrementalTable {
+    string table_namespace = 1;
+    string table_name = 2;
+    string cursor_column = 3;
+    string initial_state = 4;
 }
 message DedicatedRuntime {
     Flavor flavor = 2;
@@ -128,4 +161,7 @@ message Transformer {
 }
 message Transformation {
     repeated Transformer transformers = 1;
+}
+message DataObjects {
+    repeated string include_objects = 1;
 }
