@@ -34,6 +34,13 @@ enum TransferStatus {
     // Transfer reach terminal phase
     DONE = 8;
 }
+enum Flavor {
+    FLAVOR_UNSPECIFIED = 0;
+    TINY = 4;
+    SMALL = 1;
+    MEDIUM = 2;
+    LARGE = 3;
+}
 // Transfer core entity
 message Transfer {
     string id = 1;
@@ -43,10 +50,35 @@ message Transfer {
     map<string,string> labels = 6;
     Endpoint source = 7;
     Endpoint target = 8;
+    Runtime runtime = 9;
     TransferStatus status = 10;
     TransferType type = 12;
     string warning = 15;
     Transformation transformation = 17;
+}
+message Runtime {
+    oneof runtime {
+        ServerlessRuntime serverless_runtime = 5;
+        DedicatedRuntime dedicated_runtime = 6;
+    }
+}
+message ServerlessRuntime {
+    int64 job_count = 2;
+}
+message DedicatedRuntime {
+    Flavor flavor = 2;
+    Settings settings = 8;
+}
+message Settings {
+    oneof settings {
+        AutoSettings auto_settings = 1;
+        ManualSettings manual_settings = 2;
+    }
+}
+message AutoSettings {
+}
+message ManualSettings {
+    string network_id = 4;
 }
 message TablesFilter {
     repeated string include_tables = 1;
