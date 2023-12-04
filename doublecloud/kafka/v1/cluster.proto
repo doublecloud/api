@@ -68,6 +68,9 @@ message ClusterResources {
         google.protobuf.Int64Value broker_count = 3;
         // The number of availability zones where Kafka brokers reside.
         google.protobuf.Int64Value zone_count = 4;
+        // Limit for automatical storage volume scale, in bytes. Autoscaling disabled if
+        // not set.
+        google.protobuf.Int64Value max_disk_size = 5;
     }
     // Resources allocated to Apache Kafka® hosts.
     Kafka kafka = 1;
