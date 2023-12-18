@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint;endpoint";
+
+message DatadogTarget {
+    message ColumnMapping {
+        string source = 1;
+        repeated string tags = 2;
+        string host = 3;
+        string message_template = 4;
+        string service = 5;
+    }
+    string client_api_key = 1;
+    string host = 2;
+    ColumnMapping column_mapping = 3;
+}
