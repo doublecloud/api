@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message HubspotSource {
+    message Credentials {
+        message PrivateApp {
+            string access_token = 1;
+        }
+        oneof auth_method {
+            PrivateApp private_app = 1;
+        }
+    }
+    string start_date = 1;
+    Credentials credentials = 2;
+    bool enable_experimental_streams = 3;
+}

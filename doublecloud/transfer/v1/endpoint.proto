@@ -23,6 +23,7 @@ import "doublecloud/transfer/v1/endpoint/airbyte/instagram_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/google_ads_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/snowflake_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/jira_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/hubspot_source.proto";
 
 message Endpoint {
     string id = 1;
@@ -52,6 +53,7 @@ message EndpointSettings {
         endpoint.airbyte.RedshiftSource redshift_source = 139;
         endpoint.airbyte.SnowflakeSource snowflake_source = 148;
         endpoint.airbyte.JiraSource jira_source = 155;
+        endpoint.airbyte.HubspotSource hubspot_source = 156;
         endpoint.MysqlTarget mysql_target = 101;
         endpoint.PostgresTarget postgres_target = 102;
         endpoint.ClickhouseTarget clickhouse_target = 104;
