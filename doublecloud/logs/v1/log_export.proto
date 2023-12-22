@@ -50,9 +50,14 @@ message LogsTargetDatadog {
     string api_key = 1;
     DatadogHost datadog_host = 2;
 }
+message LogsTargetCoralogix {
+    string domain = 1;
+    string token = 2;
+}
 message LogsTarget {
     oneof target {
         LogsTargetS3 s3 = 1;
         LogsTargetDatadog datadog = 2;
+        LogsTargetCoralogix coralogix = 3;
     }
 }

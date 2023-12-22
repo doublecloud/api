@@ -11,6 +11,8 @@ import "doublecloud/transfer/v1/endpoint/mongo.proto";
 import "doublecloud/transfer/v1/endpoint/mysql.proto";
 import "doublecloud/transfer/v1/endpoint/object_storage.proto";
 import "doublecloud/transfer/v1/endpoint/postgres.proto";
+import "doublecloud/transfer/v1/endpoint/datadog.proto";
+import "doublecloud/transfer/v1/endpoint/coralogix.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/s3_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/redshift_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/aws_cloud_trail_source.proto";
@@ -60,5 +62,7 @@ message EndpointSettings {
         endpoint.ObjectStorageTarget object_storage_target = 109;
         endpoint.KafkaTarget kafka_target = 110;
         endpoint.MongoTarget mongo_target = 111;
+        endpoint.DatadogTarget datadog_target = 154;
+        endpoint.CoralogixTarget coralogix_target = 157;
     }
 }
