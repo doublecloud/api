@@ -6,6 +6,7 @@ option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/
 
 import "google/protobuf/empty.proto";
 import "doublecloud/transfer/v1/endpoint/common.proto";
+import "doublecloud/transfer/v1/endpoint/parsers.proto";
 
 enum ObjectStorageCodec {
     OBJECT_STORAGE_CODEC_UNSPECIFIED = 0;
@@ -108,6 +109,8 @@ message ObjectStorageReaderFormat {
         Parquet parquet = 5;
         Avro avro = 6;
         Jsonl jsonl = 7;
+        // from queue parsers
+        ProtoParser proto = 8;
     }
 }
 message ObjectStorageDataSchema {

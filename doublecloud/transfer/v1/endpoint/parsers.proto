@@ -6,6 +6,12 @@ option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/
 
 import "doublecloud/transfer/v1/endpoint/common.proto";
 
+enum ProtoMessagePackageType {
+    PROTO_MESSAGE_PACKAGE_TYPE_UNSPECIFIED = 0;
+    PROTOSEQ = 1;
+    REPEATED = 2;
+    SINGLE_MESSAGE = 3;
+}
 message Parser {
     oneof parser {
         GenericParserCommon json_parser = 1;
@@ -18,4 +24,32 @@ message GenericParserCommon {
     bool null_keys_allowed = 2;
     // Will add _rest column for all unknown fields
     bool add_rest_column = 3;
+}
+message ProtoParser {
+    ProtoDesc proto_desc = 1;
+    ProtoMessagePackageType msg_package_type = 2;
+    // If package type is repeated - name of message containing repeated target field;
+    // else - name of target message
+    string msg_name = 3;
+    repeated string primary_keys = 4;
+    ProtoDataSchema included_fields = 5;
+    // Allow null keys, if no - null keys will be putted to unparsed data
+    bool null_keys_allowed = 6;
+}
+message ProtoDesc {
+    oneof desc {
+        bytes desc_file = 1;
+    }
+}
+message ProtoDataSchema {
+    oneof schema {
+        ColumnParamsList col_params_list = 1;
+    }
+}
+message ColumnParamsList {
+    repeated ColumnParams col_params = 1;
+}
+message ColumnParams {
+    string name = 1;
+    bool required = 2;
 }
