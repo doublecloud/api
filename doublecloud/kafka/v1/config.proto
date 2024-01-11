@@ -13,6 +13,19 @@ message KafkaConfig {
     // The number of bytes of messages to attempt to fetch for each partition. Default
     // value: 1048576.
     google.protobuf.Int64Value replica_fetch_max_bytes = 2;
+    // The maximum size of the log before deleting it. Default is -1.
+    google.protobuf.Int64Value log_retention_bytes = 3;
+    // The number of hours to keep a log file before deleting it (in hours), tertiary
+    // to log.retention.ms property. Default: 168 hours.
+    google.protobuf.Int64Value log_retention_hours = 4;
+    // The number of minutes to keep a log file before deleting it (in minutes),
+    // secondary to log.retention.ms property. If not set, the value in
+    // log.retention.hours is used.
+    google.protobuf.Int64Value log_retention_minutes = 5;
+    // The number of milliseconds to keep a log file before deleting it (in
+    // milliseconds), If not set, the value in log.retention.minutes is used. If set to
+    // -1, no time limit is applied.
+    google.protobuf.Int64Value log_retention_ms = 6;
 }
 // Configuration for Schema Registry.
 message SchemaRegistryConfig {
