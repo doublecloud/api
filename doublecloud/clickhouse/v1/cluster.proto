@@ -57,6 +57,7 @@ message ClusterResources {
     message Clickhouse {
         // ID of the preset for computational resources available to a host (CPU, memory
         // etc.).
+        // Means the minimal resource preset for autoscaling.
         string resource_preset_id = 1;
         // Volume of the storage available to a host, in bytes.
         google.protobuf.Int64Value disk_size = 2;
@@ -71,6 +72,7 @@ message ClusterResources {
     message Keeper {
         // ID of the preset for computational resources available to a host (CPU, memory
         // etc.).
+        // Means the minimal resource preset for autoscaling.
         string resource_preset_id = 1;
         // Volume of the storage available to a host, in bytes.
         google.protobuf.Int64Value disk_size = 2;
