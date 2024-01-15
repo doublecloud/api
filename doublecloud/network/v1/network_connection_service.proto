@@ -36,6 +36,7 @@ message ListNetworkConnectionsResponse {
     doublecloud.v1.NextPage next_page = 2;
 }
 message CreateNetworkConnectionRequest {
+    reserved 2, 5;
     // ID of the Network.
     string network_id = 1;
     // Provider specific parameters.

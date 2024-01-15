@@ -13,6 +13,7 @@ enum ProtoMessagePackageType {
     SINGLE_MESSAGE = 3;
 }
 message Parser {
+    reserved 2 to 5;
     oneof parser {
         GenericParserCommon json_parser = 1;
         GenericParserCommon tskv_parser = 6;

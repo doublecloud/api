@@ -7,12 +7,14 @@ option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/
 import "doublecloud/transfer/v1/endpoint/common.proto";
 
 message OnPremiseMongo {
+    reserved 3 to 4;
     repeated string hosts = 1;
     int64 port = 2;
-    TLSMode tls_mode = 6;
     string replica_set = 5;
+    TLSMode tls_mode = 6;
 }
 message MongoConnectionOptions {
+    reserved 1;
     oneof address {
         OnPremiseMongo on_premise = 2;
     }
@@ -24,6 +26,7 @@ message MongoConnectionOptions {
     string auth_source = 5;
 }
 message MongoConnection {
+    reserved 1 to 2;
     oneof connection {
         MongoConnectionOptions connection_options = 3;
     }
@@ -33,6 +36,7 @@ message MongoCollection {
     string collection_name = 2;
 }
 message MongoSource {
+    reserved 2 to 5;
     MongoConnection connection = 1;
     // List of collections for replication. Empty list implies replication of all
     // tables on the deployment. Allowed to use * as collection name.
@@ -44,6 +48,7 @@ message MongoSource {
     bool secondary_preferred_mode = 8;
 }
 message MongoTarget {
+    reserved 3 to 5;
     MongoConnection connection = 1;
     // Database name
     string database = 2;

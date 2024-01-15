@@ -71,6 +71,7 @@ message CreateConnectorMetadata {
     string connector_name = 2;
 }
 message UpdateConnectorRequest {
+    reserved 3;
     // ID of the Apache Kafka® cluster to update the connector in.
     // 
     // To get this ID, make a [ClusterService.List] request.

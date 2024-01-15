@@ -8,6 +8,7 @@ import "google/protobuf/wrappers.proto";
 
 // An object that represents an Apache Kafka® connector.
 message ConnectorSpec {
+    reserved 4 to 9;
     // Name of the connector.
     string name = 1;
     // Maximum number of connector tasks. Default value is the number of brokers.
@@ -25,6 +26,7 @@ message ConnectorSpec {
     }
 }
 message UpdateConnectorSpec {
+    reserved 3 to 9;
     // UpdateProperties allows to use "optional" modifier for the attribute to
     // highlight whether the update is desired
     // This allows us to distinguish intentional properties reset to empty map attempt
@@ -133,6 +135,7 @@ message S3ConnectionSpec {
     google.protobuf.StringValue region = 5;
 }
 message Connector {
+    reserved 7 to 9;
     enum Health {
         // Health of the connector is unknown.
         HEALTH_INVALID = 0;

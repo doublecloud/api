@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 
 // A network connection resource.
 message NetworkConnection {
+    reserved 3, 6;
     enum NetworkConnectionStatus {
         NETWORK_CONNECTION_STATUS_INVALID = 0;
         NETWORK_CONNECTION_STATUS_CREATING = 1;

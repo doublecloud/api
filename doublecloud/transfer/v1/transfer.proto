@@ -48,13 +48,14 @@ enum RegularSnapshotScheduleInterval {
 }
 enum Flavor {
     FLAVOR_UNSPECIFIED = 0;
-    TINY = 4;
     SMALL = 1;
     MEDIUM = 2;
     LARGE = 3;
+    TINY = 4;
 }
 // Transfer core entity
 message Transfer {
+    reserved 3, 11, 13 to 14, 18;
     string id = 1;
     string project_id = 2;
     string name = 4;
@@ -71,15 +72,18 @@ message Transfer {
     DataObjects data_objects = 19;
 }
 message Runtime {
+    reserved 1 to 4;
     oneof runtime {
         ServerlessRuntime serverless_runtime = 5;
         DedicatedRuntime dedicated_runtime = 6;
     }
 }
 message ServerlessRuntime {
+    reserved 1;
     int64 job_count = 2;
 }
 message RegularSnapshot {
+    reserved 1 to 2;
     oneof mode {
         RegularSnapshotDisabled disabled = 4;
         RegularSnapshotSettings settings = 3;
@@ -99,6 +103,7 @@ message IncrementalTable {
     string initial_state = 4;
 }
 message DedicatedRuntime {
+    reserved 1, 3 to 7;
     Flavor flavor = 2;
     Settings settings = 8;
 }
@@ -111,6 +116,7 @@ message Settings {
 message AutoSettings {
 }
 message ManualSettings {
+    reserved 1 to 3;
     string network_id = 4;
 }
 message TablesFilter {
@@ -152,6 +158,7 @@ message TableSplitterTransformer {
     string splitter = 3;
 }
 message Transformer {
+    reserved 1 to 5, 8 to 11;
     oneof transformer {
         ReplacePrimaryKeyTransformer replace_primary_key = 6;
         ToStringTransformer convert_to_string = 7;

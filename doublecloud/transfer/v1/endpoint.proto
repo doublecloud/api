@@ -28,6 +28,7 @@ import "doublecloud/transfer/v1/endpoint/airbyte/jira_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/hubspot_source.proto";
 
 message Endpoint {
+    reserved 3, 7 to 51;
     string id = 1;
     string project_id = 2;
     string name = 4;
@@ -36,6 +37,7 @@ message Endpoint {
     EndpointSettings settings = 52;
 }
 message EndpointSettings {
+    reserved 3 to 7, 10 to 15, 17 to 100, 103, 105 to 108, 112 to 123, 125 to 126, 129, 131, 133, 135, 140 to 147, 149 to 152;
     oneof settings {
         endpoint.MysqlSource mysql_source = 1;
         endpoint.PostgresSource postgres_source = 2;

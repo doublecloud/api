@@ -44,27 +44,29 @@ service TransferService {
     }
 }
 message CreateTransferRequest {
+    reserved 11;
     string source_id = 1;
     string target_id = 2;
-    string name = 7;
     string description = 3;
-    map<string,string> labels = 8;
     string project_id = 4;
     Runtime runtime = 5;
     TransferType type = 6;
+    string name = 7;
+    map<string,string> labels = 8;
     RegularSnapshot regular_snapshot = 9;
     Transformation transformation = 10;
     DataObjects data_objects = 12;
 }
 message UpdateTransferRequest {
+    reserved 5, 9;
     // Identifier of the transfer to be updated.
     string transfer_id = 1;
     // The new description for the transfer.
     string description = 2;
-    map<string,string> labels = 6;
     Runtime runtime = 3;
     // The new transfer name. Must be unique within the folder.
     string name = 4;
+    map<string,string> labels = 6;
     RegularSnapshot regular_snapshot = 7;
     Transformation transformation = 8;
     DataObjects data_objects = 10;
@@ -73,6 +75,7 @@ message DeleteTransferRequest {
     string transfer_id = 1;
 }
 message ListTransfersRequest {
+    reserved 1;
     // Identifier of the folder containing the transfers to be listed.
     string project_id = 2;
     // The maximum number of transfers to be sent in the response message. If the

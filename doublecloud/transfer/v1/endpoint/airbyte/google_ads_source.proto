@@ -16,11 +16,11 @@ message GoogleAdsSource {
         string query = 1;
         string table_name = 2;
     }
-    Credentials credentials = 7;
     string customer_id = 1;
     string start_date = 2;
     string end_date = 3;
     repeated CustomQuery custom_queries = 4;
     string login_customer_id = 5;
     double conversion_window_days = 6;
+    Credentials credentials = 7;
 }

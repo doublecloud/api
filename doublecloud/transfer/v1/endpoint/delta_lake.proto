@@ -14,5 +14,6 @@ message DeltaLakeSource {
 message DeltaResultTable {
 }
 message DeltaSettings {
+    reserved 1;
     string region = 2;
 }

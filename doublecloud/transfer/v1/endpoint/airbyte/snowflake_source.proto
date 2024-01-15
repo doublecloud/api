@@ -7,12 +7,14 @@ option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/
 message SnowflakeSource {
     message Credentials {
         message OAuth {
+            reserved 1;
             string client_id = 2;
             string client_secret = 3;
             string access_token = 4;
             string refresh_token = 5;
         }
         message BasicAuth {
+            reserved 1;
             string username = 2;
             string password = 3;
         }

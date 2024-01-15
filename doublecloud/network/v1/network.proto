@@ -50,6 +50,7 @@ message Network {
     bool is_external = 13;
 }
 message AwsExternalResources {
+    reserved 2 to 3;
     string vpc_id = 1;
     // ID of the VPC owner account.
     google.protobuf.StringValue account_id = 4;
@@ -63,6 +64,7 @@ message AwsExternalResources {
     google.protobuf.BoolValue private_subnets = 8;
 }
 message GcpExternalResources {
+    reserved 1;
     // Name of the BYOC project.
     google.protobuf.StringValue project_name = 2;
     // ServiceAccount email to use for resource creations.

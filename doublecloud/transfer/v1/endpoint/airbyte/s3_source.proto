@@ -5,7 +5,9 @@ package doublecloud.transfer.v1.endpoint.airbyte;
 option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
 
 message S3Source {
+    reserved 4;
     message Format {
+        reserved 1 to 3;
         oneof format {
             Csv csv = 4;
             Parquet parquet = 5;
@@ -23,6 +25,7 @@ message S3Source {
         bool verify_ssl_cert = 7;
     }
     message Csv {
+        reserved 1;
         string delimiter = 2;
         string quote_char = 3;
         string escape_char = 4;
@@ -36,6 +39,7 @@ message S3Source {
     message Avro {
     }
     message Jsonl {
+        reserved 1;
         enum UnexpectedFieldBehavior {
             UNEXPECTED_FIELD_BEHAVIOR_UNSPECIFIED = 0;
             UNEXPECTED_FIELD_BEHAVIOR_IGNORE = 1;
@@ -47,6 +51,7 @@ message S3Source {
         int64 block_size = 4;
     }
     message Parquet {
+        reserved 1;
         int64 buffer_size = 2;
         repeated string columns = 3;
         int64 batch_size = 4;

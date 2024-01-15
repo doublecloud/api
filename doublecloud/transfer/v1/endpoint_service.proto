@@ -54,6 +54,7 @@ message ListEndpointsResponse {
     doublecloud.v1.NextPage next_page = 2;
 }
 message CreateEndpointRequest {
+    reserved 5 to 51;
     string project_id = 1;
     string name = 2;
     string description = 3;
@@ -61,6 +62,7 @@ message CreateEndpointRequest {
     EndpointSettings settings = 52;
 }
 message UpdateEndpointRequest {
+    reserved 1 to 9, 14 to 51;
     // Identifier of the endpoint to be updated.
     string endpoint_id = 10;
     // The new endpoint name. Must be unique within the folder.

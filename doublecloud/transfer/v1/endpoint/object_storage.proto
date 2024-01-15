@@ -27,6 +27,7 @@ enum ObjectStorageUnparsed {
     OBJECT_STORAGE_UNPARSED_CONTINUE = 3;
 }
 message ObjectStorageConnection {
+    reserved 1 to 2;
     string aws_access_key_id = 3;
     string aws_secret_access_key = 4;
     string region = 5;
@@ -38,16 +39,17 @@ message ObjectStorageSerializerConfig {
     bool any_as_string = 1;
 }
 message ObjectStorageTarget {
+    reserved 2 to 3;
     string bucket = 1;
-    string service_account_id = 8;
     ObjectStorageSerializationFormat output_format = 4;
     string bucket_layout = 5;
-    string bucket_layout_timezone = 11;
-    string bucket_layout_column = 12;
     string buffer_size = 6;
     string buffer_interval = 7;
+    string service_account_id = 8;
     ObjectStorageCodec output_encoding = 9;
     ObjectStorageConnection connection = 10;
+    string bucket_layout_timezone = 11;
+    string bucket_layout_column = 12;
     ObjectStorageSerializerConfig serializer_config = 13;
 }
 message ObjectStorageProvider {
@@ -56,12 +58,14 @@ message ObjectStorageProvider {
     string aws_secret_access_key = 3;
     string path_prefix = 4;
     string endpoint = 5;
-    string region = 8;
     bool use_ssl = 6;
     bool verify_ssl_cert = 7;
+    string region = 8;
 }
 message ObjectStorageReaderFormat {
+    reserved 1 to 3;
     message Jsonl {
+        reserved 1;
         enum UnexpectedFieldBehavior {
             UNEXPECTED_FIELD_BEHAVIOR_UNSPECIFIED = 0;
             UNEXPECTED_FIELD_BEHAVIOR_IGNORE = 1;
@@ -73,6 +77,7 @@ message ObjectStorageReaderFormat {
         int64 block_size = 4;
     }
     message Csv {
+        reserved 1;
         message AdvancedOptions {
             int64 skip_rows = 1;
             int64 skip_rows_after_names = 2;

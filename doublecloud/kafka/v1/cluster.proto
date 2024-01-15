@@ -93,6 +93,7 @@ message PrivateConnectionInfo {
     string password = 3;
 }
 message MetricsExporterConnectionInfo {
+    reserved 1;
     // User for HTTP basic auth.
     string user = 2;
     // Password for HTTP basic auth.

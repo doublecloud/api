@@ -185,8 +185,8 @@ message FacebookMarketingSource {
         repeated ActionBreakdown action_breakdowns = 4;
     }
     string start_date = 1;
-    string account_id = 3;
     string end_date = 2;
+    string account_id = 3;
     string access_token = 4;
     bool include_deleted = 5;
     bool fetch_thumbnail_images = 6;

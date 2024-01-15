@@ -26,7 +26,6 @@ enum CleanupPolicy {
 }
 enum ColumnType {
     COLUMN_TYPE_UNSPECIFIED = 0;
-    INT64 = 14;
     INT32 = 1;
     INT16 = 2;
     INT8 = 3;
@@ -40,6 +39,7 @@ enum ColumnType {
     UTF8 = 11;
     ANY = 12;
     DATETIME = 13;
+    INT64 = 14;
 }
 message AltName {
     // Source table name
@@ -80,6 +80,7 @@ message ColumnValue {
     }
 }
 message FieldList {
+    reserved 1;
     // Column schema
     repeated ColSchema fields = 2;
 }

@@ -70,6 +70,7 @@ message ClusterResources {
         google.protobuf.Int64Value max_disk_size = 5;
     }
     message Keeper {
+        reserved 4;
         // ID of the preset for computational resources available to a host (CPU, memory
         // etc.).
         // Means the minimal resource preset for autoscaling.

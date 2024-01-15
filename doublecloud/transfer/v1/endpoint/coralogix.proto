@@ -14,6 +14,7 @@ enum CoralogixSeverity {
     CORALOGIX_SEVERITY_CRITICAL = 6;
 }
 message CoralogixTarget {
+    reserved 4;
     message SeverityMap {
         string name = 1;
         CoralogixSeverity value = 2;
