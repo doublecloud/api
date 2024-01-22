@@ -119,20 +119,35 @@ message ManualSettings {
     reserved 1 to 3;
     string network_id = 4;
 }
+// Filter tables using lists of included and excluded tables.
 message TablesFilter {
+    // List of tables that will be included to transfer
     repeated string include_tables = 1;
+    // List of tables that will be excluded to transfer
     repeated string exclude_tables = 2;
 }
+// Filter columns using lists of included and excluded columns.
 message ColumnsFilter {
+    // List of columns that will be included to transfer
     repeated string include_columns = 1;
+    // List of columns that will be excluded to transfer
     repeated string exclude_columns = 2;
 }
+// Override primary keys
 message ReplacePrimaryKeyTransformer {
+    // List of included and excluded tables
     TablesFilter tables = 1;
+    // List of columns to be used as primary keys
     repeated string keys = 2;
 }
+// Convert column values to strings
+// The values will be converted depending on the source type
+// Conversion rules are described here:
+// https://cloud.yandex.com/en/docs/data-transfer/concepts/data-transformation#convert-to-string
 message ToStringTransformer {
+    // List of included and excluded tables
     TablesFilter tables = 1;
+    // List of included and excluded columns
     ColumnsFilter columns = 2;
 }
 message DBTTransformer {
@@ -152,11 +167,27 @@ message DBTTransformer {
     string profile_name = 3;
     Operation operation = 4;
 }
+// A transfer splits the X table into multiple tables (X_1, X_2, ..., X_n) based on
+// data.
+// If a row was located in the X table before it was split, it is now in the X_i
+// table,
+// where i is determined by the column list and split string parameters.
+// Example:
+// If the column list has two columns, month of birth and gender, specified and the
+// split string states @,
+// information about an employee whose name is John and who was born on February
+// 11, 1984,
+// from the Employees table will get to a new table named Employees@February@male.
 message TableSplitterTransformer {
+    // List of included and excluded tables
     TablesFilter tables = 1;
+    // Specify the columns in the tables to be partitioned.
     repeated string columns = 2;
+    // Specify the split string to be used for merging components in a new table name.
     string splitter = 3;
 }
+// Some transformers may have limitations and only apply to some source-target
+// pairs.
 message Transformer {
     reserved 1 to 5, 8 to 11;
     oneof transformer {
@@ -166,7 +197,16 @@ message Transformer {
         TableSplitterTransformer table_splitter_transformer = 13;
     }
 }
+// Transformation is converting data using special transformer functions.
+// These functions are executed on a data stream, applied to each data change item,
+// and transform them.
+// A transformer can be run at both the metadata and data levels.
+// Data can only be transformed if the source and target are of different types.
 message Transformation {
+    // Transformers are set as a list.
+    // When activating a transfer, a transformation plan is made for the tables that
+    // match the specified criteria.
+    // Transformers are applied to the tables in the sequence specified in the list.
     repeated Transformer transformers = 1;
 }
 message DataObjects {
