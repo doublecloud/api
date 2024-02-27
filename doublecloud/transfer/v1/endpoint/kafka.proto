@@ -13,6 +13,13 @@ enum KafkaMechanism {
     KAFKA_MECHANISM_SHA256 = 1;
     KAFKA_MECHANISM_SHA512 = 2;
 }
+enum KafkaCompressionEncoding {
+    KAFKA_COMPRESSION_ENCODING_UNSPECIFIED = 0;
+    KAFKA_COMPRESSION_ENCODING_GZIP = 1;
+    KAFKA_COMPRESSION_ENCODING_SNAPPY = 2;
+    KAFKA_COMPRESSION_ENCODING_LZ4 = 3;
+    KAFKA_COMPRESSION_ENCODING_ZSTD = 4;
+}
 message KafkaConnectionOptions {
     oneof connection {
         // Managed Service for Kafka cluster ID
@@ -69,6 +76,7 @@ message KafkaTarget {
     KafkaTargetTopicSettings topic_settings = 7;
     // Data serialization format settings
     Serializer serializer = 8;
+    KafkaCompressionEncoding compression = 9;
 }
 message KafkaTargetTopicSettings {
     oneof topic_settings {
