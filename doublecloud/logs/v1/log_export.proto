@@ -54,10 +54,15 @@ message LogsTargetCoralogix {
     string domain = 1;
     string token = 2;
 }
+message LogsTargetDatadogCompatible {
+    string api_key = 1;
+    string datadog_host = 2;
+}
 message LogsTarget {
     oneof target {
         LogsTargetS3 s3 = 1;
         LogsTargetDatadog datadog = 2;
         LogsTargetCoralogix coralogix = 3;
+        LogsTargetDatadogCompatible datadog_compatible = 4;
     }
 }
