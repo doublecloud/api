@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint;endpoint";
+
+message BigQueryTarget {
+    string project_id = 1;
+    string dataset_id = 2;
+    string credentials_json = 3;
+}
