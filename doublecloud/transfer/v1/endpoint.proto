@@ -67,6 +67,6 @@ message EndpointSettings {
         endpoint.MongoTarget mongo_target = 111;
         endpoint.DatadogTarget datadog_target = 154;
         endpoint.CoralogixTarget coralogix_target = 157;
-        endpoint.BigQueryTarget bigqeury_target = 158;
+        endpoint.BigQueryTarget bigquery_target = 158;
     }
 }
