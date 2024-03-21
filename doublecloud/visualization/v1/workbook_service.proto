@@ -24,6 +24,8 @@ service WorkbookService {
     rpc AdviseDatasetFields (AdviseDatasetFieldsRequest) returns (AdviseDatasetFieldsResponse);
     // List all workbooks for given project_id
     rpc ListWorkbooks (ListWorkbooksRequest) returns (ListWorkbooksResponse);
+    // Error details
+    rpc GetErrorDetails (ErrorDetailsRequest) returns (ErrorDetailsResponse);
 }
 
 
@@ -108,3 +110,14 @@ message ListWorkbooksRequest {
 message ListWorkbooksResponse {
     repeated WorkbooksIndexItem workbooks = 1;
 }
+
+message ErrorDetailsRequest {
+    string id = 1;
+}
+
+message ErrorDetailsResponse {
+    string id = 1;
+    string format = 2;  // only "json" for initial version
+    string details = 3;
+}
+
