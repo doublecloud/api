@@ -68,6 +68,12 @@ message ClusterResources {
         // Limit for automatical storage volume scale, in bytes. Autoscaling disabled if
         // not set.
         google.protobuf.Int64Value max_disk_size = 5;
+        // Lower limit for automatical resource preset scale. Equal to resource_preset_id
+        // on creation if not set.
+        google.protobuf.StringValue min_resource_preset_id = 6;
+        // Upper limit for automatical resource preset scale. Autoscaling disabled if not
+        // set.
+        google.protobuf.StringValue max_resource_preset_id = 7;
     }
     message Keeper {
         reserved 4;
@@ -82,6 +88,12 @@ message ClusterResources {
         // Limit for automatical storage volume scale, in bytes. Autoscaling disabled if
         // not set.
         google.protobuf.Int64Value max_disk_size = 5;
+        // Lower limit for automatical resource preset scale. Equal to resource_preset_id
+        // on creation if not set.
+        google.protobuf.StringValue min_resource_preset_id = 6;
+        // Upper limit for automatical resource preset scale. Autoscaling disabled if not
+        // set.
+        google.protobuf.StringValue max_resource_preset_id = 7;
     }
     // Resources allocated to ClickHouse hosts.
     Clickhouse clickhouse = 1;
