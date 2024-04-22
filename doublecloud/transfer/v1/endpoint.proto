@@ -45,7 +45,12 @@ message EndpointSettings {
         endpoint.KafkaSource kafka_source = 8;
         endpoint.MongoSource mongo_source = 9;
         endpoint.ClickhouseSource clickhouse_source = 16;
-        endpoint.ObjectStorageSource object_storage_source = 153;
+        endpoint.MysqlTarget mysql_target = 101;
+        endpoint.PostgresTarget postgres_target = 102;
+        endpoint.ClickhouseTarget clickhouse_target = 104;
+        endpoint.ObjectStorageTarget object_storage_target = 109;
+        endpoint.KafkaTarget kafka_target = 110;
+        endpoint.MongoTarget mongo_target = 111;
         endpoint.airbyte.S3Source s3_source = 124;
         endpoint.airbyte.AWSCloudTrailSource aws_cloudtrail_source = 127;
         endpoint.airbyte.BigQuerySource big_query_source = 128;
@@ -57,15 +62,10 @@ message EndpointSettings {
         endpoint.airbyte.MSSQLSource mssql_source = 138;
         endpoint.airbyte.RedshiftSource redshift_source = 139;
         endpoint.airbyte.SnowflakeSource snowflake_source = 148;
+        endpoint.ObjectStorageSource object_storage_source = 153;
+        endpoint.DatadogTarget datadog_target = 154;
         endpoint.airbyte.JiraSource jira_source = 155;
         endpoint.airbyte.HubspotSource hubspot_source = 156;
-        endpoint.MysqlTarget mysql_target = 101;
-        endpoint.PostgresTarget postgres_target = 102;
-        endpoint.ClickhouseTarget clickhouse_target = 104;
-        endpoint.ObjectStorageTarget object_storage_target = 109;
-        endpoint.KafkaTarget kafka_target = 110;
-        endpoint.MongoTarget mongo_target = 111;
-        endpoint.DatadogTarget datadog_target = 154;
         endpoint.CoralogixTarget coralogix_target = 157;
         endpoint.BigQueryTarget bigquery_target = 158;
     }

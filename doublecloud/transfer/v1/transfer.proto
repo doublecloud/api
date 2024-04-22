@@ -85,8 +85,8 @@ message ServerlessRuntime {
 message RegularSnapshot {
     reserved 1 to 2;
     oneof mode {
-        RegularSnapshotDisabled disabled = 4;
         RegularSnapshotSettings settings = 3;
+        RegularSnapshotDisabled disabled = 4;
     }
 }
 message RegularSnapshotDisabled {
