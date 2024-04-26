@@ -9,6 +9,7 @@ import "google/protobuf/wrappers.proto";
 
 // ClickHouse server configuration.
 message ClickhouseConfig {
+    reserved 60;
     enum LogLevel {
         LOG_LEVEL_DEFAULT = 0;
         LOG_LEVEL_TRACE = 1;
@@ -96,6 +97,10 @@ message ClickhouseConfig {
         }
         repeated Pattern patterns = 1;
     }
+    message HybridStorage {
+        google.protobuf.BoolValue prefer_not_to_merge = 1;
+        google.protobuf.Int64Value max_data_part_size = 2;
+    }
     LogLevel log_level = 1;
     google.protobuf.Int64Value max_connections = 2;
     google.protobuf.Int64Value max_concurrent_queries = 3;
@@ -155,4 +160,5 @@ message ClickhouseConfig {
     google.protobuf.BoolValue asynchronous_insert_log_enabled = 57;
     google.protobuf.Int64Value asynchronous_insert_log_retention_size = 58;
     google.protobuf.Duration asynchronous_insert_log_retention_time = 59;
+    HybridStorage hybrid_storage = 61;
 }
