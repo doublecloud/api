@@ -1,0 +1,894 @@
+syntax = "proto3";
+
+package doublecloud.clickhouse.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/clickhouse/v1;clickhouse";
+
+import "google/protobuf/wrappers.proto";
+
+// ClickHouse user.
+message User {
+    // Name of the ClickHouse user.
+    string name = 1;
+    // ID of the ClickHouse cluster.
+    string cluster_id = 2;
+    // Default role settigns.
+    DefaultRoles default_roles = 3;
+    // Grantees settings.
+    Grantees grantees = 4;
+    // List of the privileges of the user.
+    Privileges privileges = 5;
+    // Settings and constraints of the user.
+    Settings settings = 6;
+    // List of assigned quotas to the user.
+    QuotaNames quota_names = 7;
+    // List of assigned roles to the user.
+    AssignedRoles assigned_roles = 8;
+}
+// ClickHouse role.
+message Role {
+    // Name of the ClickHouse user.
+    string name = 1;
+    // ID of the ClickHouse cluster.
+    string cluster_id = 2;
+    // List of the privileges of the role.
+    Privileges privileges = 3;
+    // Settings and constraints of the role.
+    Settings settings = 4;
+    // List of assigned quotas to the role.
+    QuotaNames quota_names = 5;
+}
+// Authentication params of the user.
+message Authentication {
+    enum IdentificationType {
+        IDENTIFICATION_TYPE_INVALID = 0;
+        IDENTIFICATION_TYPE_SHA256_PASSWORD = 1;
+        IDENTIFICATION_TYPE_DOUBLE_SHA1_PASSWORD = 2;
+        IDENTIFICATION_TYPE_BCRYPT_PASSWORD = 3;
+    }
+    // Identification type. By default IDENTIFICATION_TYPE_SHA256_PASSWORD will be
+    // used.
+    IdentificationType type = 1;
+    // Password of the user. Required for SHA256_PASSWORD, DOUBLE_SHA1_PASSWORD and
+    // BCRYPT_PASSWORD identification types.
+    google.protobuf.StringValue password = 2;
+}
+// Default ClickHouse role settigns.
+message DefaultRoles {
+    // Shows that all granted roles set for user by default.
+    bool all = 1;
+    // List of granted roles provided by default.
+    repeated string list = 2;
+    // All the granted roles set as default excepting of the listed ones.
+    repeated string except = 3;
+}
+// Assigned roles.
+message AssignedRoles {
+    // List of assigned roles to the user or another role.
+    repeated string roles = 1;
+}
+// Grantees settings.
+message Grantees {
+    // Shows that this user can grant privileges to anyone.
+    bool any = 1;
+    // List of users or roles this user can grant privileges to.
+    repeated string list = 2;
+    // List of users or roles this user can't grant privileges to.
+    repeated string except = 3;
+}
+// ClickHouse privileges.
+message Privileges {
+    // List of grants.
+    repeated Grant grants = 1;
+}
+// Assigned quotas to a user or role.
+message QuotaNames {
+    // List of assigned quotas names.
+    repeated string names = 1;
+}
+// Permission to execute specific kind of queries.
+message Grant {
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/sql-reference/statements/grant#privileges).
+    enum AccessType {
+        ACCESS_TYPE_INVALID = 0;
+        ACCESS_TYPE_SHOW_DATABASES = 1;
+        ACCESS_TYPE_SHOW_TABLES = 2;
+        ACCESS_TYPE_SHOW_COLUMNS = 3;
+        ACCESS_TYPE_SHOW_DICTIONARIES = 4;
+        ACCESS_TYPE_SHOW = 5;
+        ACCESS_TYPE_SHOW_FILESYSTEM_CACHES = 6;
+        ACCESS_TYPE_SELECT = 7;
+        ACCESS_TYPE_INSERT = 8;
+        ACCESS_TYPE_ALTER_UPDATE = 9;
+        ACCESS_TYPE_ALTER_DELETE = 10;
+        ACCESS_TYPE_ALTER_ADD_COLUMN = 11;
+        ACCESS_TYPE_ALTER_MODIFY_COLUMN = 12;
+        ACCESS_TYPE_ALTER_DROP_COLUMN = 13;
+        ACCESS_TYPE_ALTER_COMMENT_COLUMN = 14;
+        ACCESS_TYPE_ALTER_CLEAR_COLUMN = 15;
+        ACCESS_TYPE_ALTER_RENAME_COLUMN = 16;
+        ACCESS_TYPE_ALTER_MATERIALIZE_COLUMN = 17;
+        ACCESS_TYPE_ALTER_COLUMN = 18;
+        ACCESS_TYPE_ALTER_MODIFY_COMMENT = 19;
+        ACCESS_TYPE_ALTER_ORDER_BY = 20;
+        ACCESS_TYPE_ALTER_SAMPLE_BY = 21;
+        ACCESS_TYPE_ALTER_ADD_INDEX = 22;
+        ACCESS_TYPE_ALTER_DROP_INDEX = 23;
+        ACCESS_TYPE_ALTER_MATERIALIZE_INDEX = 24;
+        ACCESS_TYPE_ALTER_CLEAR_INDEX = 25;
+        ACCESS_TYPE_ALTER_INDEX = 26;
+        ACCESS_TYPE_ALTER_ADD_PROJECTION = 27;
+        ACCESS_TYPE_ALTER_DROP_PROJECTION = 28;
+        ACCESS_TYPE_ALTER_MATERIALIZE_PROJECTION = 29;
+        ACCESS_TYPE_ALTER_CLEAR_PROJECTION = 30;
+        ACCESS_TYPE_ALTER_PROJECTION = 31;
+        ACCESS_TYPE_ALTER_ADD_CONSTRAINT = 32;
+        ACCESS_TYPE_ALTER_DROP_CONSTRAINT = 33;
+        ACCESS_TYPE_ALTER_CONSTRAINT = 34;
+        ACCESS_TYPE_ALTER_TTL = 35;
+        ACCESS_TYPE_ALTER_MATERIALIZE_TTL = 36;
+        ACCESS_TYPE_ALTER_SETTINGS = 37;
+        ACCESS_TYPE_ALTER_MOVE_PARTITION = 38;
+        ACCESS_TYPE_ALTER_FETCH_PARTITION = 39;
+        ACCESS_TYPE_ALTER_FREEZE_PARTITION = 40;
+        ACCESS_TYPE_ALTER_DATABASE_SETTINGS = 41;
+        ACCESS_TYPE_ALTER_NAMED_COLLECTION = 42;
+        ACCESS_TYPE_ALTER_TABLE = 43;
+        ACCESS_TYPE_ALTER_DATABASE = 44;
+        ACCESS_TYPE_ALTER_VIEW_REFRESH = 45;
+        ACCESS_TYPE_ALTER_VIEW_MODIFY_QUERY = 46;
+        ACCESS_TYPE_ALTER_VIEW = 47;
+        ACCESS_TYPE_ALTER = 48;
+        ACCESS_TYPE_CREATE_DATABASE = 49;
+        ACCESS_TYPE_CREATE_TABLE = 50;
+        ACCESS_TYPE_CREATE_VIEW = 51;
+        ACCESS_TYPE_CREATE_DICTIONARY = 52;
+        ACCESS_TYPE_CREATE_TEMPORARY_TABLE = 53;
+        ACCESS_TYPE_CREATE_ARBITRARY_TEMPORARY_TABLE = 54;
+        ACCESS_TYPE_CREATE_FUNCTION = 55;
+        ACCESS_TYPE_CREATE_NAMED_COLLECTION = 56;
+        ACCESS_TYPE_CREATE = 57;
+        ACCESS_TYPE_DROP_DATABASE = 58;
+        ACCESS_TYPE_DROP_TABLE = 59;
+        ACCESS_TYPE_DROP_VIEW = 60;
+        ACCESS_TYPE_DROP_DICTIONARY = 61;
+        ACCESS_TYPE_DROP_FUNCTION = 62;
+        ACCESS_TYPE_DROP_NAMED_COLLECTION = 63;
+        ACCESS_TYPE_DROP = 64;
+        ACCESS_TYPE_UNDROP_TABLE = 65;
+        ACCESS_TYPE_TRUNCATE = 66;
+        ACCESS_TYPE_OPTIMIZE = 67;
+        ACCESS_TYPE_BACKUP = 68;
+        ACCESS_TYPE_KILL_QUERY = 69;
+        ACCESS_TYPE_KILL_TRANSACTION = 70;
+        ACCESS_TYPE_MOVE_PARTITION_BETWEEN_SHARDS = 71;
+        ACCESS_TYPE_CREATE_USER = 72;
+        ACCESS_TYPE_ALTER_USER = 73;
+        ACCESS_TYPE_DROP_USER = 74;
+        ACCESS_TYPE_CREATE_ROLE = 75;
+        ACCESS_TYPE_ALTER_ROLE = 76;
+        ACCESS_TYPE_DROP_ROLE = 77;
+        ACCESS_TYPE_ROLE_ADMIN = 78;
+        ACCESS_TYPE_CREATE_ROW_POLICY = 79;
+        ACCESS_TYPE_ALTER_ROW_POLICY = 80;
+        ACCESS_TYPE_DROP_ROW_POLICY = 81;
+        ACCESS_TYPE_CREATE_QUOTA = 82;
+        ACCESS_TYPE_ALTER_QUOTA = 83;
+        ACCESS_TYPE_DROP_QUOTA = 84;
+        ACCESS_TYPE_CREATE_SETTINGS_PROFILE = 85;
+        ACCESS_TYPE_ALTER_SETTINGS_PROFILE = 86;
+        ACCESS_TYPE_DROP_SETTINGS_PROFILE = 87;
+        ACCESS_TYPE_SHOW_USERS = 88;
+        ACCESS_TYPE_SHOW_ROLES = 89;
+        ACCESS_TYPE_SHOW_ROW_POLICIES = 90;
+        ACCESS_TYPE_SHOW_QUOTAS = 91;
+        ACCESS_TYPE_SHOW_SETTINGS_PROFILES = 92;
+        ACCESS_TYPE_SHOW_ACCESS = 93;
+        ACCESS_TYPE_ACCESS_MANAGEMENT = 94;
+        ACCESS_TYPE_NAMED_COLLECTION = 95;
+        ACCESS_TYPE_SYSTEM_DROP_CACHE = 96;
+        ACCESS_TYPE_SYSTEM_RELOAD = 97;
+        ACCESS_TYPE_SYSTEM_MERGES = 98;
+        ACCESS_TYPE_SYSTEM_TTL_MERGES = 99;
+        ACCESS_TYPE_SYSTEM_FETCHES = 100;
+        ACCESS_TYPE_SYSTEM_MOVES = 101;
+        ACCESS_TYPE_SYSTEM_SENDS = 102;
+        ACCESS_TYPE_SYSTEM_REPLICATION_QUEUES = 103;
+        ACCESS_TYPE_SYSTEM_DROP_REPLICA = 104;
+        ACCESS_TYPE_SYSTEM_SYNC_REPLICA = 105;
+        ACCESS_TYPE_SYSTEM_RESTART_REPLICA = 106;
+        ACCESS_TYPE_SYSTEM_RESTORE_REPLICA = 107;
+        ACCESS_TYPE_SYSTEM_FLUSH = 108;
+        ACCESS_TYPE_DICT_GET = 109;
+        ACCESS_TYPE_INTROSPECTION = 110;
+        ACCESS_TYPE_URL = 111;
+        ACCESS_TYPE_REMOTE = 112;
+        ACCESS_TYPE_MONGO = 113;
+        ACCESS_TYPE_MYSQL = 114;
+        ACCESS_TYPE_POSTGRES = 115;
+        ACCESS_TYPE_ODBC = 116;
+        ACCESS_TYPE_JDBC = 117;
+        ACCESS_TYPE_HDFS = 118;
+        ACCESS_TYPE_S3 = 119;
+        ACCESS_TYPE_ALL = 120;
+    }
+    // Required. Type of the privilege access.
+    AccessType access_type = 1;
+    // Name of the database to which access is granted or partially revoked.
+    string database = 2;
+    // Name of the table to which access is granted or partially revoked.
+    string table = 3;
+    // Name of the columns to which access is granted or partially revoked.
+    // Privilege should have COLUMN level.
+    repeated string columns = 4;
+    // Shows whether the privilege should be revoked or not. By default is False.
+    // False — describes a grant.
+    // True  - describes a partial revoke.
+    bool is_partial_revoke = 5;
+    // Permission is granted with GRANT option. Works only if it is described as a
+    // grant.
+    bool grant_option = 6;
+}
+// Clickhouse settings and constraints. Supported settings are a limited subset of
+// all the settings
+// described in [ClickHouse
+// documentation](https://clickhouse.com/docs/en/operations/settings/).
+message Settings {
+    // Writability constraint values.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/constraints-on-settings).
+    enum Writability {
+        WRITABILITY_INVALID = 0;
+        WRITABILITY_CONST = 1;
+        WRITABILITY_WRITABLE = 2;
+        WRITABILITY_CHANGEABLE_IN_READONLY = 3;
+    }
+    enum OverflowMode {
+        OVERFLOW_MODE_INVALID = 0;
+        OVERFLOW_MODE_THROW = 1;
+        OVERFLOW_MODE_BREAK = 2;
+    }
+    enum GroupByOverflowMode {
+        GROUP_BY_OVERFLOW_MODE_INVALID = 0;
+        GROUP_BY_OVERFLOW_MODE_THROW = 1;
+        GROUP_BY_OVERFLOW_MODE_BREAK = 2;
+        GROUP_BY_OVERFLOW_MODE_ANY = 3;
+    }
+    enum DistributedProductMode {
+        DISTRIBUTED_PRODUCT_MODE_INVALID = 0;
+        DISTRIBUTED_PRODUCT_MODE_DENY = 1;
+        DISTRIBUTED_PRODUCT_MODE_LOCAL = 2;
+        DISTRIBUTED_PRODUCT_MODE_GLOBAL = 3;
+        DISTRIBUTED_PRODUCT_MODE_ALLOW = 4;
+    }
+    enum CountDistinctImplementation {
+        COUNT_DISTINCT_IMPLEMENTATION_INVALID = 0;
+        COUNT_DISTINCT_IMPLEMENTATION_UNIQ = 1;
+        COUNT_DISTINCT_IMPLEMENTATION_UNIQ_COMBINED = 2;
+        COUNT_DISTINCT_IMPLEMENTATION_UNIQ_COMBINED_64 = 3;
+        COUNT_DISTINCT_IMPLEMENTATION_UNIQ_HLL_12 = 4;
+        COUNT_DISTINCT_IMPLEMENTATION_UNIQ_EXACT = 5;
+    }
+    enum JoinAlgorithm {
+        JOIN_ALGORITHM_INVALID = 0;
+        JOIN_ALGORITHM_HASH = 1;
+        JOIN_ALGORITHM_PARALLEL_HASH = 2;
+        JOIN_ALGORITHM_PARTIAL_MERGE = 3;
+        JOIN_ALGORITHM_DIRECT = 4;
+        JOIN_ALGORITHM_AUTO = 5;
+        JOIN_ALGORITHM_FULL_SORTING_MERGE = 6;
+        JOIN_ALGORITHM_PREFER_PARTIAL_MERGE = 7;
+    }
+    enum FormatRegexpEscapingRule {
+        FORMAT_REGEXP_ESCAPING_RULE_INVALID = 0;
+        FORMAT_REGEXP_ESCAPING_RULE_ESCAPED = 1;
+        FORMAT_REGEXP_ESCAPING_RULE_QUOTED = 2;
+        FORMAT_REGEXP_ESCAPING_RULE_CSV = 3;
+        FORMAT_REGEXP_ESCAPING_RULE_JSON = 4;
+        FORMAT_REGEXP_ESCAPING_RULE_XML = 5;
+        FORMAT_REGEXP_ESCAPING_RULE_RAW = 6;
+    }
+    enum DateTimeInputFormat {
+        DATE_TIME_INPUT_FORMAT_INVALID = 0;
+        DATE_TIME_INPUT_FORMAT_BEST_EFFORT = 1;
+        DATE_TIME_INPUT_FORMAT_BASIC = 2;
+        DATE_TIME_INPUT_FORMAT_BEST_EFFORT_US = 3;
+    }
+    enum DateTimeOutputFormat {
+        DATE_TIME_OUTPUT_FORMAT_INVALID = 0;
+        DATE_TIME_OUTPUT_FORMAT_SIMPLE = 1;
+        DATE_TIME_OUTPUT_FORMAT_ISO = 2;
+        DATE_TIME_OUTPUT_FORMAT_UNIX_TIMESTAMP = 3;
+    }
+    enum LocalFilesystemReadMethod {
+        LOCAL_FILESYSTEM_READ_METHOD_INVALID = 0;
+        LOCAL_FILESYSTEM_READ_METHOD_READ = 1;
+        LOCAL_FILESYSTEM_READ_METHOD_PREAD_THREADPOOL = 2;
+        LOCAL_FILESYSTEM_READ_METHOD_PREAD = 3;
+        LOCAL_FILESYSTEM_READ_METHOD_NMAP = 4;
+    }
+    enum RemoteFilesystemReadMethod {
+        REMOTE_FILESYSTEM_READ_METHOD_INVALID = 0;
+        REMOTE_FILESYSTEM_READ_METHOD_READ = 1;
+        REMOTE_FILESYSTEM_READ_METHOD_THREADPOOL = 2;
+    }
+    // Represents writability constraint value.
+    message WritabilityConstraint {
+        // Writability value.
+        Writability value = 1;
+    }
+    // Represents `int64` setting and its constraints.
+    message Int64Setting {
+        // Setting value.
+        google.protobuf.Int64Value value = 1;
+        // Min constraint specifies lower boundary for a numeric setting.
+        google.protobuf.Int64Value min = 2;
+        // Max constraint specifies upper boundary for a numeric setting.
+        google.protobuf.Int64Value max = 3;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 4;
+    }
+    // Represents `double` setting and its constraints.
+    message DoubleSetting {
+        // Setting value.
+        google.protobuf.DoubleValue value = 1;
+        // Min constraint specifies lower boundary for a numeric setting.
+        google.protobuf.DoubleValue min = 2;
+        // Max constraint specifies upper boundary for a numeric setting.
+        google.protobuf.DoubleValue max = 3;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 4;
+    }
+    // Represents `bool` setting and its constraints.
+    message BoolSetting {
+        // Setting value.
+        google.protobuf.BoolValue value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `string` setting and its constraints.
+    message StringSetting {
+        // Setting value.
+        google.protobuf.StringValue value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `overflow_mode` setting and its constraints.
+    message OverflowModeSetting {
+        // Setting value.
+        OverflowMode value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `group_by_overflow_mode` setting and its constraints.
+    message GroupByOverflowModeSetting {
+        // Setting value.
+        GroupByOverflowMode value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `distributed_product_mode` setting and its constraints.
+    message DistributedProductModeSetting {
+        // Setting value.
+        DistributedProductMode value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `count_distinct_implementation` setting and its constraints.
+    message CountDistinctImplementationSetting {
+        // Setting value.
+        CountDistinctImplementation value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `join_algorithm` setting and its constraints.
+    message JoinAlgorithmSetting {
+        // Setting value.
+        repeated JoinAlgorithm value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `format_regexp_escaping_rule` setting and its constraints.
+    message FormatRegexpEscapingRuleSetting {
+        // Setting value.
+        FormatRegexpEscapingRule value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `date_time_input_format` setting and its constraints.
+    message DateTimeInputFormatSetting {
+        // Setting value.
+        DateTimeInputFormat value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `date_time_output_format` setting and its constraints.
+    message DateTimeOutputFormatSetting {
+        // Setting value.
+        DateTimeOutputFormat value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `local_filesystem_read_method` setting and its constraints.
+    message LocalFilesystemReadMethodSetting {
+        // Setting value.
+        LocalFilesystemReadMethod value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Represents `remote_filesystem_read_method` setting and its constraints.
+    message RemoteFilesystemReadMethodSetting {
+        // Setting value.
+        RemoteFilesystemReadMethod value = 1;
+        // Writability constraint specifies how the user can change this setting.
+        WritabilityConstraint writability = 2;
+    }
+    // Restricts permissions for non-DDL queries.
+    // Possible values:
+    // * 0 (default) -  no restrictions.
+    // * 1 - only read data queries are allowed.
+    // * 2 - read data and change settings queries are allowed.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/permissions-for-queries#readonly).
+    Int64Setting readonly = 1;
+    // Whether DDL queries are allowed. Default value: `false`.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/permissions-for-queries#allow_ddl).
+    BoolSetting allow_ddl = 2;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#insert_quorum).
+    Int64Setting insert_quorum = 3;
+    // Quorum write timeout in milliseconds. Default value: 60000.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#insert_quorum_timeout).
+    Int64Setting insert_quorum_timeout = 4;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#select_sequential_consistency).
+    BoolSetting select_sequential_consistency = 5;
+    // Max replica delay in milliseconds. If a replica lags more than the set value,
+    // this replica is not used. Default value: 300000.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_replica_delay_for_distributed_queries).
+    Int64Setting max_replica_delay_for_distributed_queries = 6;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#fallback_to_stale_replicas_for_distributed_queries).
+    BoolSetting fallback_to_stale_replicas_for_distributed_queries = 7;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_threads).
+    Int64Setting max_threads = 8;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#setting-max_block_size).
+    Int64Setting max_block_size = 9;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_insert_block_size).
+    Int64Setting max_insert_block_size = 10;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#settings_max_memory_usage).
+    Int64Setting max_memory_usage = 11;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#max-memory-usage-for-user).
+    Int64Setting max_memory_usage_for_user = 12;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-rows-to-read).
+    Int64Setting max_rows_to_read = 13;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-bytes-to-read).
+    Int64Setting max_bytes_to_read = 14;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#read-overflow-mode).
+    OverflowModeSetting read_overflow_mode = 15;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-rows-to-group-by).
+    Int64Setting max_rows_to_group_by = 16;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#group-by-overflow-mode).
+    GroupByOverflowModeSetting group_by_overflow_mode = 17;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-rows-to-sort).
+    Int64Setting max_rows_to_sort = 18;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-bytes-to-sort).
+    Int64Setting max_bytes_to_sort = 19;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#sort-overflow-mode).
+    OverflowModeSetting sort_overflow_mode = 20;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-result-rows).
+    Int64Setting max_result_rows = 21;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-result-bytes).
+    Int64Setting max_result_bytes = 22;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#result-overflow-mode).
+    OverflowModeSetting result_overflow_mode = 23;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-rows-in-distinct).
+    Int64Setting max_rows_in_distinct = 24;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-bytes-in-distinct).
+    Int64Setting max_bytes_in_distinct = 25;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#distinct-overflow-mode).
+    OverflowModeSetting distinct_overflow_mode = 26;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-rows-to-transfer).
+    Int64Setting max_rows_to_transfer = 27;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-bytes-to-transfer).
+    Int64Setting max_bytes_to_transfer = 28;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#transfer-overflow-mode).
+    OverflowModeSetting transfer_overflow_mode = 29;
+    // Maximum query execution time in milliseconds.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-execution-time).
+    Int64Setting max_execution_time = 30;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#timeout-overflow-mode).
+    OverflowModeSetting timeout_overflow_mode = 31;
+    // Maximum number of columns that can be read from a table in a single query.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-columns-to-read).
+    Int64Setting max_columns_to_read = 32;
+    // Maximum number of temporary columns that must be kept in RAM at the same time
+    // when running a query, including constant columns.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-temporary-columns).
+    Int64Setting max_temporary_columns = 33;
+    // Maximum number of temporary columns that must be kept in RAM at the same time
+    // when running a query, excluding constant columns.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-temporary-non-const-columns).
+    Int64Setting max_temporary_non_const_columns = 34;
+    // The maximum part of a query that can be taken to RAM for parsing with the SQL
+    // parser, in bytes. Default value: 262144.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_query_size).
+    Int64Setting max_query_size = 35;
+    // Maximum depth of query syntax tree. Default value: 1000.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-ast-depth).
+    Int64Setting max_ast_depth = 36;
+    // Maximum size of query syntax tree in number of nodes. Default value: 50000.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query_complexity#max-ast-elements).
+    Int64Setting max_ast_elements = 37;
+    // Maximum size of query syntax tree in number of nodes after expansion of aliases
+    // and the asterisk. Default value: 500000.
+    Int64Setting max_expanded_ast_elements = 38;
+    // Connection timeout in milliseconds.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#connect-timeout-receive-timeout-send-timeout).
+    Int64Setting connect_timeout = 39;
+    // Receive timeout in milliseconds.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#connect-timeout-receive-timeout-send-timeout).
+    Int64Setting receive_timeout = 40;
+    // Send timeout in milliseconds.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#connect-timeout-receive-timeout-send-timeout).
+    Int64Setting send_timeout = 41;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/sql-reference/statements/alter#synchronicity-of-alter-queries).
+    Int64Setting replication_alter_partitions_sync = 42;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#distributed-product-mode).
+    DistributedProductModeSetting distributed_product_mode = 43;
+    // Whether expression compilation is enabled.
+    BoolSetting compile_expressions = 44;
+    // The number of identical expressions before they are compiled.
+    Int64Setting min_count_to_compile_expression = 45;
+    // Squash blocks passed to INSERT query to specified size in rows, if blocks are
+    // not big enough. If set to `0`,
+    // blocks will never be squashed.
+    Int64Setting min_insert_block_size_rows = 46;
+    // Squash blocks passed to INSERT query to specified size in bytes, if blocks are
+    // not big enough.  If set to `0`,
+    // blocks will never be squashed.
+    Int64Setting min_insert_block_size_bytes = 47;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#min_bytes_to_use_direct_io).
+    Int64Setting min_bytes_to_use_direct_io = 48;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#setting-use_uncompressed_cache).
+    BoolSetting use_uncompressed_cache = 49;
+    // The maximum request size in rows to use the cache of uncompressed data. The
+    // cache is not used for requests larger
+    // than the specified value.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#setting-merge_tree_max_rows_to_use_cache).
+    Int64Setting merge_tree_max_rows_to_use_cache = 50;
+    // The maximum request size in bytes to use the cache of uncompressed data. The
+    // cache is not used for requests larger
+    // than the specified value.
+    Int64Setting merge_tree_max_bytes_to_use_cache = 51;
+    // The minimum number of rows to be read from a file to enable concurrent read.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#setting-merge_tree_min_rows_for_concurrent_read).
+    Int64Setting merge_tree_min_rows_for_concurrent_read = 52;
+    // The minimum number of bytes to be read from a file to enable concurrent read.
+    Int64Setting merge_tree_min_bytes_for_concurrent_read = 53;
+    // Priority of the query.
+    Int64Setting priority = 54;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_network_bandwidth).
+    Int64Setting max_network_bandwidth = 55;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_network_bandwidth_for_user).
+    Int64Setting max_network_bandwidth_for_user = 56;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#force_index_by_date).
+    BoolSetting force_index_by_date = 57;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#force-primary-key).
+    BoolSetting force_primary_key = 58;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#input_format_values_interpret_expressions).
+    BoolSetting input_format_values_interpret_expressions = 59;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#session_settings-input_format_defaults_for_omitted_fields).
+    BoolSetting input_format_defaults_for_omitted_fields = 60;
+    // Whether quoting of 64-bit integers is enabled in JSON output format.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#session_settings-output_format_json_quote_64bit_integers).
+    BoolSetting output_format_json_quote_64bit_integers = 61;
+    // Whether output of special floating-point values (`+nan`, `-nan`, `+inf` and
+    // `-inf`) is enabled in JSON output format.
+    BoolSetting output_format_json_quote_denormals = 62;
+    // HTTP connection timeout, in milliseconds.
+    Int64Setting http_connection_timeout = 63;
+    // HTTP receive timeout, in milliseconds.
+    Int64Setting http_receive_timeout = 64;
+    // HTTP send timeout, in milliseconds.
+    Int64Setting http_send_timeout = 65;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#enable_http_compression).
+    BoolSetting enable_http_compression = 66;
+    // Whether progress notifications using X-ClickHouse-Progress headers are enabled.
+    // Default value: `false`.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#send_progress_in_http_headers).
+    BoolSetting send_progress_in_http_headers = 67;
+    // Minimum interval between progress notifications, in milliseconds. Default value:
+    // 100.
+    Int64Setting http_headers_progress_interval = 68;
+    // Whether CORS header in HTTP responses is enabled. Default value: `false`.
+    BoolSetting add_http_cors_header = 69;
+    // Whether the memory-saving mode of distributed aggregation is enabled.
+    BoolSetting distributed_aggregation_memory_efficient = 70;
+    // Timeout for DDL queries, in milliseconds.
+    Int64Setting distributed_ddl_task_timeout = 71;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#settings-max_bytes_before_external_group_by).
+    Int64Setting max_bytes_before_external_group_by = 72;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/sql-reference/statements/select/order-by#implementation-details).
+    Int64Setting max_bytes_before_external_sort = 73;
+    // See in-depth description in [ClickHouse
+    // documentation](https://github.com/ClickHouse/ClickHouse/blob/2442c71e273c041448bc5e0b5a406dedcd9e006c/src/Core/Settings.h#L156).
+    Int64Setting group_by_two_level_threshold = 74;
+    // See in-depth description in [ClickHouse
+    // documentation](https://github.com/ClickHouse/ClickHouse/blob/2442c71e273c041448bc5e0b5a406dedcd9e006c/src/Core/Settings.h#L157).
+    Int64Setting group_by_two_level_threshold_bytes = 75;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#low_cardinality_allow_in_native_format).
+    BoolSetting low_cardinality_allow_in_native_format = 76;
+    // See in-depth description in [ClickHouse
+    // documentation](https://github.com/ClickHouse/ClickHouse/blob/2442c71e273c041448bc5e0b5a406dedcd9e006c/src/Core/Settings.h#L340).
+    BoolSetting empty_result_for_aggregation_by_empty_set = 77;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#skip_unavailable_shards).
+    BoolSetting skip_unavailable_shards = 78;
+    // Minimal execution speed in rows per second.
+    Int64Setting min_execution_speed = 79;
+    // Minimal execution speed in bytes per second.
+    Int64Setting min_execution_speed_bytes = 80;
+    // Aggregate function to use for implementation of count(DISTINCT ...).
+    CountDistinctImplementationSetting count_distinct_implementation = 81;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#max-rows-in-distinct).
+    Int64Setting max_rows_in_set = 82;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#max-bytes-in-set).
+    Int64Setting max_bytes_in_set = 83;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#set-overflow-mode).
+    OverflowModeSetting set_overflow_mode = 84;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#settings-max_rows_in_join).
+    Int64Setting max_rows_in_join = 85;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#settings-max_bytes_in_join).
+    Int64Setting max_bytes_in_join = 86;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#settings-join_overflow_mode).
+    OverflowModeSetting join_overflow_mode = 87;
+    // See in-depth description in [ClickHouse
+    // documentation](https://github.com/ClickHouse/ClickHouse/blob/2442c71e273c041448bc5e0b5a406dedcd9e006c/src/Core/Settings.h#L339).
+    BoolSetting joined_subquery_requires_alias = 88;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#join_use_nulls).
+    BoolSetting join_use_nulls = 89;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#transform_null_in).
+    BoolSetting transform_null_in = 90;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#allow_introspection_functions).
+    BoolSetting allow_introspection_functions = 91;
+    // Connection timeout with failover in milliseconds.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#connect-timeout-with-failover-ms).
+    Int64Setting connect_timeout_with_failover = 92;
+    // Check that the speed is not too low after the specified time has elapsed.
+    Int64Setting timeout_before_checking_execution_speed = 93;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#insert_quorum_parallel).
+    BoolSetting insert_quorum_parallel = 94;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#insert_null_as_default).
+    BoolSetting insert_null_as_default = 95;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#deduplicate-blocks-in-dependent-materialized-views).
+    BoolSetting deduplicate_blocks_in_dependent_materialized_views = 96;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/ru/operations/settings/query-complexity#max-partitions-per-insert-block).
+    Int64Setting max_partitions_per_insert_block = 97;
+    // The maximum number of concurrent requests per user.
+    Int64Setting max_concurrent_queries_for_user = 98;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#join_algorithm).
+    JoinAlgorithmSetting join_algorithm = 99;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#any_join_distinct_right_table_keys).
+    BoolSetting any_join_distinct_right_table_keys = 100;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#input_format_null_as_default).
+    BoolSetting input_format_null_as_default = 101;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#date_time_input_format).
+    DateTimeInputFormatSetting date_time_input_format = 102;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#input_format_with_names_use_header).
+    BoolSetting input_format_with_names_use_header = 103;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#date_time_output_format).
+    DateTimeOutputFormatSetting date_time_output_format = 104;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#allow_suspicious_low_cardinality_types).
+    BoolSetting allow_suspicious_low_cardinality_types = 105;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#cancel-http-readonly-queries-on-client-close).
+    BoolSetting cancel_http_readonly_queries_on_client_close = 106;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#setting-max_http_get_redirects).
+    Int64Setting max_http_get_redirects = 107;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#flatten-nested).
+    BoolSetting flatten_nested = 108;
+    // Regular expression (for Regexp format)
+    StringSetting format_regexp = 109;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#format_regexp_escaping_rule).
+    FormatRegexpEscapingRuleSetting format_regexp_escaping_rule = 110;
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#format_regexp_skip_unmatched).
+    BoolSetting format_regexp_skip_unmatched = 111;
+    // // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#async-insert).
+    BoolSetting async_insert = 112;
+    // // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#async-insert-threads).
+    Int64Setting async_insert_threads = 113;
+    // // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#wait-for-async-insert).
+    BoolSetting wait_for_async_insert = 114;
+    // // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#wait-for-async-insert-timeout).
+    Int64Setting wait_for_async_insert_timeout = 115;
+    // // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#async-insert-max-data-size).
+    Int64Setting async_insert_max_data_size = 116;
+    // // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#async-insert-busy-timeout-ms).
+    Int64Setting async_insert_busy_timeout = 117;
+    // // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#async-insert-stale-timeout-ms).
+    Int64Setting async_insert_stale_timeout = 118;
+    // Whenever query memory usage becomes larger than every next step in number of
+    // bytes the memory profiler will collect the allocating stack trace. Zero means
+    // disabled memory profiler.
+    Int64Setting memory_profiler_step = 119;
+    // Collect random allocations and deallocations and write them into
+    // system.trace_log with 'MemorySample' trace_type. The probability is for every
+    // alloc/free regardless to the size of the allocation.
+    DoubleSetting memory_profiler_sample_probability = 120;
+    // Sets the maximum number of parallel threads for the SELECT query data read phase
+    // with the FINAL modifier.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#max-final-threads).
+    Int64Setting max_final_threads = 121;
+    // Enables or disables order-preserving parallel parsing of data formats. Supported
+    // only for [TSV](https://clickhouse.com/docs/en/interfaces/formats#tabseparated),
+    // [TKSV](https://clickhouse.com/docs/en/interfaces/formats#tskv),
+    // [CSV](https://clickhouse.com/docs/en/interfaces/formats#csv) and
+    // [JSONEachRow](https://clickhouse.com/docs/en/interfaces/formats#jsoneachrow)
+    // formats.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#input-format-parallel-parsing)
+    BoolSetting input_format_parallel_parsing = 122;
+    // Enables or disables the insertion of JSON data with nested objects.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#input-format-parallel-parsing)
+    BoolSetting input_format_import_nested_json = 123;
+    // Method of reading data from local filesystem, one of: read, pread, mmap,
+    // io_uring, pread_threadpool. The 'io_uring' method is experimental and does not
+    // work for Log, TinyLog, StripeLog, File, Set and Join, and other tables with
+    // append-able files in presence of concurrent reads and writes.
+    LocalFilesystemReadMethodSetting local_filesystem_read_method = 124;
+    // The maximum size of the buffer to read from the filesystem.
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/codebrowser/ClickHouse/src/Core/Settings.h.html#DB::SettingsTraits::Data::max_read_buffer_size)
+    Int64Setting max_read_buffer_size = 125;
+    // The setting sets the maximum number of retries for ClickHouse Keeper (or
+    // ZooKeeper) requests during insert into replicated MergeTree. Only Keeper
+    // requests which failed due to network error, Keeper session timeout, or request
+    // timeout are considered for retries.
+    // Default: 20 from 23.2, 0(disabled) before
+    // Min_version: 22.11
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#insert_keeper_max_retries)
+    Int64Setting insert_keeper_max_retries = 126;
+    // The maximum amount of data consumed by temporary files on disk in bytes for all
+    // concurrently running user queries. Zero means unlimited.
+    // Default: 0 - unlimited
+    // Min_version: 22.10
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#settings_max_temporary_data_on_disk_size_for_user)
+    Int64Setting max_temporary_data_on_disk_size_for_user = 127;
+    // The maximum amount of data consumed by temporary files on disk in bytes for all
+    // concurrently running queries. Zero means unlimited.
+    // Default: 0 - unlimited
+    // Min_version: 22.10
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/query-complexity#settings_max_temporary_data_on_disk_size_for_query)
+    Int64Setting max_temporary_data_on_disk_size_for_query = 128;
+    // Limits maximum recursion depth in the recursive descent parser. Allows
+    // controlling the stack size.
+    // Default: 1000
+    // Min_version: 20.4
+    // Special: 0 - unlimited
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_parser_depth)
+    Int64Setting max_parser_depth = 129;
+    // Method of reading data from remote filesystem, one of: read, threadpool.
+    // Default: read
+    // Min_version: 21.11
+    // See in-depth description in [ClickHouse
+    // GitHub](https://github.com/ClickHouse/ClickHouse/blob/f9558345e886876b9132d9c018e357f7fa9b22a3/src/Core/Settings.h#L660)
+    RemoteFilesystemReadMethodSetting remote_filesystem_read_method = 130;
+    // It represents soft memory limit in case when hard limit is reached on user
+    // level. This value is used to compute overcommit ratio for the query. Zero means
+    // skip the query.
+    // Default: 1GiB
+    // Min_version: 22.5
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#memory_overcommit_ratio_denominator)
+    Int64Setting memory_overcommit_ratio_denominator = 131;
+    // It represents soft memory limit in case when hard limit is reached on global
+    // level. This value is used to compute overcommit ratio for the query. Zero means
+    // skip the query.
+    // Default: 1GiB
+    // Min_version: 22.5
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#memory_overcommit_ratio_denominator_for_user)
+    Int64Setting memory_overcommit_ratio_denominator_for_user = 132;
+    // Maximum time thread will wait for memory to be freed in the case of memory
+    // overcommit on a user level. If the timeout is reached and memory is not freed,
+    // an exception is thrown.
+    // Default: 5000000
+    // Min_version: 22.5
+    // See in-depth description in [ClickHouse
+    // documentation](https://clickhouse.com/docs/en/operations/settings/settings#memory_usage_overcommit_max_wait_microseconds)
+    Int64Setting memory_usage_overcommit_max_wait_microseconds = 133;
+}

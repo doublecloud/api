@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package doublecloud.clickhouse.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/clickhouse/v1;clickhouse";
+
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+import "doublecloud/clickhouse/v1/user.proto";
+
+// A set of methods for managing ClickHouse users.
+service UserService {
+    // Returns the specified ClickHouse user.
+    rpc Get(GetUserRequest) returns (User);
+    // Retrieves a list of ClickHouse users.
+    rpc List(ListUsersRequest) returns (ListUsersResponse);
+    // Creates a new ClickHouse user.
+    rpc Create(CreateUserRequest) returns (doublecloud.v1.Operation);
+    // Modifies the specified ClickHouse user.
+    rpc Update(UpdateUserRequest) returns (doublecloud.v1.Operation);
+    // Deletes the specified ClickHouse user.
+    rpc Delete(DeleteUserRequest) returns (doublecloud.v1.Operation);
+    // Returns the specified ClickHouse role.
+    rpc GetRole(GetRoleRequest) returns (Role);
+    // Retrieves a list of ClickHouse roles.
+    rpc ListRoles(ListRolesRequest) returns (ListRolesResponse);
+    // Creates a new ClickHouse role.
+    rpc CreateRole(CreateRoleRequest) returns (doublecloud.v1.Operation);
+    // Modifies the specified ClickHouse role.
+    rpc UpdateRole(UpdateRoleRequest) returns (doublecloud.v1.Operation);
+    // Deletes the specified ClickHouse role.
+    rpc DeleteRole(DeleteRoleRequest) returns (doublecloud.v1.Operation);
+}
+message GetUserRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Required. Name of the user.
+    string user_name = 2;
+}
+message ListUsersRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Paging information of the request.
+    doublecloud.v1.Paging paging = 2;
+}
+message ListUsersResponse {
+    // Requested list of ClickHouse users.
+    repeated User users = 1;
+    // Paging information of the response.
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateUserRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Required. Name of the user.
+    string user_name = 2;
+    // Authentication params of the user.
+    Authentication authentication = 3;
+    // Default role settigns.
+    DefaultRoles default_roles = 4;
+    // Grantees settings.
+    Grantees grantees = 5;
+    // List of the privileges that define the scope of queries the a user can execute.
+    Privileges privileges = 6;
+    // Settings and constraints.
+    Settings settings = 7;
+    // List of assigned quotas to the user.
+    QuotaNames quota_names = 8;
+    // List of assigned roles to the user.
+    AssignedRoles assigned_roles = 9;
+}
+message UpdateUserRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Required. Name of the user.
+    string user_name = 2;
+    // Authentication params of the user.
+    Authentication authentication = 3;
+    // Default role settigns.
+    DefaultRoles default_roles = 4;
+    // Grantees settings.
+    Grantees grantees = 5;
+    // List of the privileges that define the scope of queries the a user can execute.
+    Privileges privileges = 6;
+    // Settings and constraints.
+    Settings settings = 7;
+    // List of assigned quotas to the user.
+    QuotaNames quota_names = 8;
+    // List of assigned roles to the user.
+    AssignedRoles assigned_roles = 9;
+}
+message DeleteUserRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Required. Name of the user to delete.
+    string user_name = 2;
+}
+message GetRoleRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Required. Name of the role.
+    string role_name = 2;
+}
+message ListRolesRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Paging information of the request.
+    doublecloud.v1.Paging paging = 2;
+}
+message ListRolesResponse {
+    // Requested list of ClickHouse roles.
+    repeated Role roles = 1;
+    // Paging information of the response.
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateRoleRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Required. Name of the role.
+    string role_name = 2;
+    // List of the privileges that define the scope of queries the a user with that
+    // role can execute.
+    Privileges privileges = 3;
+    // Settings and constraints.
+    Settings settings = 4;
+    // List of assigned quotas to the role.
+    QuotaNames quota_names = 5;
+}
+message UpdateRoleRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Required. Name of the role.
+    string role_name = 2;
+    // List of the privileges that define the scope of queries the a user with that
+    // role can execute.
+    Privileges privileges = 3;
+    // Settings and constraints.
+    Settings settings = 4;
+    // List of assigned quotas to the role.
+    QuotaNames quota_names = 5;
+}
+message DeleteRoleRequest {
+    // Required. ID of the ClickHouse cluster.
+    string cluster_id = 1;
+    // Required. Name of the role to delete.
+    string role_name = 2;
+}

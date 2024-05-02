@@ -6,6 +6,8 @@
   "doublecloud/clickhouse/v1/cluster_service.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/cluster_service.proto",
   "doublecloud/clickhouse/v1/config.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/config.proto",
   "doublecloud/clickhouse/v1/operation_service.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/operation_service.proto",
+  "doublecloud/clickhouse/v1/user.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/user.proto",
+  "doublecloud/clickhouse/v1/user_service.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/user_service.proto",
   "doublecloud/clickhouse/v1/version.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/version.proto",
   "doublecloud/clickhouse/v1/version_service.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/version_service.proto",
   "doublecloud/kafka/v1/cluster.proto":"cloud/doublecloud/public-api/doublecloud/kafka/v1/cluster.proto",
