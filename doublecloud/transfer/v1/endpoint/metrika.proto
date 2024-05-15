@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint;endpoint";
+
+import "doublecloud/transfer/v1/endpoint/common.proto";
+
+enum MetrikaStreamType {
+    METRIKA_STREAM_TYPE_UNSPECIFIED = 0;
+    METRIKA_STREAM_TYPE_VISITS = 1;
+    METRIKA_STREAM_TYPE_HITS_V2 = 2;
+}
+message MetrikaStream {
+    MetrikaStreamType type = 1;
+    repeated string columns = 2;
+}
+message MetrikaSource {
+    repeated int64 counter_ids = 1;
+    Secret token = 2;
+    repeated MetrikaStream streams = 3;
+}
