@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package doublecloud.organizationmanager.saml.v1;
+
+import "google/protobuf/duration.proto";
+import "doublecloud/organizationmanager/saml/v1/federation.proto";
+import "doublecloud/v1/operation.proto";
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/organizationmanager/saml/v1;saml";
+
+// A set of methods for managing federations.
+service FederationService {
+    // Returns the specified federation.
+    //
+    // To get the list of available federations, make a [List] request.
+    rpc Get (GetFederationRequest) returns (Federation) {}
+
+    // Creates a federation in the specified organization.
+    rpc Create (CreateFederationRequest) returns (doublecloud.v1.Operation) {}
+
+    // Updates the specified federation.
+    rpc Update (UpdateFederationRequest) returns (doublecloud.v1.Operation) {}
+
+    // Deletes the specified federation.
+    rpc Delete (DeleteFederationRequest) returns (doublecloud.v1.Operation) {}
+
+}
+
+message GetFederationRequest {
+    // ID of the federation to return.
+    // To get the federation ID, make a [FederationService.List] request.
+    string federation_id = 1;
+}
+
+message CreateFederationRequest {
+    // ID of the organization to create a federation in.
+    string organization_id = 1;
+
+    // Name of the federation.
+    // The name must be unique within the cloud.
+    string name = 2;
+
+    // Description of the federation.
+    string description = 3;
+
+    // Browser cookie lifetime in seconds.
+    // If the cookie is still valid, the management console
+    // authenticates the user immediately and redirects them to the home page.
+    // The default value is `8h`.
+    google.protobuf.Duration cookie_max_age = 4;
+
+    // Add new users automatically on successful authentication.
+    // The user will get the `resource-manager.clouds.member` role automatically,
+    // but you need to grant other roles to them.
+    //
+    // If the value is `false`, users who aren't added to the cloud
+    // can't log in, even if they have authenticated on your server.
+    bool auto_create_account_on_login = 5;
+
+    // ID of the IdP server to be used for authentication.
+    // The IdP server also responds to IAM with this ID after the user authenticates.
+    string issuer = 6;
+
+    // Single sign-on endpoint binding type. Most Identity Providers support the `POST` binding type.
+    //
+    // SAML Binding is a mapping of a SAML protocol message onto standard messaging
+    // formats and/or communications protocols.
+    BindingType sso_binding = 7;
+
+    // Single sign-on endpoint URL.
+    // Specify the link to the IdP login page here.
+    string sso_url = 8;
+
+    // Federation security settings.
+    FederationSecuritySettings security_settings = 9;
+
+    // Use case insensitive Name IDs.
+    bool case_insensitive_name_ids = 10;
+}
+
+message UpdateFederationRequest {
+    // ID of the federation to update.
+    // To get the federation ID, make a [FederationService.List] request.
+    string federation_id = 1;
+
+    // Name of the federation.
+    // The name must be unique within the cloud.
+    string name = 3;
+
+    // Description of the federation.
+    string description = 4;
+
+    // Browser cookie lifetime in seconds.
+    // If the cookie is still valid, the management console
+    // authenticates the user immediately and redirects them to the home page.
+    // The default value is `8h`.
+    google.protobuf.Duration cookie_max_age = 5;
+
+    // Add new users automatically on successful authentication.
+    // The user will get the `resource-manager.clouds.member` role automatically,
+    // but you need to grant other roles to them.
+    //
+    // If the value is `false`, users who aren't added to the cloud
+    // can't log in, even if they have authenticated on your server.
+    bool auto_create_account_on_login = 6;
+
+    // ID of the IdP server to be used for authentication.
+    // The IdP server also responds to IAM with this ID after the user authenticates.
+    string issuer = 7;
+
+    // Single sign-on endpoint binding type. Most Identity Providers support the `POST` binding type.
+    //
+    // SAML Binding is a mapping of a SAML protocol message onto standard messaging
+    // formats and/or communications protocols.
+    BindingType sso_binding = 8;
+
+    // Single sign-on endpoint URL.
+    // Specify the link to the IdP login page here.
+    string sso_url = 9;
+
+    // Federation security settings.
+    FederationSecuritySettings security_settings = 10;
+
+    // Use case insensitive name ids.
+    bool case_insensitive_name_ids = 12;
+}
+
+message DeleteFederationRequest {
+    // ID of the federation to delete.
+    // To get the federation ID, make a [FederationService.List] request.
+    string federation_id = 1;
+}
