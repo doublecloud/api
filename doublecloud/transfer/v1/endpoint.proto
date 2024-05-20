@@ -10,6 +10,7 @@ import "doublecloud/transfer/v1/endpoint/kafka.proto";
 import "doublecloud/transfer/v1/endpoint/mongo.proto";
 import "doublecloud/transfer/v1/endpoint/mysql.proto";
 import "doublecloud/transfer/v1/endpoint/object_storage.proto";
+import "doublecloud/transfer/v1/endpoint/metrika.proto";
 import "doublecloud/transfer/v1/endpoint/postgres.proto";
 import "doublecloud/transfer/v1/endpoint/datadog.proto";
 import "doublecloud/transfer/v1/endpoint/coralogix.proto";
@@ -38,7 +39,7 @@ message Endpoint {
     EndpointSettings settings = 52;
 }
 message EndpointSettings {
-    reserved 3 to 7, 10 to 15, 17 to 100, 103, 105 to 108, 112 to 123, 125 to 126, 129, 131, 133, 135, 140 to 147, 149 to 152;
+    reserved 3 to 7, 10 to 15, 17 to 100, 103, 105 to 108, 112 to 123, 125 to 126, 129, 131, 133, 135, 140 to 147, 149 to 152, 159;
     oneof settings {
         endpoint.MysqlSource mysql_source = 1;
         endpoint.PostgresSource postgres_source = 2;
@@ -68,5 +69,6 @@ message EndpointSettings {
         endpoint.airbyte.HubspotSource hubspot_source = 156;
         endpoint.CoralogixTarget coralogix_target = 157;
         endpoint.BigQueryTarget bigquery_target = 158;
+        endpoint.MetrikaSource metrika_source = 160;
     }
 }
