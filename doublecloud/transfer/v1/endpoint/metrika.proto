@@ -13,7 +13,6 @@ enum MetrikaStreamType {
 }
 message MetrikaStream {
     MetrikaStreamType type = 1;
-    repeated string columns = 2;
 }
 message MetrikaSource {
     repeated int64 counter_ids = 1;
