@@ -79,6 +79,25 @@ message ColumnValue {
         string string_value = 1;
     }
 }
+message HeaderValue {
+    string key = 1;
+    string value = 2;
+}
+message DataTransformationOptions {
+    reserved 6 to 8;
+    // Cloud function
+    string cloud_function = 1;
+    // Number of retries
+    int64 number_of_retries = 2;
+    // Buffer size for function
+    string buffer_size = 3;
+    // Flush interval
+    string buffer_flush_interval = 4;
+    // Invocation timeout
+    string invocation_timeout = 5;
+    string cloud_function_url = 9;
+    repeated HeaderValue headers = 10;
+}
 message FieldList {
     reserved 1;
     // Column schema
