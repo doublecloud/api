@@ -64,10 +64,6 @@ message CreateGroupMappingRequest {
     bool enabled = 3;
 }
 
-message CreateGroupMappingMetadata {
-    string federation_id = 1;
-}
-
 // Request for updating group mapping configuration
 message UpdateGroupMappingRequest {
     // Federation the group mapping update is requested
@@ -76,16 +72,8 @@ message UpdateGroupMappingRequest {
     bool enabled = 3;
 }
 
-message UpdateGroupMappingMetadata {
-    string federation_id = 1;
-}
-
 message DeleteGroupMappingRequest {
     // Federation the group mapping deletion is requested
-    string federation_id = 1;
-}
-
-message DeleteGroupMappingMetadata {
     string federation_id = 1;
 }
 
@@ -108,10 +96,6 @@ message GroupMappingItemDelta {
         // Group mapping item is to be removed
         REMOVE = 2;
     }
-}
-
-message UpdateGroupMappingItemsMetadata {
-    string federation_id = 1;
 }
 
 message UpdateGroupMappingItemsResponse {

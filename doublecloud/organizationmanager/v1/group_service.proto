@@ -107,11 +107,6 @@ message CreateGroupRequest {
     string description = 3;
 }
 
-message CreateGroupMetadata {
-    // ID of the group that is being created.
-    string group_id = 1;
-}
-
 message UpdateGroupRequest {
     // ID of the Group resource to update.
     // To get the group ID, use a [GroupService.List] request.
@@ -125,19 +120,9 @@ message UpdateGroupRequest {
     string description = 4;
 }
 
-message UpdateGroupMetadata {
-    // ID of the Group resource that is being updated.
-    string group_id = 1;
-}
-
 message DeleteGroupRequest {
     // ID of the group to delete.
     // To get the group ID, use a [GroupService.List] request.
-    string group_id = 1;
-}
-
-message DeleteGroupMetadata {
-    // ID of the group that is being deleted.
     string group_id = 1;
 }
 
@@ -213,11 +198,6 @@ message UpdateGroupMembersRequest {
 
     // Updates to group members.
     repeated MemberDelta member_deltas = 2;
-}
-
-message UpdateGroupMembersMetadata {
-    // ID of the group that is being updated.
-    string group_id = 1;
 }
 
 message MemberDelta {
