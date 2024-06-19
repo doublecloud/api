@@ -100,6 +100,7 @@ message ClickhouseConfig {
     message HybridStorage {
         google.protobuf.BoolValue prefer_not_to_merge = 1;
         google.protobuf.Int64Value max_data_part_size = 2;
+        google.protobuf.Int64Value max_object_storage_data_part_size = 3;
     }
     LogLevel log_level = 1;
     google.protobuf.Int64Value max_connections = 2;
