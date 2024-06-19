@@ -40,6 +40,14 @@ enum HostStatus {
     HOST_STATUS_DEAD = 2;
     // Host is partially alive (it can perform some of its essential functions)
     HOST_STATUS_DEGRADED = 3;
+    // Host is being created (some services may not be alive yet)
+    HOST_STATUS_CREATING = 4;
+    // Host is stopping due to user's request (all services would be stopped soon)
+    HOST_STATUS_STOPPING = 5;
+    // Host is stopped due to user's request (all services are not available)
+    HOST_STATUS_STOPPED = 6;
+    // Host is starting (all services would be alive soon)
+    HOST_STATUS_STARTING = 7;
 }
 // Access settings
 message Access {
