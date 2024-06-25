@@ -117,6 +117,8 @@ message UpdateClusterRequest {
     ClickhouseConfig clickhouse_config = 7;
     // Window of maintenance operations.
     doublecloud.v1.MaintenanceWindow maintenance_window = 8;
+    // Custom TLS certificate
+    CustomCertificate custom_certificate = 9;
 }
 message DeleteClusterRequest {
     // ID of the ClickHouse cluster to delete.

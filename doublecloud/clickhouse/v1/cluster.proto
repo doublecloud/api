@@ -12,6 +12,7 @@ import "doublecloud/v1/maintenance.proto";
 
 // A ClickHouse cluster resource.
 message Cluster {
+    reserved 20;
     // ID of the ClickHouse cluster.
     string id = 1;
     // ID of the project that the ClickHouse cluster belongs to.
@@ -51,6 +52,8 @@ message Cluster {
     doublecloud.v1.MaintenanceOperation maintenance_operation = 18;
     // Prometheus JMX exporter endpoint HTTP basic auth information.
     MetricsExporterConnectionInfo metrics_exporter_connection_info = 19;
+    // Custom TLS certificate.
+    CustomCertificate custom_certificate = 21;
 }
 // Resources allocated to ClickHouse cluster.
 message ClusterResources {
@@ -157,4 +160,10 @@ message Host {
     string private_name = 4;
     // Aggregated host status.
     doublecloud.v1.HostStatus status = 5;
+}
+message CustomCertificate {
+    bool enabled = 1;
+    google.protobuf.BytesValue certificate = 2;
+    google.protobuf.BytesValue key = 3;
+    google.protobuf.BytesValue root_ca = 4;
 }
