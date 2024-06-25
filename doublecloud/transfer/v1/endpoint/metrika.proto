@@ -18,4 +18,5 @@ message MetrikaSource {
     repeated int64 counter_ids = 1;
     Secret token = 2;
     repeated MetrikaStream streams = 3;
+    bool enable_dashboard = 4;
 }
