@@ -13,10 +13,13 @@ enum ProtoMessagePackageType {
     SINGLE_MESSAGE = 3;
 }
 message Parser {
-    reserved 2 to 5;
+    reserved 2 to 4, 8;
     oneof parser {
         GenericParserCommon json_parser = 1;
+        DebeziumCDCParser debezium_cdc_parser = 5;
         GenericParserCommon tskv_parser = 6;
+        ConfluentSchemaRegistryParser confluent_schema_registry_parser = 7;
+        BlankParser blank_parser = 9;
     }
 }
 message GenericParserCommon {
@@ -25,6 +28,32 @@ message GenericParserCommon {
     bool null_keys_allowed = 2;
     // Will add _rest column for all unknown fields
     bool add_rest_column = 3;
+}
+message DebeziumCDCParser {
+}
+message ConfluentSchemaRegistryConnection {
+    // Schema Registry api url
+    string schema_registry_url = 1;
+    // TLS settings for server connection. Disabled by default.
+    TLSMode tls_mode = 2;
+    // Schema Registry authentication config
+    ConfluentSchemaRegistryAuth auth = 3;
+}
+message ConfluentSchemaRegistryParser {
+    reserved 1 to 3;
+    ConfluentSchemaRegistryConnection connection = 4;
+}
+message ConfluentSchemaRegistryAuth {
+    oneof confluent_schema_registry_auth {
+        NoAuth no_auth = 1;
+        BasicAuthSR basic = 2;
+    }
+}
+message BasicAuthSR {
+    // User
+    string user = 1;
+    // Password for user
+    Secret password = 2;
 }
 message ProtoParser {
     ProtoDesc proto_desc = 1;
@@ -53,4 +82,6 @@ message ColumnParamsList {
 message ColumnParams {
     string name = 1;
     bool required = 2;
+}
+message BlankParser {
 }
