@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint.airbyte;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint/airbyte;endpoint_airbyte";
+
+message DynamodbSource {
+    string region = 1;
+    string aws_access_key_id = 2;
+    string aws_secret_access_key = 3;
+    repeated string reserved_attribute_names = 4;
+    bool ignore_missing_read_permissions_tables = 5;
+}

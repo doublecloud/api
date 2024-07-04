@@ -19,6 +19,7 @@ import "doublecloud/transfer/v1/endpoint/airbyte/s3_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/redshift_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/aws_cloud_trail_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/bigquery_source.proto";
+import "doublecloud/transfer/v1/endpoint/airbyte/dynamodb_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/mssql_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/amazon_ads_source.proto";
 import "doublecloud/transfer/v1/endpoint/airbyte/facebook_marketing_source.proto";
@@ -39,7 +40,7 @@ message Endpoint {
     EndpointSettings settings = 52;
 }
 message EndpointSettings {
-    reserved 3 to 7, 10 to 15, 17 to 100, 103, 105 to 108, 112 to 123, 125 to 126, 129, 131, 133, 135, 140 to 147, 149 to 152, 159;
+    reserved 3 to 7, 10 to 15, 17 to 100, 103, 105 to 108, 112 to 123, 125 to 126, 129, 131, 133, 135, 140 to 147, 149 to 152, 159, 161 to 162;
     oneof settings {
         endpoint.MysqlSource mysql_source = 1;
         endpoint.PostgresSource postgres_source = 2;
@@ -70,5 +71,6 @@ message EndpointSettings {
         endpoint.CoralogixTarget coralogix_target = 157;
         endpoint.BigQueryTarget bigquery_target = 158;
         endpoint.MetrikaSource metrika_source = 160;
+        endpoint.airbyte.DynamodbSource dynamodb_source = 163;
     }
 }

@@ -44,6 +44,7 @@
   "doublecloud/transfer/v1/endpoint/airbyte/amazon_ads_source.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte/amazon_ads_source.proto",
   "doublecloud/transfer/v1/endpoint/airbyte/aws_cloud_trail_source.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte/aws_cloud_trail_source.proto",
   "doublecloud/transfer/v1/endpoint/airbyte/bigquery_source.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte/bigquery_source.proto",
+  "doublecloud/transfer/v1/endpoint/airbyte/dynamodb_source.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte/dynamodb_source.proto",
   "doublecloud/transfer/v1/endpoint/airbyte/facebook_marketing_source.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte/facebook_marketing_source.proto",
   "doublecloud/transfer/v1/endpoint/airbyte/google_ads_source.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte/google_ads_source.proto",
   "doublecloud/transfer/v1/endpoint/airbyte/hubspot_source.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/airbyte/hubspot_source.proto",
