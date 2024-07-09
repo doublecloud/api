@@ -20,6 +20,7 @@ message Parser {
         GenericParserCommon tskv_parser = 6;
         ConfluentSchemaRegistryParser confluent_schema_registry_parser = 7;
         BlankParser blank_parser = 9;
+        RawTable raw_table = 10;
     }
 }
 message GenericParserCommon {
@@ -84,4 +85,12 @@ message ColumnParams {
     bool required = 2;
 }
 message BlankParser {
+}
+message RawTable {
+    string table_name = 1;
+    bool value_as_bytes = 2;
+    bool keys_as_bytes = 3;
+    bool add_timestamp = 4;
+    bool add_headers = 5;
+    bool add_key = 6;
 }
