@@ -87,7 +87,7 @@ message ColumnParams {
 message BlankParser {
 }
 message RawTable {
-    string table_name = 1;
+    reserved 1;
     bool value_as_bytes = 2;
     bool keys_as_bytes = 3;
     bool add_timestamp = 4;
