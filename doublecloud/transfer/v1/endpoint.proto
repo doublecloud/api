@@ -7,6 +7,7 @@ option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1;
 import "doublecloud/transfer/v1/endpoint/clickhouse.proto";
 import "doublecloud/transfer/v1/endpoint/common.proto";
 import "doublecloud/transfer/v1/endpoint/kafka.proto";
+import "doublecloud/transfer/v1/endpoint/kinesis.proto";
 import "doublecloud/transfer/v1/endpoint/mongo.proto";
 import "doublecloud/transfer/v1/endpoint/mysql.proto";
 import "doublecloud/transfer/v1/endpoint/object_storage.proto";
@@ -72,5 +73,6 @@ message EndpointSettings {
         endpoint.BigQueryTarget bigquery_target = 158;
         endpoint.MetrikaSource metrika_source = 160;
         endpoint.airbyte.DynamodbSource dynamodb_source = 163;
+        endpoint.KinesisSource kinesis_source = 164;
     }
 }

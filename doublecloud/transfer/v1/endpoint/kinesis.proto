@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package doublecloud.transfer.v1.endpoint;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1/endpoint;endpoint";
+
+import "doublecloud/transfer/v1/endpoint/parsers.proto";
+
+message KinesisSource {
+    string region = 1;
+    string stream_name = 2;
+    string aws_access_key_id = 3;
+    string aws_secret_access_key = 4;
+    // Data parsing rules
+    Parser parser = 5;
+}
