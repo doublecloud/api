@@ -5,6 +5,7 @@ package doublecloud.transfer.v1;
 option go_package = "github.com/doublecloud/go-genproto/doublecloud/transfer/v1;transfer";
 
 import "doublecloud/transfer/v1/endpoint/common.proto";
+import "doublecloud/transfer/v1/endpoint/parsers.proto";
 import "doublecloud/transfer/v1/endpoint.proto";
 
 enum TransferType {
@@ -281,7 +282,7 @@ message NumberToFloatTransformer {
 // Some transformers may have limitations and only apply to some source-target
 // pairs.
 message Transformer {
-    reserved 5, 8, 10, 16 to 17;
+    reserved 5, 8, 10, 16;
     oneof transformer {
         MaskFieldTransformer mask_field = 1;
         FilterColumnsTransformer filter_columns = 2;
@@ -295,6 +296,7 @@ message Transformer {
         TableSplitterTransformer table_splitter_transformer = 13;
         FilterRowsTransformer filter_rows = 14;
         NumberToFloatTransformer number_to_float_transformer = 15;
+        JsonParserTransformer json_mapper_transformer = 17;
         CloudFunctionTransformer cloud_function_transformer = 18;
     }
 }
@@ -302,6 +304,10 @@ message CloudFunctionTransformer {
     string name = 1;
     string name_space = 2;
     endpoint.DataTransformationOptions options = 3;
+}
+message JsonParserTransformer {
+    string topic = 1;
+    endpoint.GenericParserCommon config = 2;
 }
 // Transformation is converting data using special transformer functions.
 // These functions are executed on a data stream, applied to each data change item,
