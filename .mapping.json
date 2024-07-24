@@ -63,7 +63,7 @@
   "doublecloud/transfer/v1/endpoint/delta_lake.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/delta_lake.proto",
   "doublecloud/transfer/v1/endpoint/kafka.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/kafka.proto",
   "doublecloud/transfer/v1/endpoint/kinesis.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/kinesis.proto",
-  "doublecloud/transfer/v1/endpoint/metrika.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/metrika.proto",
+  "doublecloud/transfer/v1/endpoint/metrica.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/metrica.proto",
   "doublecloud/transfer/v1/endpoint/mongo.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/mongo.proto",
   "doublecloud/transfer/v1/endpoint/mysql.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/mysql.proto",
   "doublecloud/transfer/v1/endpoint/object_storage.proto":"cloud/doublecloud/public-api/doublecloud/transfer/v1/endpoint/object_storage.proto",

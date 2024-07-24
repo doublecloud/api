@@ -11,7 +11,7 @@ import "doublecloud/transfer/v1/endpoint/kinesis.proto";
 import "doublecloud/transfer/v1/endpoint/mongo.proto";
 import "doublecloud/transfer/v1/endpoint/mysql.proto";
 import "doublecloud/transfer/v1/endpoint/object_storage.proto";
-import "doublecloud/transfer/v1/endpoint/metrika.proto";
+import "doublecloud/transfer/v1/endpoint/metrica.proto";
 import "doublecloud/transfer/v1/endpoint/postgres.proto";
 import "doublecloud/transfer/v1/endpoint/datadog.proto";
 import "doublecloud/transfer/v1/endpoint/coralogix.proto";
@@ -71,7 +71,7 @@ message EndpointSettings {
         endpoint.airbyte.HubspotSource hubspot_source = 156;
         endpoint.CoralogixTarget coralogix_target = 157;
         endpoint.BigQueryTarget bigquery_target = 158;
-        endpoint.MetrikaSource metrika_source = 160;
+        endpoint.MetricaSource metrica_source = 160;
         endpoint.airbyte.DynamodbSource dynamodb_source = 163;
         endpoint.KinesisSource kinesis_source = 164;
     }
