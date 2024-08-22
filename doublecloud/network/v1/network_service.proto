@@ -100,6 +100,8 @@ message ImportAWSVPCRequest {
     string version = 6;
     // Create private subnets instead of default public.
     bool private_subnets = 7;
+    // IAM policy ARN to use as default permission boundary for role creations.
+    string iam_policy_permission_boundary_arn = 8;
 }
 message ImportGoogleVPCRequest {
     // Service account email.
