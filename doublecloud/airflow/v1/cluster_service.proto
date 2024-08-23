@@ -1,0 +1,216 @@
+syntax = "proto3";
+
+package doublecloud.airflow.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/airflow/v1;airflow";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "doublecloud/v1/operation.proto";
+import "doublecloud/v1/paging.proto";
+import "doublecloud/v1/cluster.proto";
+import "doublecloud/v1/maintenance.proto";
+import "doublecloud/airflow/v1/cluster.proto";
+
+// A set of methods for managing Apache Airflow® clusters.
+service ClusterService {
+    // Returns the specified Apache Airflow® cluster.
+    rpc Get(GetClusterRequest) returns (Cluster);
+    // Retrieves a list of Apache Airflow® clusters that belong to the specified
+    // project.
+    rpc List(ListClustersRequest) returns (ListClustersResponse);
+    // Creates an Apache Airflow® cluster in the specified project.
+    rpc Create(CreateClusterRequest) returns (doublecloud.v1.Operation);
+    // Deletes the specified Apache Airflow® cluster.
+    rpc Delete(DeleteClusterRequest) returns (doublecloud.v1.Operation);
+    // Updates the specified Apache Airflow® cluster.
+    rpc Update(UpdateClusterRequest) returns (doublecloud.v1.Operation);
+    // List cluster operations.
+    rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse);
+    // Reschedule planned maintenance operation.
+    rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (doublecloud.v1.Operation);
+    // List of custom images associated to the cluster
+    rpc ListCustomImages(ListCustomImagesRequest) returns (ListCustomImagesResponse);
+}
+enum ClusterView {
+    // Invalid cluster view value.
+    CLUSTER_VIEW_INVALID = 0;
+    // Output basic information about the cluster.
+    CLUSTER_VIEW_BASIC = 1;
+    // Output full information about the cluster including allocated resources and
+    // Apache Airflow® settings.
+    CLUSTER_VIEW_FULL = 2;
+}
+message ListClusterOperationsRequest {
+    // Required. ID of the cluster.
+    string cluster_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+}
+message ListClusterOperationsResponse {
+    repeated doublecloud.v1.Operation operations = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}
+message ListCustomImagesRequest {
+    // ID of the Apache Airflow® cluster.
+    string cluster_id = 1;
+}
+message ListCustomImagesResponse {
+    // List of custom images associated with the cluster.
+    repeated CustomImage custom_images = 1;
+}
+message CustomImage {
+    // Image digest.
+    string digest = 1;
+    // Version of underlying Apache Airflow®.
+    string airflow_version = 2;
+    // Custom image user tags.
+    repeated string tags = 3;
+    // Custom image upload timestamp.
+    google.protobuf.Timestamp created_time = 4;
+}
+message GetClusterRequest {
+    // ID of the Apache Airflow® cluster resource to return.
+    string cluster_id = 1;
+    // Whether to include sensitive data in the response. If unspecified, defaults to
+    // false.
+    bool sensitive = 2;
+}
+message ListClustersRequest {
+    // ID of the project to list Apache Airflow® clusters in.
+    string project_id = 1;
+    // Paging information of the request
+    doublecloud.v1.Paging paging = 2;
+    // The level of detail to be returned. If unspecified, defaults to
+    // CLUSTER_VIEW_BASIC.
+    ClusterView view = 3;
+}
+message ListClustersResponse {
+    // List of Apache Airflow® cluster resources.
+    repeated Cluster clusters = 1;
+    // Pagination information of the response
+    doublecloud.v1.NextPage next_page = 2;
+}
+message CreateClusterRequest {
+    // Configuration and resources for hosts that should be created for the Apache
+    // Airflow® cluster.
+    message AirflowConfig {
+        // Version id of Apache Airflow®.
+        string version_id = 1;
+        // Git sync config
+        SyncConfig git_sync = 2;
+        // Requirements.txt content that will be used to construct and apply custom image.
+        string requirements_txt = 3;
+        // If supplied, defines a service account that would be available for DC API auth
+        // from workers code.
+        string user_service_account_id = 4;
+        // Env variables that passing to your cluster.
+        repeated AirflowEnvVariable env_vars = 5;
+    }
+    // ID of the project to create the Apache Airflow® cluster in.
+    string project_id = 1;
+    // Type of the cloud where instances should be hosted.
+    string cloud_type = 2;
+    // ID of the region to place instances.
+    string region_id = 3;
+    // Name of the Apache Airflow® cluster. The name must be unique within the
+    // project.
+    string name = 4;
+    // Description of the Apache Airflow® cluster.
+    string description = 5;
+    // Resources allocated to the Apache Airflow® cluster.
+    ClusterResources resources = 6;
+    // External network access settings
+    doublecloud.v1.Access access = 7;
+    AirflowConfig config = 8;
+    // ID of the network that the Apache Airflow® cluster belongs to.
+    string network_id = 9;
+    // Window of maintenance operations.
+    doublecloud.v1.MaintenanceWindow maintenance_window = 10;
+}
+message CreateClusterMetadata {
+    // Required. ID of the creating Airflow cluster.
+    string cluster_id = 1;
+}
+message DeleteClusterRequest {
+    // ID of the Apache Airflow® cluster to delete.
+    // To get the Apache Airflow® cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+}
+message DeleteClusterMetadata {
+    // Required. ID of the deleting Airflow cluster.
+    string cluster_id = 1;
+}
+message UpdateClusterRequest {
+    // Resources allocated to update Airflow cluster
+    message UpdateClusterResources {
+        message Airflow {
+            // Max number of Airflow workers
+            google.protobuf.Int64Value max_worker_count = 1;
+            // Min number of Airflow workers
+            google.protobuf.Int64Value min_worker_count = 2;
+            // Concurrency of Airflow workers
+            google.protobuf.Int64Value worker_concurrency = 3;
+            // Disk size of Airflow workers
+            google.protobuf.Int64Value worker_disk_size = 4;
+            // Preset of Airflow cluster workers
+            google.protobuf.StringValue worker_preset = 5;
+        }
+        // Airflow specific cluster resource config
+        Airflow airflow = 1;
+    }
+    // UpdateAirflowConfig message aggregates updatable Apache Airflow® config's
+    // attributes.
+    message UpdateAirflowConfig {
+        // UpdateGitSyncConfig allows to use "optional" modifier for the attribute to
+        // highlight whether the update is desired
+        message UpdateGitSyncConfig {
+            // Git sync config
+            SyncConfig git_sync = 1;
+        }
+        // Git sync config
+        UpdateGitSyncConfig git_sync = 1;
+        oneof custom_image {
+            // Custom image digest, Apache Airflow® version must match current version_id.
+            google.protobuf.StringValue custom_image_digest = 2;
+            // Requirements.txt content that will be used to construct and apply custom image.
+            google.protobuf.StringValue requirements_txt = 3;
+        }
+        // Defines a service account that would be avaialble for DC API auth from workers
+        // code.
+        google.protobuf.StringValue user_service_account_id = 4;
+        // Env variables that passing to your cluster.
+        repeated AirflowEnvVariable env_vars = 5;
+    }
+    // ID of the Apache Airflow® Cluster resource to update.
+    // To get the Apache Airflow® cluster ID, use a [ClusterService.List] request.
+    string cluster_id = 1;
+    // New description of the Apache Airflow® cluster.
+    google.protobuf.StringValue description = 2;
+    // New resources allocated to the Apache Airflow® cluster.
+    UpdateClusterResources resources = 3;
+    // Access settings
+    doublecloud.v1.Access access = 4;
+    // Window of maintenance operations.
+    doublecloud.v1.MaintenanceWindow maintenance_window = 5;
+    // Configuration and resources for hosts that should be created for the Apache
+    // Airflow® cluster.
+    UpdateAirflowConfig config = 6;
+}
+message RescheduleMaintenanceRequest {
+    // Required. ID of the Airflow cluster to maintenance reschedule.
+    string cluster_id = 1;
+    // Required. The type of reschedule request.
+    doublecloud.v1.RescheduleType reschedule_type = 2;
+    // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time
+    // scheduled.
+    google.protobuf.Timestamp delayed_until_time = 3;
+}
+message RescheduleMaintenanceMetadata {
+    // Required. ID of the Airflow cluster to maintenance reschedule.
+    string cluster_id = 1;
+    // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time
+    // scheduled.
+    google.protobuf.Timestamp delayed_until_time = 2;
+}

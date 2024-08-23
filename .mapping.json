@@ -1,6 +1,9 @@
 {
   "LICENSE":"cloud/doublecloud/public-api/LICENSE",
   "doublecloud/access/v1/access.proto":"cloud/doublecloud/public-api/doublecloud/access/v1/access.proto",
+  "doublecloud/airflow/v1/cluster.proto":"cloud/doublecloud/public-api/doublecloud/airflow/v1/cluster.proto",
+  "doublecloud/airflow/v1/cluster_service.proto":"cloud/doublecloud/public-api/doublecloud/airflow/v1/cluster_service.proto",
+  "doublecloud/airflow/v1/operation_service.proto":"cloud/doublecloud/public-api/doublecloud/airflow/v1/operation_service.proto",
   "doublecloud/clickhouse/v1/backup.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/backup.proto",
   "doublecloud/clickhouse/v1/backup_service.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/backup_service.proto",
   "doublecloud/clickhouse/v1/cluster.proto":"cloud/doublecloud/public-api/doublecloud/clickhouse/v1/cluster.proto",

@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+package doublecloud.airflow.v1;
+
+option go_package = "github.com/doublecloud/go-genproto/doublecloud/airflow/v1;airflow";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "doublecloud/v1/cluster.proto";
+import "doublecloud/v1/maintenance.proto";
+
+// Airflow cluster.
+message Cluster {
+    // ID of the Apache Airflow® cluster.
+    string id = 1;
+    // ID of the project that the Apache Airflow® cluster belongs to.
+    string project_id = 2;
+    // Type of the cloud where instances should be hosted.
+    string cloud_type = 3;
+    // ID of the region to place instances.
+    string region_id = 4;
+    // Creation timestamp.
+    google.protobuf.Timestamp create_time = 5;
+    // Name of the Apache Airflow® cluster.
+    // The name is unique within the project.
+    string name = 6;
+    // Description of the Apache Airflow® cluster.
+    string description = 7;
+    // Current state of the cluster.
+    doublecloud.v1.ClusterStatus status = 8;
+    // Resources allocated to Airflow cluster
+    ClusterResources resources = 9;
+    // Connection information.
+    ConnectionInfo connection_info = 10;
+    // External network access settings
+    doublecloud.v1.Access access = 11;
+    // Configuration of the Apache Airflow® cluster.
+    AirflowConfig config = 12;
+    // ID of the network that the Apache Airflow® cluster belongs to.
+    string network_id = 13;
+    // Window of maintenance operations.
+    doublecloud.v1.MaintenanceWindow maintenance_window = 14;
+    // Custom images remote image path and credentials.
+    CrConnectionInfo cr_connection_info = 15;
+    // Status of managed image.
+    ManagedImageStatus managed_image_status = 16;
+}
+// AirflowEnvVariable passing to airflow cluster as system visible variable
+message AirflowEnvVariable {
+    // Name of environment variable
+    string name = 1;
+    // Value of environment variable
+    string value = 2;
+}
+// Status of managed image.
+message ManagedImageStatus {
+    // If not empty, describes the latest managed image build errors.
+    string build_errors = 1;
+    // Currently applied requirements.txt.
+    string applied_requirements_txt = 2;
+}
+// Resources allocated to Airflow cluster
+message ClusterResources {
+    message Airflow {
+        // Max number of Airflow workers
+        google.protobuf.Int64Value max_worker_count = 1;
+        // Flavor of Airflow cluster environment
+        string environment_flavor = 2;
+        // Min number of Airflow workers
+        google.protobuf.Int64Value min_worker_count = 3;
+        // Concurrency of Airflow workers
+        google.protobuf.Int64Value worker_concurrency = 4;
+        // Disk size of Airflow workers (GiB)
+        google.protobuf.Int64Value worker_disk_size = 5;
+        // Preset of Airflow cluster workers
+        string worker_preset = 6;
+    }
+    // Airflow specific cluster resource config
+    Airflow airflow = 1;
+}
+// Connection information.
+message ConnectionInfo {
+    // Host to connect.
+    string host = 1;
+    // Airflow admin user.
+    string user = 2;
+    // Password for Airflow admin user.
+    string password = 3;
+}
+// Remote container registry connection information.
+message CrConnectionInfo {
+    // Path to upload custom images.
+    string remote_image_path = 1;
+    // Container registry user.
+    string user = 2;
+    // Container registry password.
+    string password = 3;
+}
+// Git sync config
+message SyncConfig {
+    // Git repository for Airflow DAGs
+    string repo_url = 1;
+    // Git branch
+    string branch = 2;
+    // Git revision
+    string revision = 3;
+    // Path of directory with DAGs
+    string dags_path = 4;
+    // Auth credentials for Git repo
+    oneof credentials {
+        GitApiCredentials api_credentials = 5;
+    }
+}
+// Git API Credentials
+message GitApiCredentials {
+    // Username for repository auth
+    string username = 1;
+    // Password for repository auth
+    string password = 2;
+}
+// Configuration for Apache Airflow® in the cluster.
+message AirflowConfig {
+    // Version id of Apache Airflow®.
+    string version_id = 1;
+    // Git sync config
+    SyncConfig git_sync = 2;
+    // Custom image digest, Apache Airflow® version must match current version_id.
+    string custom_image_digest = 3;
+    // Target requirements.txt content to construct and apply a custom image in a
+    // managed way.
+    string managed_requirements_txt = 4;
+    // Defines a service account that is avaialble for DC API auth from workers code.
+    string user_service_account_id = 5;
+    // Env variables that passing to your cluster
+    repeated AirflowEnvVariable env_vars = 6;
+}
