@@ -197,6 +197,8 @@ message UpdateClusterRequest {
     // Configuration and resources for hosts that should be created for the Apache
     // Airflow® cluster.
     UpdateAirflowConfig config = 6;
+    // New name of the Apache Airflow® cluster.
+    google.protobuf.StringValue name = 7;
 }
 message RescheduleMaintenanceRequest {
     // Required. ID of the Airflow cluster to maintenance reschedule.

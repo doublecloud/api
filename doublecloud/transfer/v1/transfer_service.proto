@@ -11,37 +11,17 @@ import "doublecloud/v1/operation.proto";
 import "doublecloud/v1/paging.proto";
 
 service TransferService {
-    rpc Create(CreateTransferRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { post: "/v1/transfer" body: "*" };
-    }
-    rpc Update(UpdateTransferRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { patch: "/v1/transfer/{transfer_id}" body: "*" };
-    }
-    rpc Delete(DeleteTransferRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { delete: "/v1/transfer/{transfer_id}" };
-    }
-    rpc List(ListTransfersRequest) returns (ListTransfersResponse) {
-        option (google.api.http) = { get: "/v1/transfers/list/{project_id}" };
-    }
-    rpc Get(GetTransferRequest) returns (Transfer) {
-        option (google.api.http) = { get: "/v1/transfer/{transfer_id}" };
-    }
-    rpc Deactivate(DeactivateTransferRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { post: "/v1/transfer/{transfer_id}:deactivate" body: "*" };
-    }
-    rpc Activate(ActivateTransferRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { post: "/v1/transfer/{transfer_id}:activate" body: "*" };
-    }
+    rpc Create(CreateTransferRequest) returns (doublecloud.v1.Operation);
+    rpc Update(UpdateTransferRequest) returns (doublecloud.v1.Operation);
+    rpc Delete(DeleteTransferRequest) returns (doublecloud.v1.Operation);
+    rpc List(ListTransfersRequest) returns (ListTransfersResponse);
+    rpc Get(GetTransferRequest) returns (Transfer);
+    rpc Deactivate(DeactivateTransferRequest) returns (doublecloud.v1.Operation);
+    rpc Activate(ActivateTransferRequest) returns (doublecloud.v1.Operation);
     // Allows scraping of metrics by a prometheus scraper
-    rpc GetMetrics(GetMetricsRequest) returns (TransferMetrics) {
-        option (google.api.http) = { get: "/v1/transfer/{transfer_id}/metrics" };
-    }
-    rpc GetMetricExporterConnectionInfo(MetricExporterConnectionInfoRequest) returns (MetricExporterConnectionInfoMetadata) {
-        option (google.api.http) = { get: "/v1/transfer/{transfer_id}/exporter" };
-    }
-    rpc DeleteMetricExporterConnectionInfo(DeleteExporterConnectionInfoRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { delete: "/v1/transfer/{transfer_id}/exporter" };
-    }
+    rpc GetMetrics(GetMetricsRequest) returns (TransferMetrics);
+    rpc GetMetricExporterConnectionInfo(MetricExporterConnectionInfoRequest) returns (MetricExporterConnectionInfoMetadata);
+    rpc DeleteMetricExporterConnectionInfo(DeleteExporterConnectionInfoRequest) returns (doublecloud.v1.Operation);
 }
 message CreateTransferRequest {
     reserved 11;

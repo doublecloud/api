@@ -8,9 +8,7 @@ import "google/api/annotations.proto";
 import "doublecloud/v1/operation.proto";
 
 service OperationService {
-    rpc Get(GetOperationRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { get: "/v1/operation/{operation_id}" };
-    }
+    rpc Get(GetOperationRequest) returns (doublecloud.v1.Operation);
 }
 message GetOperationRequest {
     string operation_id = 1;

@@ -11,21 +11,11 @@ import "doublecloud/v1/operation.proto";
 import "doublecloud/v1/paging.proto";
 
 service EndpointService {
-    rpc Get(GetEndpointRequest) returns (Endpoint) {
-        option (google.api.http) = { get: "/v1/endpoint/{endpoint_id}" };
-    }
-    rpc List(ListEndpointsRequest) returns (ListEndpointsResponse) {
-        option (google.api.http) = { get: "/v1/endpoints/list/{project_id}" };
-    }
-    rpc Create(CreateEndpointRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { post: "/v1/endpoint" body: "*" };
-    }
-    rpc Update(UpdateEndpointRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { patch: "/v1/endpoint/{endpoint_id}" body: "*" };
-    }
-    rpc Delete(DeleteEndpointRequest) returns (doublecloud.v1.Operation) {
-        option (google.api.http) = { delete: "/v1/endpoint/{endpoint_id}" };
-    }
+    rpc Get(GetEndpointRequest) returns (Endpoint);
+    rpc List(ListEndpointsRequest) returns (ListEndpointsResponse);
+    rpc Create(CreateEndpointRequest) returns (doublecloud.v1.Operation);
+    rpc Update(UpdateEndpointRequest) returns (doublecloud.v1.Operation);
+    rpc Delete(DeleteEndpointRequest) returns (doublecloud.v1.Operation);
 }
 message GetEndpointRequest {
     string endpoint_id = 1;
