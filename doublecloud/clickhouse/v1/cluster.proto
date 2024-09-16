@@ -122,6 +122,14 @@ message ConnectionInfo {
     string jdbc_uri = 8;
     // URI to connect using ODBC protocol.
     string odbc_uri = 9;
+    // Port to connect using HTTPS protocol with custom TLS certificate.
+    google.protobuf.Int64Value https_port_ctls = 10;
+    // Port to connect using TCP/native protocol with custom TLS certificate.
+    google.protobuf.Int64Value tcp_port_secure_ctls = 11;
+    // Connection string for ClickHouse native protocol with custom TLS certificate.
+    string native_protocol_ctls = 12;
+    // URI to connect using HTTPS protocol with custom TLS certificate.
+    string https_uri_ctls = 13;
 }
 message PrivateConnectionInfo {
     // Host to connect.
@@ -142,6 +150,14 @@ message PrivateConnectionInfo {
     string jdbc_uri = 8;
     // URI to connect using ODBC protocol.
     string odbc_uri = 9;
+    // Port to connect using HTTPS protocol with custom TLS certificate.
+    google.protobuf.Int64Value https_port_ctls = 10;
+    // Port to connect using TCP/native protocol with custom TLS certificate.
+    google.protobuf.Int64Value tcp_port_secure_ctls = 11;
+    // Connection string for ClickHouse native protocol with custom TLS certificate.
+    string native_protocol_ctls = 12;
+    // URI to connect using HTTPS protocol with custom TLS certificate.
+    string https_uri_ctls = 13;
 }
 message MetricsExporterConnectionInfo {
     // User for HTTP basic auth.
