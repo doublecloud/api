@@ -156,6 +156,8 @@ message UpdateClusterRequest {
             google.protobuf.Int64Value worker_disk_size = 4;
             // Preset of Airflow cluster workers
             google.protobuf.StringValue worker_preset = 5;
+            // Flavor of Airflow cluster environment
+            google.protobuf.StringValue environment_flavor = 6;
         }
         // Airflow specific cluster resource config
         Airflow airflow = 1;
